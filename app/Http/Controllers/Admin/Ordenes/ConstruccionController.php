@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Ordenes;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Construccion;
 use App\Models\Pieza;
-use Illuminate\Http\Request;
+use App\Models\MaterialPieza;
+
 
 class ConstruccionController extends Controller
 {
@@ -24,8 +25,10 @@ class ConstruccionController extends Controller
 
   public function piezas(){
     if (request()->getMethod() == 'POST') {
-      $piezas = request('piezas');
-      return json_encode($piezas);
+        $codPieza = request('piezas');
+        $materialPieza = MaterialPieza::where('codigoPieza', $codPieza)->firstOrFail();
+        
+        return json_encode($materialPieza);
     }
   }
 

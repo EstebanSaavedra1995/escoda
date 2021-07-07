@@ -9,7 +9,7 @@ document.getElementById('piezas').addEventListener('change', function (e) {
     })
     .then(res => res.json())
     .then(data => {
-        alert(data);
+        console.log(data);
        
         })
 }, true)
