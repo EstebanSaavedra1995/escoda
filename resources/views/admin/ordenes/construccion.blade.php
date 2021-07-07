@@ -67,12 +67,12 @@
 @stop
 
 @section('css')
- {{--    <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+
 @stop
 
 @section('js')
-   {{--  <script> console.log('Hi!'); </script> --}}
-   <script>
+      <script src="{{ asset('js/construccion.js') }}"></script>
+{{--    <script>
     $("#piezas").change(function() {
         $.ajax({
             url: "/admin/construccion",
@@ -83,5 +83,5 @@
 
         })
     });
-</script>
+</script> --}}
 @stop

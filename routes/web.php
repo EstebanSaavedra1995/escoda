@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
-use App\Http\Controllers\Admin\Ordenes\Construccion\ConstruccionController;
+use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
 use Illuminate\Support\Facades\Route;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Ordenes\Construccion;
+namespace App\Http\Controllers\Admin\Ordenes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Construccion;
@@ -19,11 +19,14 @@ class ConstruccionController extends Controller
       $nroOC = $construccion->NroOC;
       $largo = strlen($nroOC);
       $nuevaOC = sprintf("%'0{$largo}d\n", intval($nroOC) + 1);
-      return view('admin.ordenes.construccion.construccion', compact(['nuevaOC', 'piezas']));
+      return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas']));
   }
 
   public function piezas(){
-      return 'Piezas';
+    if (request()->getMethod() == 'POST') {
+      $piezas = request('piezas');
+      return json_encode($piezas);
+    }
   }
 
   /*  public function horasAsincronas()
