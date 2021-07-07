@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>ESCODA</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -188,7 +188,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -226,11 +226,11 @@ return [
 
     'menu' => [
         // Navbar items:
-       /*  [
+        [
             'type'         => 'navbar-search',
             'text'         => 'search',
             'topnav_right' => true,
-        ], */
+        ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
@@ -241,30 +241,137 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ], */
-        [
+        /* [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
-        ],
-       /*  [
-            'text'        => 'pages',
+        ], */
+        [
+            'text'        => 'Ordenes de Trabajo',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ], */
-        ['header' => 'Acciones'],
-        [
-            'text' => 'Construcción',
-            'route'  => 'construccion',
-            'icon' => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'text' => 'Construcción',
+                    'url'  => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'Confeccionar',
+                            'route'  => 'construccion.confeccionar',
+                        ],
+                        [
+                            'text' => 'Completar/Cancelar',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Listar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                [
+                    'text' => 'Reparación',
+                    'url'  => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'Confeccionar',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Completar/Cancelar',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Listar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                
+                [
+                    'text' => 'Ensamble',
+                    'url'  => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'Confeccionar',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Completar/Cancelar',
+                            'url'  => '#',
+                        ],
+                        [
+                            'text' => 'Listar',
+                            'url'  => '#',
+                        ],
+                    ],
+                ],
+                
+            ]
+            /* 'label'       => 4,
+            'label_color' => 'success', */
         ],
-       /*  [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ], */
+        /* ['header' => 'account_settings'], */
         [
+            'text' => 'Stock',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-box-open',
+            'submenu' => [
+                [
+                    'text' => 'Control de stock',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Confeccionar Despiece de Herramientas/Predeterminar Materiales',
+                    'route'  => 'confeccionar.despiece',
+                ],
+            ]
+
+        ],
+        [
+            'text' => 'Egresos y Etiquetas',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-tags',
+        ],
+        [
+            'text' => 'Horarios Maquinas',
+            'route'  => 'horarios.maquinas',
+            'icon' => 'fas fa-fw fa-clock',
+        ],
+        [
+            'text' => 'Proveedores',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-money-check-alt',
+            'submenu' => [
+                [
+                    'text' => 'Listar Proveedores',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Listar Artículos',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Listar Facturas',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Ingresar Facturas',
+                    'url'  => '#',
+                ],
+            ]
+        ],
+        [
+            'text' => 'Datos',
+            'url'  => 'admin/settings',
+            'icon' => 'fas fa-fw fa-database',
+        ],
+        [
+            'text' => 'Control Horarios Maquina',
+            'route'  => 'control.horarios.maquina',
+            'icon' => 'fas fa-fw fa-clock',
+        ],
+        /* [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
@@ -301,8 +408,8 @@ return [
                     'url'  => '#',
                 ],
             ],
-        ],
-        ['header' => 'labels'],
+        ], */
+        /* ['header' => 'labels'],
         [
             'text'       => 'important',
             'icon_color' => 'red',
@@ -317,7 +424,7 @@ return [
             'text'       => 'information',
             'icon_color' => 'cyan',
             'url'        => '#',
-        ],
+        ], */
     ],
 
     /*
