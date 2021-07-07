@@ -1,31 +1,25 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
+use App\Http\Controllers\Admin\HorariosMaquinasController;
+use App\Http\Controllers\Admin\Ordenes\Construccion\ConstruccionController;
+use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
 use Illuminate\Support\Facades\Route;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('auth.login');
 });
-/* Route::get('/register', function () {
-    return view('auth.register');
-}); */
-
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
     return view('layouts.index');
 })->name('index');
 
-Route::get('/admin/construccion',[AdminController::class,'index'])->name('construccion');
-Route::post('/admin/construccion',[AdminController::class,'piezas'])->name('piezas');
+Route::get('/admin/construccion',[ConstruccionController::class,'index'])->name('construccion.confeccionar');
+Route::post('/admin/construccion',[ConstruccionController::class,'piezas']);
+
+
+Route::get('/admin/horariosmaquinas',[HorariosMaquinasController::class,'index'])->name('horarios.maquinas');
+Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
+Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
+

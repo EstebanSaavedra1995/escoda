@@ -75,7 +75,7 @@
    <script>
     $("#piezas").change(function() {
         $.ajax({
-            url: "/admin/ordenes/construccion/construccion",
+            url: "/admin/construccion",
             method: "POST",
             data: $("#formulario").serialize()
         }).done(function(res) {
