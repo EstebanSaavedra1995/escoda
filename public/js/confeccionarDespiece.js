@@ -71,27 +71,34 @@ document.getElementById('piezas').addEventListener('change', function (e) {
         
       
             
-            var datos = "";
+            let datos = "";
+            datos +=`<thead><tr class="">`;
+            datos +=`<td scope="col" class="table-primary">Tipo</td>`;
+            datos +=`<td scope="col" class="table-primary">Descripción</td>`;
+            datos +=`<td scope="col" class="table-primary">Cantidad</td>`;
+            datos +=`</tr></thead>`;
+
             var tabla = document.getElementById('tabla');
             var ck1 = document.getElementById('ck1');
             console.log(data);
            
             if(ck1.checked){
             data.forEach(e => {
-                datos+='<option>'; 
-                datos+= e.CodPieza+" - "+ e.NombrePieza+" - "+e.Medida ; 
-                datos+='</option>'; 
+                datos+=`<tr class=""><td scope="col" class=""> pieza </td>`; 
+                datos+=`<td scope="col" class=""> ${e.CodPieza} - ${e.NombrePieza} - ${e.Medida} </td>` ; 
+                datos+= '<td scope="col" class="">'+'</td>'; 
+                datos+='</tr>'; 
 
             });
             }else{
                
-                datos+='<tr class=""><td scope="col" class="">'+'Material </td>'; 
-                datos+='<td scope="col" class="">'+data.CodigoMaterial+" - "+ data.Material+" - "+data.Dimension +'</td>'; 
-                datos+= '<td scope="col" class="">'+'</td>'; 
-                datos+='</tr>'; 
+                datos+=`<tr class=""><td scope="col" class=""> Material </td>`; 
+                datos+=`<td scope="col" class=""> ${data.CodigoMaterial} - ${data.Material} - ${data.Dimension} </td>`; 
+                datos+= `<td scope="col" class=""></td>`; 
+                datos+=`</tr>`; 
             }
-            
-            tabla.insertAdjacentHTML("beforeEnd",datos);
+            tabla.innerHTML = datos;
+            //tabla.insertAdjacentHTML("beforeEnd",datos);
        
         })
 }, true)

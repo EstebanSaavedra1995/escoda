@@ -47,35 +47,43 @@
 
                       </div>
                 </div>
-
-                <div class="row mb-2">
-                    <table class="table table-striped" id="tabla">
-                        <thead>
-                        <tr class="">
-                            <td scope="col" class="table-primary">Tipo</td>
-                            <td scope="col" class="table-primary">Descripción</td>
-                            <td scope="col" class="table-primary">Cantidad</td>
-                        </tr>
-                        </thead>
-
-                        <tr class="">
-                            <td scope="col" class=""></td>
-                            <td scope="col" class=""></td>
-                            <td scope="col" class=""></td>
-                        </tr>
-
-                    </table>
-                </div>
             </div>
-            <div class="container">
-                <div class="row mb-2">
-                   
-  
-                </div>
-                <div class="row mb-2">
-  
-                </div>
-            </div>
+                <section class="content">
+                    <div class="conteiner-fluid">
+                        <div class="row">
+                            <section class="col-lg-8 connectedSortable ui-sortable">
+                                <div class="conteiner-fluid">
+                                    <table class="table table-striped" id="tabla">
+                                        <thead>
+                                        <tr class="">
+                                            <td scope="col" class="table-primary">Tipo</td>
+                                            <td scope="col" class="table-primary">Descripción</td>
+                                            <td scope="col" class="table-primary">Cantidad</td>
+                                        </tr>
+                                        </thead>
+                                    </table> 
+                                </div>
+                                </section>
+                                <section class="col-lg-4 connectedSortable ui-sortable">
+                                    <div class="content btn-group-vertical">
+                                        <button type="button" class="btn btn-primary mb-1">Agregar Material</button>
+                                        <button type="button" class="btn btn-primary mb-1">Agregar Goma</button>
+                                        <button type="button" class="btn btn-primary mb-1">Agregar Artículos</button>
+                                        <button type="button" class="btn btn-primary mb-1">Agregar Piezas</button>
+                                        <button type="button" class="btn btn-primary mb-1">Eliminar</button>
+                                        <button type="button" class="btn btn-primary mb-1">Borrar Todo</button>
+                                        <button type="button" class="btn btn-primary mb-1">Predeterminar</button>
+                                        <button type="button" class="btn btn-primary mb-1">Predeterminar</button>
+                                        <button type="button" class="btn btn-primary">Exel</button>
+                                    </div>
+                                    
+                                </section>
+                        </div>
+                    </div>
+
+                </section>
+                
+            
         </div>
         <!-- /.card-body -->
 
@@ -90,11 +98,6 @@
 @stop
 
 @section('css')
-<<<<<<< HEAD
-    
-=======
-  {{--   <link rel="stylesheet" href="/css/admin_custom.css"> --}}
->>>>>>> cd4eb8f77466199e6f095eb1c29080132e3d6972
 @stop
 
 @section('js')
