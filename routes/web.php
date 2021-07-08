@@ -21,7 +21,7 @@ Route::post('/admin/construccion',[ConstruccionController::class,'piezas']);
 
 Route::get('/admin/horariosmaquinas',[HorariosMaquinasController::class,'index'])->name('horarios.maquinas');
 Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
-Route::post('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'piezas'])->name('confeccionar.despiece');
-Route::post('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'tabla'])->name('confeccionar.despiece');
+Route::post('/admin/confeccionardespiecepiezas',[ConfeccionarDespieceController::class,'piezas']);
+Route::post('/admin/confeccionardespiecetabla',[ConfeccionarDespieceController::class,'tabla']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
 

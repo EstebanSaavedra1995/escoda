@@ -5,8 +5,8 @@ use App\Models\Pieza;
 use App\Http\Controllers\Controller;
 use App\Models\Conjunto;
 use App\Models\MaterialPieza;
-
-
+use App\Models\PiezaDeConjunto;
+use App\Models\Material;
 use Illuminate\Http\Request;
 
 class ConfeccionarDespieceController extends Controller
@@ -39,13 +39,25 @@ class ConfeccionarDespieceController extends Controller
             $check = request('ck');
           
             if ($check == 'piezas'){
-                $materialPieza = MaterialPieza::where('codigoPieza', $codPieza)->firstOrFail();  
+                $materialPieza = MaterialPieza::where('codigoPieza', $codPieza)->first();  
+                $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
+                $resultado = [
+                    'material' => $material,
+                  ];
+                $materialPieza = $material;
             }
   
             if ($check == 'conjuntos'){ 
-                $Codpiezas = Pieza::where('codigoCjto', $codPieza)->firstOrFail(); 
+                $codPiezas = PiezaDeConjunto::where('codigoCjto', $codPieza)->get();
+                $piezasConjunto = [];
+                foreach ($codPiezas as  $value) {
+                    $piezasConjunto[] = Pieza::where('CodPieza', $value->codigoPieza)->first();
+                }
+                $materialPieza = $piezasConjunto; 
             }
+
             return json_encode($materialPieza);
+            
         }   
       }
 }
