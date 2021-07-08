@@ -47,6 +47,15 @@ class ConstruccionController extends Controller
         return json_encode($resultado);
       }
     }
-    /* return json_encode(request('piezas')); */
+  }
+
+  public function material()
+  {
+    if (request()->getMethod() == 'POST') {
+      $material= json_decode(request('material'));
+      $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $material->CodigoMaterial)->get();
+      $resultado = ['coladaMaterial' => $coladaMaterial, 'material' => $material];
+      return json_encode($resultado);
+    }
   }
 }
