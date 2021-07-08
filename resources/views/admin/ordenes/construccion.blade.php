@@ -12,13 +12,6 @@
     <div class="card-header">
         <h3 class="card-title">Confección de orden de construcción N°: {{ $nuevaOC }}</h3>
     </div>
-    <!-- /.card-header -->
-    <!-- form start -->
-
-    {{-- <div class="row">
-  <div class="col-md-6">.col-md-6</div>
-  <div class="col-md-6">.col-md-6</div>
-</div> --}}
 
     <form id="formulario" method="POST" action="">
         @csrf
@@ -39,7 +32,7 @@
                 </div>
                 <div class="row mb-2">
                     <label class=" col mr-2">Cantidad a realizar</label>
-                    <input type="number" class="form-control col mr-2" min="0" id="">
+                    <input type="number" class="form-control col mr-2" min="0" id="" value="0">
                     <button type="button" class="btn btn-secondary col ">Procedimiento</button>
                 </div>
             </div>
@@ -47,14 +40,29 @@
                 <div class="row mb-2">
                     <label class=" col mr-2">Material</label>
                     <input type="text" class="form-control col mr-2"
-                        placeholder="CodigoMaterial Material Dimension Calidad" id="material" name="material">
+                         id="material" name="material" readonly>
 
-                    <button type="button" class="btn btn-secondary col ">Buscar</button>
+                    <button type="button" id="buscar" name="buscar" class="btn btn-secondary col ">Buscar</button>
                 </div>
                 <div class="row mb-2">
-                    <label class="col mr-2">Cantidad a realizar</label>
+                    <label class="col mr-1">Longitud de corte (mm)</label>
+                    <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte">
+                </div>
+                <div class="row mb-2">
+                    <label class="col mr-1">Cantidad necesaria (mts)</label>
                     <input type="number" class="form-control col mr-2" id="">
-                    <button type="button" class="btn btn-secondary col ">Procedimiento</button>
+                </div>
+                <div class="scrollspy-example">
+                    <table class="table table-bordered table-striped mb-0">
+                        <thead>
+                          <tr>
+                            <th scope="col">Colada</th>
+                            <th scope="col">Stock (mts)</th>
+                          </tr>
+                        </thead>
+                        <tbody id="contenidotabla">
+                        </tbody>
+                      </table>
                 </div>
             </div>
         </div>
@@ -64,6 +72,27 @@
             {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
         </div>
     </form>
+
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 @stop
 
 @section('css')
