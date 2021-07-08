@@ -19,18 +19,39 @@ document.getElementById('piezas').addEventListener('change', function (e) {
                 let longcorte = document.getElementById('longcorte');
                 longcorte.value = data.materialPieza.longitudCorte;
                 let contenidotabla = document.getElementById('contenidotabla');
-                let tabla='';
+                let tablacoladas='';
                 data.coladaMaterial.map(colada => {
-                    tabla += `<tr>`;
-                    tabla += `<td> ${colada.Colada} </td>`;
-                    tabla += `<td> ${colada.Stock} </td>`;
-                    tabla += `</tr>`;
+                    tablacoladas += `<tr>`;
+                    tablacoladas += `<td> <input type="radio" name= "radio"> ${colada.Colada} </td>`;
+                    tablacoladas += `<td> ${colada.Stock} </td>`;
+                    tablacoladas += `</tr>`;
                 })
-                contenidotabla.innerHTML = tabla;
+                contenidotabla.innerHTML = tablacoladas;
+
+                let tareas = document.getElementById('tareas');
+                let tablatareas='';
+                data.piezaTarea.map(tarea => {
+                    tablatareas += `<tr>`;
+                    tablatareas += `<td> ${tarea.Tarea} </td>`;
+                    tablatareas += `<td> ${tarea.Maquina} </td>`;
+                    tablatareas += `<td> Operario </td>`;
+                    tablatareas += `<td> ${tarea.Supervisor} </td>`;
+                    tablatareas += `<td> ${tarea.Horas} </td>`;
+                    tablatareas += `</tr>`;
+                })
+                tareas.innerHTML = tablatareas;
+
             }
         })
 }, true)
 
+
+
+$(document).ready(function(){
+    $('#buscar').click(function(){
+        $('#modal').modal('show');
+    })
+})
 const limpiarDatos = () => {
     let material = document.getElementById('material');
     material.value = '';
@@ -39,7 +60,3 @@ const limpiarDatos = () => {
     let contenidotabla = document.getElementById('contenidotabla');
     contenidotabla.innerHTML = '';
 }
-
-$(document).ready(function(){
-    $('#')
-})

@@ -1,0 +1,44 @@
+
+.table-fixed tbody {
+    height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+.table-fixed thead,
+.table-fixed tbody,
+.table-fixed td,
+.table-fixed th{
+display: block;
+}
+.table-fixed tbody td,
+.table-fixed thead > tr > th {
+    float: left;
+    border-bottom-width: 0;
+}
+.table-fixed tr {
+    width: 100%;
+}
+.contenedor-tabla{
+    width: 20%;
+    margin: 0 auto;
+}
+
+.table-fixed-modal tbody {
+    height: 200px;
+    overflow-y: auto;
+    width: 100%;
+}
+.table-fixed-modal thead,
+.table-fixed-modal tbody,
+.table-fixed-modal td,
+.table-fixed-modal th{
+display: block;
+}
+.table-fixed-modal tbody td,
+.table-fixed-modal thead > tr > th {
+    float: left;
+    border-bottom-width: 0;
+}
+.table-fixed-modal tr {
+    width: 100%;
+}
