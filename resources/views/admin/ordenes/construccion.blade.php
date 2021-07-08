@@ -108,7 +108,7 @@
                                 class="btn btn-primary">Buscar</button>
                         </div>
                         <div class="contenedor-tabla-modal">
-                            <table class="table-bordered table-fixed-modal">
+                            <table class="table-bordered table-fixed-modal table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">Codigo</th>
