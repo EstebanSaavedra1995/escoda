@@ -20,11 +20,12 @@ class ConstruccionController extends Controller
   public function index()
   {
     $piezas = Pieza::all();
+    $materiales = Material::all();
     $construccion = Construccion::orderBy('NroOC', 'desc')->first();
     $nroOC = $construccion->NroOC;
     $largo = strlen($nroOC);
     $nuevaOC = sprintf("%'0{$largo}d\n", intval($nroOC) + 1);
-    return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas']));
+    return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas','materiales']));
   }
 
   public function piezas()

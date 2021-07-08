@@ -90,7 +90,11 @@
 @stop
 
 @section('css')
+<<<<<<< HEAD
     
+=======
+  {{--   <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+>>>>>>> cd4eb8f77466199e6f095eb1c29080132e3d6972
 @stop
 
 @section('js')
