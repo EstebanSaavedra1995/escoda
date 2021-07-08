@@ -28,12 +28,13 @@
                                 </option>
                             @endforeach
                         </select>
-                        <button type="button" class="btn btn-secondary col ">Crokis</button>
+                        <button type="button" class="btn btn-primary col ">Crokis</button>
                     </div>
                     <div class="row mb-2">
                         <label class=" col mr-2">Cantidad a realizar</label>
-                        <input type="number" class="form-control col mr-2" min="0" value="0">
-                        <button type="button" class="btn btn-secondary col ">Procedimiento</button>
+                        <input type="number" class="form-control col mr-2" min="0" value="0" id="cantidad-realizar"
+                            name="cantidad-realizar">
+                        <button type="button" class="btn btn-primary col ">Procedimiento</button>
                     </div>
                 </div>
                 <div class="container">
@@ -41,7 +42,7 @@
                         <label class=" col mr-2">Material</label>
                         <input type="text" class="form-control col mr-2" id="material" name="material" readonly>
 
-                        <button type="button" id="buscar" name="buscar" class="btn btn-secondary col ">Buscar</button>
+                        <button type="button" id="buscar" name="buscar" class="btn btn-primary col ">Buscar</button>
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Longitud de corte (mm)</label>
@@ -49,7 +50,8 @@
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Cantidad necesaria (mts)</label>
-                        <input type="number" class="form-control col mr-2">
+                        <input type="number" class="form-control col mr-2" id="cantidad-necesaria"
+                            name="cantidad-necesaria">
                     </div>
                     <div class="contenedor-tabla">
                         <table class="table table-fixed">
@@ -66,7 +68,7 @@
                 </div>
                 <div class="container">
                     <div>
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">Tareas</th>
@@ -74,6 +76,7 @@
                                     <th scope="col">Operarios</th>
                                     <th scope="col">Supervisores</th>
                                     <th scope="col">Horas</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="tareas">
@@ -87,7 +90,7 @@
         </form>
         {{-- MODAL --}}
         <div id="modal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Lista de materiales</h5>
@@ -96,19 +99,22 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <form id="formulario-modal">
+                            @csrf
                         <div class="row mb-2">
                             <input type="text" class="form-control col mr-2" id="buscarmaterial" name="buscarmaterial"
                                 placeholder="Ingrese el codigo del material">
                             <button type="button" id="buscarmodal" name="buscarmodal"
-                                class="btn btn-secondary col ">Buscar</button>
+                                class="btn btn-primary">Buscar</button>
                         </div>
                         <div class="contenedor-tabla-modal">
-                            <table class="table-fixed-modal">
+                            <table class="table-bordered table-fixed-modal">
                                 <thead>
                                     <tr>
                                         <th scope="col">Codigo</th>
                                         <th scope="col">Descripción</th>
                                         <th scope="col">Sinonimo</th>
+                                        <th scope="col">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,18 +124,17 @@
                                             <td>{{ $material->Material }} - {{ $material->Dimension }} -
                                                 {{ $material->Calidad }}</td>
                                             <td>Materiales</td>
+                                            <td><button type="button" class="btn btn-info" data-dismiss="modal" 
+                                                onclick="agregarMaterial('{{$material}}');">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
+                    </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Agregar</button>
-                        <button type="button" class="btn btn-primary">Nuevo</button>
-                        <button type="button" class="btn btn-primary">Modificar</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-
                     </div>
                 </div>
             </div>

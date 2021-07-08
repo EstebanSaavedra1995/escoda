@@ -17,7 +17,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
 
 Route::get('/admin/construccion',[ConstruccionController::class,'index'])->name('construccion.confeccionar');
 Route::post('/admin/construccion',[ConstruccionController::class,'piezas']);
-
+Route::post('/admin/construccion/material',[ConstruccionController::class,'material']);
 
 Route::get('/admin/horariosmaquinas',[HorariosMaquinasController::class,'index'])->name('horarios.maquinas');
 Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
