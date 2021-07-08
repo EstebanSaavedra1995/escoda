@@ -27,7 +27,7 @@
                     <label class=" col mr-2">Pieza</label>
                     <select class="form-select col mr-2" name="piezas" id="piezas">
                         
-{{--                         @foreach ($piezas as $pieza)
+                        {{--  @foreach ($piezas as $pieza)
                             <option value="{{ $pieza->CodPieza }}">
                                 {{ $pieza->CodPieza }} -
                                 {{ $pieza->NombrePieza }} -
@@ -48,45 +48,266 @@
                       </div>
                 </div>
             </div>
-                <section class="content">
-                    <div class="conteiner-fluid">
-                        <div class="row">
-                            <section class="col-lg-8 connectedSortable ui-sortable">
-                                <div class="conteiner-fluid">
-                                    <table class="table table-striped" id="tabla">
-                                        <thead>
-                                        <tr class="">
-                                            <td scope="col" class="table-primary">Tipo</td>
-                                            <td scope="col" class="table-primary">Descripción</td>
-                                            <td scope="col" class="table-primary">Cantidad</td>
-                                        </tr>
-                                        </thead>
-                                    </table> 
-                                </div>
-                                </section>
-                                <section class="col-lg-4 connectedSortable ui-sortable">
-                                    <div class="content btn-group-vertical">
-                                        <button type="button" class="btn btn-primary mb-1">Agregar Material</button>
-                                        <button type="button" class="btn btn-primary mb-1">Agregar Goma</button>
-                                        <button type="button" class="btn btn-primary mb-1">Agregar Artículos</button>
-                                        <button type="button" class="btn btn-primary mb-1">Agregar Piezas</button>
-                                        <button type="button" class="btn btn-primary mb-1">Eliminar</button>
-                                        <button type="button" class="btn btn-primary mb-1">Borrar Todo</button>
-                                        <button type="button" class="btn btn-primary mb-1">Predeterminar</button>
-                                        <button type="button" class="btn btn-primary mb-1">Predeterminar</button>
-                                        <button type="button" class="btn btn-primary">Exel</button>
-                                    </div>
+            <section class="content">
+                <div class="conteiner-fluid">
+                    <div class="row">
+                        <section class="col-lg-8 connectedSortable ui-sortable">
+                            <div class="conteiner-fluid">
+                                <table class="table table-striped" id="tabla">
+                                    <thead>
+                                    <tr class="">
+                                        <td scope="col" class="table-primary">Tipo</td>
+                                        <td scope="col" class="table-primary">Descripción</td>
+                                        <td scope="col" class="table-primary">Cantidad</td>
+                                    </tr>
+                                    </thead>
+                                </table> 
+                            </div>
+                            </section>
+                            <section class="col-lg-4 connectedSortable ui-sortable">
+                                <div class="content btn-group-vertical">
+                                    <button type="button" class="btn btn-primary mb-1" id="material">Agregar Material</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="goma">Agregar Goma</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="articulos">Agregar Artículos</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="piezas">Agregar Piezas</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="eliminar">Eliminar</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="borrartodo">Borrar Todo</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="predeterminar">Predeterminar</button>
                                     
-                                </section>
-                        </div>
+                                    <button type="button" class="btn btn-primary" id="">Exel</button>
+                                </div>
+                                
+                            </section>
                     </div>
+                </div>
 
-                </section>
+            </section>
                 
             
         </div>
         <!-- /.card-body -->
 
+
+        {{-- MODAL --}}
+        <div id="modalgoma" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lista de materiales</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-modal">
+                            @csrf
+                        <div class="row mb-2">
+                            <input type="text" class="form-control col mr-2" id="buscarmaterial" name="buscarmaterial"
+                                placeholder="Ingrese el codigo del material">
+                            <button type="button" id="buscarmodal" name="buscarmodal"
+                                class="btn btn-primary">Buscar</button>
+                        </div>
+                        <div class="contenedor-tabla-modal">
+                            <table class="table-bordered table-fixed-modal table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Codigo Goma</th>
+                                        <th scope="col">Ø Interno</th>
+                                        <th scope="col">Ø Externo</th>
+                                        <th scope="col">Altura</th>
+                                        <th scope="col">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach ($gomas as $goma)
+                                            <td>{{ $goma->CodigoGoma }}</td>
+                                            <td>{{ $goma->DiametroInterior }}</td>
+                                            <td>{{ $goma->DiametroExterior }}</td>
+                                            <td>{{ $goma->Altura }}</td>
+                                            <td>{{ $goma->Stock }}</td>
+                                            
+                                            <td><button type="button" class="btn btn-info" data-dismiss="modal" 
+                                                onclick="agregarMaterial('{{$goma}}');">Agregar</button></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- END MODAL --}}
+        {{-- MODAL --}}
+        <div id="modalmaterial" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lista de materiales</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-modal">
+                            @csrf
+                        <div class="row mb-2">
+                            <input type="text" class="form-control col mr-2" id="buscarmaterial" name="buscarmaterial"
+                                placeholder="Ingrese el codigo del material">
+                            <button type="button" id="buscarmodal" name="buscarmodal"
+                                class="btn btn-primary">Buscar</button>
+                        </div>
+                        <div class="contenedor-tabla-modal">
+                            <table class="table-bordered table-fixed-modal table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Codigo Goma</th>
+                                        <th scope="col">Ø Interno</th>
+                                        <th scope="col">Ø Externo</th>
+                                        <th scope="col">Altura</th>
+                                        <th scope="col">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach ($gomas as $goma)
+                                            <td>{{ $goma->CodigoGoma }}</td>
+                                            <td>{{ $goma->DiametroInterior }}</td>
+                                            <td>{{ $goma->DiametroExterior }}</td>
+                                            <td>{{ $goma->Altura }}</td>
+                                            <td>{{ $goma->Stock }}</td>
+                                            
+                                            <td><button type="button" class="btn btn-info" data-dismiss="modal" 
+                                                onclick="agregarMaterial('{{$goma}}');">Agregar</button></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- END MODAL --}}
+        {{-- MODAL --}}
+        <div id="modalarticulos" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lista de materiales</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-modal">
+                            @csrf
+                        <div class="row mb-2">
+                            <input type="text" class="form-control col mr-2" id="buscarmaterial" name="buscarmaterial"
+                                placeholder="Ingrese el codigo del material">
+                            <button type="button" id="buscarmodal" name="buscarmodal"
+                                class="btn btn-primary">Buscar</button>
+                        </div>
+                        <div class="contenedor-tabla-modal">
+                            <table class="table-bordered table-fixed-modal table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Codigo Goma</th>
+                                        <th scope="col">Ø Interno</th>
+                                        <th scope="col">Ø Externo</th>
+                                        <th scope="col">Altura</th>
+                                        <th scope="col">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach ($gomas as $goma)
+                                            <td>{{ $goma->CodigoGoma }}</td>
+                                            <td>{{ $goma->DiametroInterior }}</td>
+                                            <td>{{ $goma->DiametroExterior }}</td>
+                                            <td>{{ $goma->Altura }}</td>
+                                            <td>{{ $goma->Stock }}</td>
+                                            
+                                            <td><button type="button" class="btn btn-info" data-dismiss="modal" 
+                                                onclick="agregarMaterial('{{$goma}}');">Agregar</button></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- END MODAL --}}
+        {{-- MODAL --}}
+        <div id="modalpiezas" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lista de materiales</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-modal">
+                            @csrf
+                        <div class="row mb-2">
+                            <input type="text" class="form-control col mr-2" id="buscarmaterial" name="buscarmaterial"
+                                placeholder="Ingrese el codigo del material">
+                            <button type="button" id="buscarmodal" name="buscarmodal"
+                                class="btn btn-primary">Buscar</button>
+                        </div>
+                        <div class="contenedor-tabla-modal">
+                            <table class="table-bordered table-fixed-modal table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Codigo Goma</th>
+                                        <th scope="col">Ø Interno</th>
+                                        <th scope="col">Ø Externo</th>
+                                        <th scope="col">Altura</th>
+                                        <th scope="col">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        @foreach ($gomas as $goma)
+                                            <td>{{ $goma->CodigoGoma }}</td>
+                                            <td>{{ $goma->DiametroInterior }}</td>
+                                            <td>{{ $goma->DiametroExterior }}</td>
+                                            <td>{{ $goma->Altura }}</td>
+                                            <td>{{ $goma->Stock }}</td>
+                                            
+                                            <td><button type="button" class="btn btn-info" data-dismiss="modal" 
+                                                onclick="agregarMaterial('{{$goma}}');">Agregar</button></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- END MODAL --}}
         <div class="card-footer">
             {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
         </div>
@@ -98,6 +319,7 @@
 @stop
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 @stop
 
 @section('js')

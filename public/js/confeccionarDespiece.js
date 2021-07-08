@@ -56,7 +56,7 @@ document.getElementById('ck2').addEventListener('change', function (e) {
 }, true)
 
 
-//este es para llenar la tabla
+//llenar la tabla
 document.getElementById('piezas').addEventListener('change', function (e) {
     e.preventDefault(); //para evitar que se recargue la pagina
 
@@ -102,4 +102,33 @@ document.getElementById('piezas').addEventListener('change', function (e) {
        
         })
 }, true)
+
+//Activar el modal
+$(document).ready(function () {
+    $('#material').click(function () {
+        $('#modalmaterial').modal('show');
+    })
+})
+$(document).ready(function () {
+    $('#goma').click(function () {
+        $('#modalgoma').modal('show');
+    })
+})
+$(document).ready(function () {
+    $('#articulos').click(function () {
+        $('#modalarticulos').modal('show');
+    })
+})
+$(document).ready(function () {
+    $('#piezas').click(function () {
+        $('#modalpiezas').modal('show');
+    })
+})
+/* document.getElementById('cantidad-realizar').addEventListener('change', function (e) {
+    e.preventDefault();
+    let cantidadNecesaria = document.getElementById('cantidad-necesaria');
+    let cantidadRealizar = document.getElementById('cantidad-realizar');
+    cantidadNecesaria.value = (cantidadRealizar.value * longcorte.value) / (1000);
+
+}, true) */
 
