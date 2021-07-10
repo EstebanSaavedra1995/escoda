@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin\Stock;
 use App\Models\Pieza;
 use App\Http\Controllers\Controller;
+use App\Models\ArticulosGenerales;
 use App\Models\Conjunto;
+use App\Models\Goma;
 use App\Models\MaterialPieza;
 use App\Models\PiezaDeConjunto;
 use App\Models\Material;
@@ -12,9 +14,11 @@ use Illuminate\Http\Request;
 class ConfeccionarDespieceController extends Controller
 {
     public function index(){
-        $piezas= [];
-        $a=0;
-        return view('admin\stock\confeccionarDespiece',compact(['a','piezas']));
+        $piezas= Pieza::all();
+        $gomas= Goma::all();
+        $articulos= ArticulosGenerales::all();
+        
+        return view('admin\stock\confeccionarDespiece',compact(['piezas','gomas','articulos']));
 
 
     }
