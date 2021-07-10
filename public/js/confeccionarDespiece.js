@@ -105,25 +105,57 @@ document.getElementById('piezas').addEventListener('change', function (e) {
 
 //Activar el modal
 $(document).ready(function () {
-    $('#material').click(function () {
+    $('#materialbtn').click(function () {
         $('#modalmaterial').modal('show');
     })
 })
 $(document).ready(function () {
-    $('#goma').click(function () {
+    $('#gomabtn').click(function () {
         $('#modalgoma').modal('show');
     })
 })
 $(document).ready(function () {
-    $('#articulos').click(function () {
+    $('#articulosbtn').click(function () {
         $('#modalarticulos').modal('show');
     })
 })
 $(document).ready(function () {
-    $('#piezas').click(function () {
+    $('#piezasbtn').click(function () {
         $('#modalpiezas').modal('show');
     })
 })
+
+
+//Funciones de agregar elementos
+
+function agregarGoma(goma){    
+    goma = JSON.parse(goma);
+    var cantidadInput = document.getElementById('cantidad');
+    var cantidad = cantidadInput.value; 
+    let datos = `<tr><td>Goma</td>`;
+    datos+= `<td>${goma.CodigoGoma} - ØI ${goma.DiametroInterior} - ØE ${goma.DiametroExterior} - h ${goma.Altura}</td>`
+    datos+= `<td>${cantidad}</td></tr>`
+    var tabla = document.getElementById('tabla');
+    cantidadInput.value="";
+    tabla.insertAdjacentHTML("beforeEnd",datos);
+}
+
+/* const agregarMaterial = (material) => {
+    const datos = new FormData(document.getElementById('formulario-modal'));
+    datos.append('material',material);
+    fetch('/admin/construccion/material', {
+        method: 'POST',
+        body: datos,
+    })
+
+        .then(res => res.json())
+        .then(data => {
+            let material = document.getElementById('material');
+            material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
+            completarColadas(data.coladaMaterial);
+        })
+     
+} */
 /* document.getElementById('cantidad-realizar').addEventListener('change', function (e) {
     e.preventDefault();
     let cantidadNecesaria = document.getElementById('cantidad-necesaria');

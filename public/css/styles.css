@@ -51,4 +51,14 @@ display: inline-block;
 .table-scroll1 td{
     width: 400px;
 } 
+.table-scroll2{
+    width: 100%;
+    max-height: 300px;
+    overflow: auto;
+    display:inline-block;
+}
+
+.table-scroll2 td{
+    width: 800px;
+} 
 

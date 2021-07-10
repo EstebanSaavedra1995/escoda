@@ -64,4 +64,14 @@ class ConfeccionarDespieceController extends Controller
             
         }   
       }
+
+      public function addGoma()
+      {
+        if (request()->getMethod() == 'POST') {
+          $material= json_decode(request('material'));
+          $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $material->CodigoMaterial)->get();
+          $resultado = ['coladaMaterial' => $coladaMaterial, 'material' => $material];
+          return json_encode($resultado);
+        }
+      }
 }

@@ -66,13 +66,13 @@
                             </section>
                             <section class="col-lg-4 connectedSortable ui-sortable">
                                 <div class="content btn-group-vertical">
-                                    <button type="button" class="btn btn-primary mb-1" id="material">Agregar Material</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="goma">Agregar Goma</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="articulos">Agregar Artículos</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="piezas">Agregar Piezas</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="eliminar">Eliminar</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="borrartodo">Borrar Todo</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="predeterminar">Predeterminar</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="materialbtn">Agregar Material</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="gomabtn">Agregar Goma</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="articulosbtn">Agregar Artículos</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="piezasbtn">Agregar Piezas</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="eliminarbtn">Eliminar</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="borrartodobtn">Borrar Todo</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="predeterminarbtn">Predeterminar</button>
                                     
                                     <button type="button" class="btn btn-primary" id="">Exel</button>
                                 </div>
@@ -108,7 +108,7 @@
                                 class="btn btn-primary">Buscar</button>
                         </div>
                         <div class="contenedor-tabla-modal">
-                            <table class="table-bordered table-fixed-modal table-striped">
+                            <table class="table table-bordered table-scroll1">
                                 <thead>
                                     <tr>
                                         <th scope="col">Codigo Goma</th>
@@ -116,6 +116,8 @@
                                         <th scope="col">Ø Externo</th>
                                         <th scope="col">Altura</th>
                                         <th scope="col">Stock</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Accion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,9 +128,10 @@
                                             <td>{{ $goma->DiametroExterior }}</td>
                                             <td>{{ $goma->Altura }}</td>
                                             <td>{{ $goma->Stock }}</td>
+                                            <td><input type="number" min="1" max="{{$goma->Stock}}" id="cantidad"></td>
                                             
                                             <td><button type="button" class="btn btn-info" data-dismiss="modal" 
-                                                onclick="agregarMaterial('{{$goma}}');">Agregar</button></td>
+                                                onclick="agregarGoma('{{json_encode($goma)}}');">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -163,7 +166,7 @@
                                 class="btn btn-primary">Buscar</button>
                         </div>
                         <div class="contenedor-tabla-modal">
-                            <table class="table-bordered table-fixed-modal table-striped">
+                            <table class="table table-bordered table-scroll2">
                                 <thead>
                                     <tr>
                                         <th scope="col">Codigo Goma</th>
@@ -182,8 +185,8 @@
                                             <td>{{ $goma->Altura }}</td>
                                             <td>{{ $goma->Stock }}</td>
                                             
-                                            <td><button type="button" class="btn btn-info" data-dismiss="modal" 
-                                                onclick="agregarMaterial('{{$goma}}');">Agregar</button></td>
+                                            <td><button id="addgomabtn" type="button" class="btn btn-info" data-dismiss="modal" 
+                                                onclick="agregarMaterial('{{($goma)}}');">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
