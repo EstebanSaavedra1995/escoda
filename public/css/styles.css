@@ -1,5 +1,5 @@
 
-.table-fixed tbody {
+/* .table-fixed tbody {
     height: 200px;
     overflow-y: auto;
     width: 100%;
@@ -17,14 +17,12 @@ display: block;
 }
 .table-fixed tr {
     width: 100%;
-}
-.contenedor-tabla{
-    width: 20%;
-    margin: 0 auto;
-}
+} */
+
+
 /* Tabla de modal*/
 
-.table-fixed-modal tbody{
+/* .table-fixed-modal tbody{
     height: 300px;
     overflow-y: auto;
     width: 100%;
@@ -41,30 +39,16 @@ display: inline-block;
 
 .table-fixed-modal td{
     width: 400px;
+}  */
+
+.table-scroll1{
+    width: 100%;
+    max-height: 300px;
+    overflow: auto;
+    display:inline-block;
+}
+
+.table-scroll1 td{
+    width: 400px;
 } 
 
-
-
-
-
-
-
-
-/* 
-.table-fixed-modal tbody{
-    height: 200px;
-    overflow-y: auto;
-    width: 100%;
-    text-align: left;
-}
-.table-fixed-modal thead,
-.table-fixed-modal tbody{
-display: inline-block;
-}
-.table-fixed-modal th{
-    width: 20%;
-}
-.table-fixed-modal td{
-    width: 20%;
-}
-*/

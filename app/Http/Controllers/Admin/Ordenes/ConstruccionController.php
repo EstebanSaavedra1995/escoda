@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ColadaMaterial;
 use App\Models\Construccion;
+use App\Models\Maquina;
 use App\Models\Material;
 use App\Models\Pieza;
 use App\Models\MaterialPieza;
+use App\Models\Personal;
 use App\Models\PiezaTarea;
+use App\Models\Tarea;
 
 class ConstruccionController extends Controller
 {
@@ -22,10 +25,16 @@ class ConstruccionController extends Controller
     $piezas = Pieza::all();
     $materiales = Material::all();
     $construccion = Construccion::orderBy('NroOC', 'desc')->first();
+    $tareas= Tarea::all();
+    $maquinas= Maquina::all();
+    $supervisores= Personal::where('Cargo', 'Supervisor de Área')
+                          ->where('Estado','A')->get();
+
     $nroOC = $construccion->NroOC;
     $largo = strlen($nroOC);
     $nuevaOC = sprintf("%'0{$largo}d\n", intval($nroOC) + 1);
-    return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas','materiales']));
+    
+    return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas','materiales','tareas','maquinas','supervisores']));
   }
 
   public function piezas()
@@ -37,10 +46,12 @@ class ConstruccionController extends Controller
         $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
         $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $materialPieza->codigoMaterial)->get();
         $piezaTarea = PiezaTarea::where('codigoPieza', $codPieza)->get();
+       
         $resultado = [
           'materialPieza' => $materialPieza, 'material' => $material,
           'coladaMaterial' => $coladaMaterial, 'piezaTarea' => $piezaTarea
         ];
+
         return json_encode($resultado);
       } else {
         $resultado = [];

@@ -27,12 +27,21 @@ document.getElementById('piezas').addEventListener('change', function (e) {
 }, true)
 
 
-//Activar el modal
+//Activar el modal para buscar materiales
 $(document).ready(function () {
     $('#buscar').click(function () {
         $('#modal').modal('show');
     })
 })
+//Activar el modal para agregar tareas
+$(document).on('click', '#agregartarea', function() {
+    $('#modaltareas').modal('show');
+});
+//Paginator 
+
+
+
+//Cada vez que se cambie el valor de cantidad a realizar, la multiplique por la longitud de corte y lo ponga en cantidad necesaria
 document.getElementById('cantidad-realizar').addEventListener('change', function (e) {
     e.preventDefault();
     let cantidadNecesaria = document.getElementById('cantidad-necesaria');
@@ -42,8 +51,8 @@ document.getElementById('cantidad-realizar').addEventListener('change', function
 }, true)
 
 //Funciones 
+//Agrega el material del modal de materiales
 const agregarMaterial = (material) => {
-   
     const datos = new FormData(document.getElementById('formulario-modal'));
     datos.append('material',material);
     fetch('/admin/construccion/material', {
@@ -99,5 +108,6 @@ const completarTareas = (data) => {
         tablatareas += `<button type="button" class="btn btn-danger">Eliminar</button>`;
         tablatareas += `</td></tr>`;
     })
+    tablatareas += `<tr><td><button type="button" class="btn btn-primary" id="agregartarea">Agregar tarea</button> </td></tr>`;
     tareas.innerHTML = tablatareas;
 }
