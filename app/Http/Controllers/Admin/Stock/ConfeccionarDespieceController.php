@@ -32,7 +32,7 @@ class ConfeccionarDespieceController extends Controller
             $piezas = Pieza::all();
             $materialPieza = MaterialPieza::all();
             $resultado = [
-              'pieza' => $piezas,
+              'piezas' => $piezas,
               'materialPieza' => $materialPieza
             ];
           }
@@ -62,8 +62,9 @@ class ConfeccionarDespieceController extends Controller
                 $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
                 $resultado = [
                     'material' => $material,
+                    'cantidad' => $materialPieza->longitudCorte
                   ];
-                $materialPieza = $material;
+                
             }
   
             if ($check == 'conjuntos'){ 
@@ -72,10 +73,14 @@ class ConfeccionarDespieceController extends Controller
                 foreach ($codPiezas as  $value) {
                     $piezasConjunto[] = Pieza::where('CodPieza', $value->codigoPieza)->first();
                 }
-                $materialPieza = $piezasConjunto; 
+                $resultado = [
+                  'piezas' => $piezasConjunto,
+                  'cantidad' => $codPieza->Cantidad
+                ];
+                $resultado = $piezasConjunto;
             }
 
-            return json_encode($materialPieza);
+            return json_encode($resultado);
             
         }   
       }

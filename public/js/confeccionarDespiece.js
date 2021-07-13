@@ -48,8 +48,9 @@ document.getElementById('ck2').addEventListener('change', function (e) {
             var datos = "";
             var select = document.getElementById('piezas');
             select.innerHTML = "<option></option>";
-            data.forEach(e => {
-                datos+='<option value="0"> </option>'; 
+            datos+='<option value="0"> </option>'; 
+            data['piezas'].forEach(e => {
+                
                 datos+='<option value="' + e.CodPieza +'">'; 
                 datos+= e.CodPieza+" - "+ e.NombrePieza+" - "+e.Medida ; 
                 datos+='</option>'; 
@@ -88,18 +89,18 @@ document.getElementById('piezas').addEventListener('change', function (e) {
             console.log(data);
            
             if(ck1.checked){
-            data.forEach(e => {
+                data.forEach(e => {
                 datos+=`<tr id="${e.CodPieza}" class="" onclick=""><td scope="col" class=""> pieza </td>`; 
                 datos+=`<td scope="col" class="" value="${e.CodPieza}"> ${e.CodPieza} - ${e.NombrePieza} - ${e.Medida} </td>` ; 
-                datos+= '<td scope="col" class="">'+'</td>'; 
+                datos+= `<td scope="col" class="">${data['cantidad']}</td>`;  
                 datos+='</tr>'; 
 
             });
             }else{
-               
-                datos+=`<tr id="${data.CodigoMaterial}" class=""><td scope="col" class=""> Material </td>`; 
-                datos+=`<td scope="col" class="" value="${data.CodigoMaterial}"> ${data.CodigoMaterial} - ${data.Material} - ${data.Dimension} </td>`; 
-                datos+= `<td scope="col" class=""></td>`; 
+                var material = data['material'];
+                datos+=`<tr id="${material.CodigoMaterial}" class=""><td scope="col" class=""> Material </td>`; 
+                datos+=`<td scope="col" class="" value="${material.CodigoMaterial}"> ${material.CodigoMaterial} - ${material.Material} - ${material.Dimension} </td>`; 
+                datos+= `<td scope="col" class="">${data['cantidad']}</td>`; 
                 datos+=`</tr>`; 
             }
             tabla.innerHTML = datos;
