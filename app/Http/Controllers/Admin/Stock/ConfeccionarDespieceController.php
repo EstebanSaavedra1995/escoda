@@ -17,8 +17,9 @@ class ConfeccionarDespieceController extends Controller
         $piezas= Pieza::all();
         $gomas= Goma::all();
         $articulos= ArticulosGenerales::all();
+        $materiales= Material::all();
         
-        return view('admin\stock\confeccionarDespiece',compact(['piezas','gomas','articulos']));
+        return view('admin\stock\confeccionarDespiece',compact(['piezas','gomas','articulos','materiales']));
 
 
     }
@@ -27,11 +28,25 @@ class ConfeccionarDespieceController extends Controller
         if (request()->getMethod() == 'POST') {
           $check = request('ck');
           
-          if ($check == 'piezas'){ $piezas = Pieza::all(); }
+          if ($check == 'piezas'){ 
+            $piezas = Pieza::all();
+            $materialPieza = MaterialPieza::all();
+            $resultado = [
+              'piezas' => $piezas,
+              'materialPieza' => $materialPieza
+            ];
+          }
 
-          if ($check == 'conjuntos'){ $piezas = Conjunto::all(); }
+          if ($check == 'conjuntos'){ 
+            $conjunto = Conjunto::all();
+            $piezaConjunto = PiezaDeConjunto::all(); 
+            $resultado = [
+              'conjunto' => $conjunto,
+              'piezaConjunto' => $piezaConjunto
+            ];
+          }
  
-          return json_encode($piezas);
+          return json_encode($resultado);
         }
       }
 
@@ -47,8 +62,9 @@ class ConfeccionarDespieceController extends Controller
                 $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
                 $resultado = [
                     'material' => $material,
+                    'cantidad' => $materialPieza->longitudCorte
                   ];
-                $materialPieza = $material;
+                
             }
   
             if ($check == 'conjuntos'){ 
@@ -57,15 +73,19 @@ class ConfeccionarDespieceController extends Controller
                 foreach ($codPiezas as  $value) {
                     $piezasConjunto[] = Pieza::where('CodPieza', $value->codigoPieza)->first();
                 }
-                $materialPieza = $piezasConjunto; 
+                $resultado = [
+                  'piezas' => $piezasConjunto,
+                  'cantidad' => $codPieza->Cantidad
+                ];
+                $resultado = $piezasConjunto;
             }
 
-            return json_encode($materialPieza);
+            return json_encode($resultado);
             
         }   
       }
 
-      public function addGoma()
+/*       public function addGoma()
       {
         if (request()->getMethod() == 'POST') {
           $material= json_decode(request('material'));
@@ -73,5 +93,5 @@ class ConfeccionarDespieceController extends Controller
           $resultado = ['coladaMaterial' => $coladaMaterial, 'material' => $material];
           return json_encode($resultado);
         }
-      }
+      } */
 }
