@@ -20,6 +20,7 @@
                     <div class="row mb-2">
                         <label class=" col mr-2">Pieza</label>
                         <select class=" col mr-2" name="piezas" id="piezas">
+                            <option value="">Seleccione pieza</option>
                             @foreach ($piezas as $pieza)
                                 <option value="{{ $pieza->CodPieza }}">
                                     {{ $pieza->CodPieza }} -
@@ -55,7 +56,7 @@
                             name="cantidad-necesaria">
                     </div>
                     <div class="contenedor-tabla">
-                        <table class="table table-bordered table-fixed">
+                        <table class="table table-striped table-bordered table-scroll1">
                             <thead>
                                 <tr>
                                     <th scope="col">Colada</th>
@@ -69,7 +70,7 @@
                 </div>
                 <div class="container">
                     <div>
-                        <table class="table table-bordered">
+                        <table class="table-striped table table-bordered">
                             <thead>
                                 <tr>
                                     <th scope="col">Tareas</th>
@@ -106,12 +107,12 @@
                             @csrf
                             <div class="row mb-2">
                                 <input type="text" class="form-control col mr-2" id="buscarmaterial" name="buscarmaterial"
-                                    placeholder="Ingrese el codigo del material">
-                                <button type="button" id="buscarmodal" name="buscarmodal"
-                                    class="btn btn-primary">Buscar</button>
+                                    placeholder="Ingrese el codigo del material a buscar">
+                                {{-- <button type="button" id="buscarmodal" name="buscarmodal"
+                                    class="btn btn-primary">Buscar</button> --}}
                             </div>
                             <div>
-                                <table class="table table-bordered table-scroll1">
+                                <table class=" table-striped table table-bordered table-scroll1">
                                     <thead>
                                         <tr>
                                             <th scope="col">Codigo</th>
@@ -120,7 +121,7 @@
                                             <th scope="col">Acción</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tbodymodal">
                                         <tr>
                                             @foreach ($materiales as $material)
                                                 <td>{{ $material->CodigoMaterial }}</td>
@@ -128,13 +129,13 @@
                                                     {{ $material->Calidad }}</td>
                                                 <td>Materiales</td>
                                                 <td><button type="button" class="btn btn-info" data-dismiss="modal"
-                                                        onclick="agregarMaterial('{{ $material }}');">Agregar</button>
+                                                        onclick="agregarMaterial('{{ $material->CodigoMaterial }}');">Agregar</button>
                                                 </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
-                            
+
                             </div>
                         </form>
                     </div>
@@ -157,65 +158,68 @@
                     <div class="modal-body">
                         <form id="formulario-modaltarea">
                             @csrf
-                            <div class="row mb-2">
-                                <label for="tarea">Tarea: </label>
-                                <select class=" col mr-2" name="tarea" id="tarea">
-                                    @foreach ($tareas as $tarea)
-                                        <option value="{{ $tarea->Tarea }}">
-                                            {{ $tarea->Tarea }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row mb-2">
-                                <label for="maquina">Máquina: </label>
-                                <select class=" col mr-2" name="maquina" id="maquina">
-                                    @foreach ($maquinas as $maquina)
-                                        <option value="{{ $maquina->CodMaquina }}">
-                                            {{ $maquina->CodMaquina }} - {{$maquina->NombreMaquina}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row mb-2">
-                                <label for="operario">Operario: </label>
-                                <select class=" col mr-2" name="operario" id="operario">
-                                    @foreach ($piezas as $pieza)
-                                        <option value="{{ $pieza->CodPieza }}">
-                                            {{ $pieza->CodPieza }} -
-                                            {{ $pieza->NombrePieza }} -
-                                            {{ $pieza->Medida }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="row mb-2">
-                                <label for="supervisor">Supervisor de área: </label>
-                                <select class=" col mr-2" name="supervisor" id="supervisor">
-                                    @foreach ($supervisores as $supervisor)
-                                        <option value="{{ $supervisor->NroLegajo }}">
-                                          {{$supervisor->NroLegajo}} - {{$supervisor->ApellidoNombre}}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <table class="table table-bordered table-striped">
+                                <tbody id="tablamodaltareas">
+                                    <tr>
+                                        <td><label for="tareaModal">Tarea: </label></td>
+                                        <td> <select class=" col mr-2" name="tareaModal" id="tareaModal">
+                                                @foreach ($tareas as $tarea)
+                                                    <option value="{{ $tarea }}">
+                                                        {{ $tarea->Tarea }}
+                                                    </option>
+                                                @endforeach
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="maquina">Maquina: </label></td>
+                                        <td> <select class=" col mr-2" name="maquina" id="maquina">
+                                                @foreach ($maquinas as $maquina)
+                                                    <option value="{{$maquina}}">
+                                                        {{ $maquina->CodMaquina }} - {{ $maquina->NombreMaquina }}
+                                                    </option>
+                                                @endforeach
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="operario">Operario: </label> </td>
+
+                                        <td> <select class=" col mr-2" name="operario" id="operario">
+                                                @foreach ($operarios as $operario)
+                                                    <option value="{{ $operario }}">
+                                                        {{ $operario->NroLegajo }} - {{ $operario->ApellidoNombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="supervisor">Supervisor de área: </label></td>
+                                        <td> <select class=" col mr-2" name="supervisor" id="supervisor">
+                                                @foreach ($supervisores as $supervisor)
+                                                    <option value="{{ $supervisor }}">
+                                                        {{ $supervisor->NroLegajo }} - {{ $supervisor->ApellidoNombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Agregar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="agregarTareaModal();">Agregar</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @stop
+@stop
 
-    @section('css')
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    @stop
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+@stop
 
-    @section('js')
-        <script src="{{ asset('js/construccion.js') }}"></script>
+@section('js')
+    <script src="{{ asset('js/construccion.js') }}"></script>
 
-    @stop
+@stop
