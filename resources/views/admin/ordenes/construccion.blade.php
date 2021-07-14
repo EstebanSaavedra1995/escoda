@@ -164,7 +164,7 @@
                                         <td><label for="tareaModal">Tarea: </label></td>
                                         <td> <select class=" col mr-2" name="tareaModal" id="tareaModal">
                                                 @foreach ($tareas as $tarea)
-                                                    <option value="{{ $tarea->Tarea }}">
+                                                    <option value="{{ $tarea }}">
                                                         {{ $tarea->Tarea }}
                                                     </option>
                                                 @endforeach
@@ -185,7 +185,7 @@
 
                                         <td> <select class=" col mr-2" name="operario" id="operario">
                                                 @foreach ($operarios as $operario)
-                                                    <option value="{{ $operario->NroLegajo }}">
+                                                    <option value="{{ $operario }}">
                                                         {{ $operario->NroLegajo }} - {{ $operario->ApellidoNombre }}
                                                     </option>
                                                 @endforeach
@@ -195,7 +195,7 @@
                                         <td><label for="supervisor">Supervisor de área: </label></td>
                                         <td> <select class=" col mr-2" name="supervisor" id="supervisor">
                                                 @foreach ($supervisores as $supervisor)
-                                                    <option value="{{ $supervisor->NroLegajo }}">
+                                                    <option value="{{ $supervisor }}">
                                                         {{ $supervisor->NroLegajo }} - {{ $supervisor->ApellidoNombre }}
                                                     </option>
                                                 @endforeach
@@ -206,7 +206,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="agregarTareaModal();">Agregar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="agregarTareaModal();">Agregar</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>

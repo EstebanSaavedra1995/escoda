@@ -88,6 +88,31 @@ const agregarMaterial = (codigoMaterial) => {
     /*  alert(material); */
 }
 
+/* $(document).on('click', '#eliminarTarea', function () {
+    console.log('id');
+    alert('id');
+}); */
+
+function eliminarTarea(id) {
+    /* let parent = document.getElementById(id).parentNode;
+    parent.removeChild(document.getElementById(id));
+    setearId();
+    alert(id);
+    let parent = document.getElementById(id);
+    alert(parent); */
+
+}
+/* function modificarTarea() {
+    alert('id');
+} */
+/* function setearId() {
+    let filas = document.getElementsByClassName("filasDeTareas");
+    for (let i = 0; i < filas.length; i++) {
+        filas[i].id = `fila${i}`;
+    }
+} */
+
+
 const limpiarDatos = () => {
     let material = document.getElementById('material');
     material.value = '';
@@ -112,22 +137,35 @@ const completarColadas = (data) => {
     })
     contenidotabla.innerHTML = tablacoladas;
 }
-
+/* the first parameters of function JSON.parse should be a String, and your 
+data is a JavaScript object, so it will convert to a String [object object], 
+you should use JSON.stringify before pass the data */
 const completarTareas = (data) => {
     let tareas = document.getElementById('tareas');
     let tablatareas = '';
-    data.forEach(tarea => {
-        tablatareas += `<tr>`;
-        tablatareas += `<td> ${tarea.Tarea} </td>`;
-        tablatareas += `<td> ${tarea.Maquina} </td>`;
+    for (let i = 0; i < data.length; i++) {
+   /*  Horas: "00:00"
+    Maquina: "06    SERRUCHO AUTOM├üTICO"
+    Renglon: 1
+    Supervisor: "461    Rodriguez Daniel"
+    Tarea: "Corte"
+    codigoPieza: "Ab05 501" */
+        let id = `${data[i].Horas} ${data[i].horas} ${data[i].horas} ${data[i].horas} ${data[i].horas}`
+        tablatareas += `<tr class="filasDeTareas">`;
+        tablatareas += `<td> ${data[i].Tarea} </td>`;
+        tablatareas += `<td> ${data[i].Maquina} </td>`;
         tablatareas += `<td> Operario </td>`;
-        tablatareas += `<td> ${tarea.Supervisor} </td>`;
-        tablatareas += `<td> ${tarea.Horas} </td>`;
-        tablatareas += `<td><button type="button" class="btn btn-info">Modificar</button>`;
-        tablatareas += `<button type="button" class="btn btn-danger">Eliminar</button>`;
+        tablatareas += `<td> ${data[i].Supervisor} </td>`;
+        tablatareas += `<td> ${data[i].Horas} </td>`;
+        tablatareas += `<td><button type="button" class="btn btn-info" onclick="modificarTarea();">Modificar</button>`;
+        tablatareas += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea();"> Eliminar </button>`;
+       /*  tablatareas += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('fila${i}');"> Eliminar </button>`; */
         tablatareas += `</td></tr>`;
-    })
-    tablatareas += `<tr><td><button type="button" class="btn btn-primary" id="agregartarea">Agregar tarea</button> </td></tr>`;
+        console.log(data[i]);
+        
+    }
+    console.log(data);
+    tablatareas += `<tr id= "filaboton"><td><button type="button" class="btn btn-primary" id="agregartarea">Agregar tarea</button> </td></tr>`;
     tareas.innerHTML = tablatareas;
 }
 const completarMaterial = (data) => {
@@ -143,9 +181,33 @@ const completarMaterial = (data) => {
     })
     tbodymodal.innerHTML = tabla;
 }
-const agregarTareaModal = () =>{
+const agregarTareaModal = () => {
+    let cantidadFilas = document.getElementsByClassName("filasDeTareas").length;
     const datos = new FormData(document.getElementById('formulario-modaltarea'));
-    const tarea= datos.get('tareaModal');
-    const maquina= JSON.parse(datos.get('maquina'));
-    alert(maquina.json());
+
+    let tarea = datos.get('tareaModal');
+    tarea = JSON.parse(tarea);
+
+    let maquina = datos.get('maquina');
+    maquina = JSON.parse(maquina);
+
+    let operario = datos.get('operario');
+    operario = JSON.parse(operario);
+
+    let supervisor = datos.get('supervisor')
+    supervisor = JSON.parse(supervisor);
+
+    tablatareas = `<tr class="filasDeTareas" id="fila${cantidadFilas}">`;
+    tablatareas += `<td> ${tarea.Tarea}</td>`;
+    tablatareas += `<td> ${maquina.NombreMaquina} </td>`;
+    tablatareas += `<td> ${operario.NroLegajo} ${operario.ApellidoNombre} </td>`;
+    tablatareas += `<td> ${supervisor.NroLegajo} ${supervisor.ApellidoNombre} </td>`;
+    tablatareas += `<td> 00:00 </td>`;
+    tablatareas += `<td><button type="button" class="btn btn-info" onclick="modificarTarea()"; >Modificar</button>`;
+    tablatareas += `<button type="button" class="btn btn-danger" id="eliminar" onclick="eliminarTarea('fila${cantidadFilas}');">Eliminar</button>`;
+    tablatareas += `</td></tr>`;
+    let boton = document.getElementById('filaboton');
+    boton.insertAdjacentHTML('beforebegin', tablatareas);
+
+
 }
