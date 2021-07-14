@@ -72,8 +72,8 @@
                                     <button type="button" class="btn btn-primary mb-1" id="gomabtn">Agregar Goma</button>
                                     <button type="button" class="btn btn-primary mb-1" id="articulobtn">Agregar Artículos</button>
                                     <button type="button" class="btn btn-primary mb-1" id="piezabtn">Agregar Piezas</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="eliminarbtn">Eliminar</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="borrartodobtn">Borrar Todo</button>
+                                    
+                                    <button type="button" class="btn btn-primary mb-1" id="borrartodobtn" >Borrar Todo</button>
                                     <button type="button" class="btn btn-primary mb-1" id="predeterminarbtn">Predeterminar</button>
                                     
                                     <button type="button" class="btn btn-primary" id="">Exel</button>

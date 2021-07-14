@@ -14,7 +14,7 @@ document.getElementById('ck1').addEventListener('change', function (e) {
        
         var conjunto = data['conjunto'];
         var piezaDeConjunto = data['conjunto'];
-        console.log(conjunto[1]);
+        //console.log(conjunto[1]);
         var datos = "";
         datos+='<option value="0"> </option>';
         var select = document.getElementById('piezas');
@@ -82,17 +82,20 @@ document.getElementById('piezas').addEventListener('change', function (e) {
             datos +=`<td scope="col" class="table-primary">Tipo</td>`;
             datos +=`<td scope="col" class="table-primary">Descripción</td>`;
             datos +=`<td scope="col" class="table-primary">Cantidad</td>`;
+            datos +=`<td scope="col" class="table-primary">Accion</td>`;
             datos +=`</tr></thead>`;
 
             var tabla = document.getElementById('tabla');
             var ck1 = document.getElementById('ck1');
-            console.log(data);
+            //console.log(data);
            
             if(ck1.checked){
+                
                 data.forEach(e => {
-                datos+=`<tr id="${e.CodPieza}" class="" onclick=""><td scope="col" class=""> pieza </td>`; 
-                datos+=`<td scope="col" class="" value="${e.CodPieza}"> ${e.CodPieza} - ${e.NombrePieza} - ${e.Medida} </td>` ; 
-                datos+= `<td scope="col" class="">${data['cantidad']}</td>`;  
+                datos+=`<tr id="${e.pieza.CodPieza}" class="" onclick=""><td scope="col" class=""> pieza </td>`; 
+                datos+=`<td scope="col" class="" value="${e.pieza.CodPieza}"> ${e.pieza.CodPieza} - ${e.pieza.NombrePieza} - ${e.pieza.Medida} </td>` ; 
+                datos+= `<td scope="col" class="">${e.cantidad}</td>`;
+                datos+= `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${e.pieza.CodPieza}');">Eliminar</button></td>`;
                 datos+='</tr>'; 
 
             });
@@ -101,6 +104,7 @@ document.getElementById('piezas').addEventListener('change', function (e) {
                 datos+=`<tr id="${material.CodigoMaterial}" class=""><td scope="col" class=""> Material </td>`; 
                 datos+=`<td scope="col" class="" value="${material.CodigoMaterial}"> ${material.CodigoMaterial} - ${material.Material} - ${material.Dimension} </td>`; 
                 datos+= `<td scope="col" class="">${data['cantidad']}</td>`; 
+                datos+= `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${material.CodigoMaterial}');">Eliminar</button></td>`; 
                 datos+=`</tr>`; 
             }
             tabla.innerHTML = datos;

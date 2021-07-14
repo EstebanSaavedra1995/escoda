@@ -70,14 +70,18 @@ class ConfeccionarDespieceController extends Controller
             if ($check == 'conjuntos'){ 
                 $codPiezas = PiezaDeConjunto::where('codigoCjto', $codPieza)->get();
                 $piezasConjunto = [];
+                $resultado = [];
                 foreach ($codPiezas as  $value) {
-                    $piezasConjunto[] = Pieza::where('CodPieza', $value->codigoPieza)->first();
+                  $cantidad = $value->Cantidad;
+                    $piezasConjunto [] = [
+                      'pieza' => Pieza::where('CodPieza', $value->codigoPieza)->first(),
+                      'cantidad' => $cantidad
+                    ];
+                    
                 }
-                $resultado = [
-                  'piezas' => $piezasConjunto,
-                  'cantidad' => $codPieza->Cantidad
-                ];
                 $resultado = $piezasConjunto;
+                
+                //$resultado = $piezasConjunto;
             }
 
             return json_encode($resultado);
