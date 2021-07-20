@@ -73,8 +73,8 @@
                                     <button type="button" class="btn btn-primary mb-1" id="articulobtn">Agregar Artículos</button>
                                     <button type="button" class="btn btn-primary mb-1" id="piezabtn">Agregar Piezas</button>
                                     
-                                    <button type="button" class="btn btn-primary mb-1" id="borrartodobtn" >Borrar Todo</button>
-                                    <button type="button" class="btn btn-primary mb-1" id="predeterminarbtn">Predeterminar</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="borrartodobtn" onclick="eliminarTodo()">Borrar Todo</button>
+                                    <button type="button" class="btn btn-primary mb-1" id="predeterminarbtn" >Predeterminar</button>
                                     
                                     <button type="button" class="btn btn-primary" id="">Exel</button>
                                 </div>
@@ -132,10 +132,10 @@
                                             <td>{{ $goma->DiametroExterior }}</td>
                                             <td>{{ $goma->Altura }}</td>
                                             <td>{{ $goma->Stock }}</td>
-                                            <td><input type="number" min="1" max="{{$goma->Stock}}" id="cantidadGomas" onchange="habilitarAgregar('G',{{$i}})"></td>
+                                            <td><input type="number" min="1" max="{{$goma->Stock}}" id="cantidadGomas{{$i}}" onchange="habilitarAgregar('G',{{$i}})"></td>
                                             
                                             <td><button id="addBtnG{{$i}}" type="button" class="btn btn-info" data-dismiss="modal" 
-                                                onclick="agregarGoma('{{json_encode($goma)}}');" disabled="true">Agregar</button></td>
+                                                onclick="agregarGoma('{{json_encode($goma)}}','{{$i}}');" disabled="true">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -188,10 +188,10 @@
                                             <td>{{ $articulo->CodArticulo }}</td>
                                             <td>{{ $articulo->Descripcion }}</td>
                                             <td>{{ $articulo->Stock }}</td>
-                                            <td><input type="number" min="1" max="{{$articulo->Stock}}" id="cantidadArticulos" onchange="habilitarAgregar('A',{{$i}})"></td>
+                                            <td><input type="number" min="1" max="{{$articulo->Stock}}" id="cantidadArticulos{{$i}}" onchange="habilitarAgregar('A',{{$i}})"></td>
                                             
                                             <td><button id="addBtnA{{$i}}" type="button" class="btn btn-info" data-dismiss="modal" 
-                                                onclick="agregarArticulo('{{json_encode($articulo)}}');" disabled="true">Agregar</button></td>
+                                                onclick="agregarArticulo('{{json_encode($articulo)}}','{{$i}}');" disabled="true">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -244,10 +244,10 @@
                                             <td>{{ $pieza->CodPieza }}</td>
                                             <td>{{ $pieza->NombrePieza }} - {{$pieza->Medida}}</td>
                                             <td>{{ $pieza->Stock }}</td>
-                                            <td><input type="number" min="1" max="{{$pieza->Stock}}" id="cantidadPiezas" onchange="habilitarAgregar('P',{{$i}})"></td>
+                                            <td><input type="number" min="1" max="{{$pieza->Stock}}" id="cantidadPiezas{{$i}}" onchange="habilitarAgregar('P',{{$i}})"></td>
                                             
                                             <td><button id="addBtnP{{$i}}" type="button" class="btn btn-info" data-dismiss="modal" 
-                                                onclick="agregarPieza('{{json_encode($pieza)}}');" disabled="true">Agregar</button></td>
+                                                onclick="agregarPieza('{{json_encode($pieza)}}','{{$i}}');" disabled="true">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -300,10 +300,10 @@
                                             <td>{{ $material->CodigoMaterial }}</td>
                                             <td>{{ $material->Material }}</td>
                                             <td>{{ $material->Stock }}</td>
-                                            <td><input type="number" min="1" max="{{$material->Stock}}" id="cantidadMaterial" onchange="habilitarAgregar('M',{{$i}})"></td>
+                                            <td><input type="number" min="1" max="{{$material->Stock}}" id="cantidadMaterial{{$i}}" onchange="habilitarAgregar('M',{{$i}})"></td>
                                             
                                             <td><button id="addBtnM{{$i}}" type="button" class="btn btn-info" data-dismiss="modal" 
-                                                onclick="agregaMaterial('{{($material)}}');" disabled="true">Agregar</button></td>
+                                                onclick="agregaMaterial('{{($material)}}','{{$i}}');" disabled="true">Agregar</button></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -375,4 +375,5 @@
 
 @section('js')
 <script src="{{ asset('js/confeccionarDespiece.js') }}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop

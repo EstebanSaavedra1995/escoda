@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Stock;
+
 use App\Models\Pieza;
 use App\Http\Controllers\Controller;
 use App\Models\ArticulosGenerales;
 use App\Models\Conjunto;
+use App\Models\conjuntoArticulos;
+use App\Models\ConjuntoArticulos as ModelsConjuntoArticulos;
+use App\Models\ConjuntoGomas;
 use App\Models\Goma;
 use App\Models\MaterialPieza;
 use App\Models\PiezaDeConjunto;
@@ -13,83 +17,161 @@ use Illuminate\Http\Request;
 
 class ConfeccionarDespieceController extends Controller
 {
-    public function index(){
-        $piezas= Pieza::all();
-        $gomas= Goma::all();
-        $articulos= ArticulosGenerales::all();
-        $materiales= Material::all();
-        
-        return view('admin\stock\confeccionarDespiece',compact(['piezas','gomas','articulos','materiales']));
+  public function index()
+  {
+    $piezas = Pieza::all();
+    $gomas = Goma::all();
+    $articulos = ArticulosGenerales::all();
+    $materiales = Material::all();
 
+    return view('admin\stock\confeccionarDespiece', compact(['piezas', 'gomas', 'articulos', 'materiales']));
+  }
 
+  public function piezas()
+  {
+    if (request()->getMethod() == 'POST') {
+      $check = request('ck');
+
+      if ($check == 'piezas') {
+        $piezas = Pieza::all();
+        $materialPieza = MaterialPieza::all();
+        $resultado = [
+          'piezas' => $piezas,
+          'materialPieza' => $materialPieza
+        ];
+      }
+
+      if ($check == 'conjuntos') {
+        $conjunto = Conjunto::all();
+        $piezaConjunto = PiezaDeConjunto::all();
+        $resultado = [
+          'conjunto' => $conjunto,
+          'piezaConjunto' => $piezaConjunto
+        ];
+      }
+
+      return json_encode($resultado);
     }
+  }
 
-    public function piezas(){
-        if (request()->getMethod() == 'POST') {
-          $check = request('ck');
-          
-          if ($check == 'piezas'){ 
-            $piezas = Pieza::all();
-            $materialPieza = MaterialPieza::all();
-            $resultado = [
-              'piezas' => $piezas,
-              'materialPieza' => $materialPieza
-            ];
-          }
+  public function tabla()
+  {
+    if (request()->getMethod() == 'POST') {
+      $codPieza = request('piezas');
 
-          if ($check == 'conjuntos'){ 
-            $conjunto = Conjunto::all();
-            $piezaConjunto = PiezaDeConjunto::all(); 
-            $resultado = [
-              'conjunto' => $conjunto,
-              'piezaConjunto' => $piezaConjunto
-            ];
-          }
- 
-          return json_encode($resultado);
+      $check = request('ck');
+
+      if ($check == 'piezas') {
+        $materialPieza = MaterialPieza::where('codigoPieza', $codPieza)->first();
+        $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
+        $resultado = [
+          'material' => $material,
+          'cantidad' => $materialPieza->longitudCorte
+        ];
+      }
+
+      if ($check == 'conjuntos') {
+        $codPiezas = PiezaDeConjunto::where('codigoCjto', $codPieza)->get();
+        $codArticulos = ConjuntoArticulos::where('CodPieza', $codPieza)->get();
+        $codGomas = ConjuntoGomas::where('CodPieza', $codPieza)->get();
+        $resultado = [];
+        //obtengo piezas
+        foreach ($codPiezas as  $value) {
+          $resultado[] = [
+            'tipo' => 'pieza',
+            'pieza' => Pieza::where('CodPieza', $value->codigoPieza)->first(),
+            'cantidad' => $value->Cantidad
+          ];
+        }
+        //obtengo articulos
+        foreach ($codArticulos as  $value) {
+          $resultado[] = [
+            'tipo' => 'articulo',
+            'articulo' => ArticulosGenerales::where('CodArticulo', $value->CodArticulo)->first(),
+            'cantidad' => $value->Cantidad
+          ];
+        }
+        //obtengo gomas
+        foreach ($codGomas as  $value) {
+          $resultado[] = [
+            'tipo' => 'goma',
+            'goma' => Goma::where('CodigoGoma', $value->CodigoGoma)->first(),
+            'cantidad' => $value->Cantidad
+          ];
         }
       }
 
-      public function tabla(){
-        if (request()->getMethod() == 'POST')
-        {
-            $codPieza = request('piezas');
-            
-            $check = request('ck');
-          
-            if ($check == 'piezas'){
-                $materialPieza = MaterialPieza::where('codigoPieza', $codPieza)->first();  
-                $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
-                $resultado = [
-                    'material' => $material,
-                    'cantidad' => $materialPieza->longitudCorte
-                  ];
-                
-            }
-  
-            if ($check == 'conjuntos'){ 
-                $codPiezas = PiezaDeConjunto::where('codigoCjto', $codPieza)->get();
-                $piezasConjunto = [];
-                $resultado = [];
-                foreach ($codPiezas as  $value) {
-                  $cantidad = $value->Cantidad;
-                    $piezasConjunto [] = [
-                      'pieza' => Pieza::where('CodPieza', $value->codigoPieza)->first(),
-                      'cantidad' => $cantidad
-                    ];
-                    
-                }
-                $resultado = $piezasConjunto;
-                
-                //$resultado = $piezasConjunto;
-            }
+      return json_encode($resultado);
+    }
+  }
 
-            return json_encode($resultado);
-            
-        }   
+  function predeterminar()
+  {
+    if (request()->getMethod() == 'POST') {
+      $tabla = request('valores');
+      $check = request('ck');
+      $conjunto = request('conjunto');
+      $tabla = json_decode($tabla);
+
+      if ($check == 'piezas') {
+        $material = new MaterialPieza();
+        foreach ($tabla as $value) {
+          $material->codigoPieza = $conjunto;
+          $material->codigoMaterial = $value->id;
+        }
       }
 
-/*       public function addGoma()
+      if ($check == 'conjuntos') {
+        //$pieza = new PiezaDeConjunto();
+        $articulo = new ConjuntoArticulos();
+        $goma = new ConjuntoGomas();
+        $pieza = PiezaDeConjunto::where('codigoCjto', '=', $conjunto)->get();
+      
+        foreach ($pieza as $a) {
+          $a->delete();
+        }
+
+        foreach ($tabla as $value) {
+
+          switch ($value->tipo) {
+            case 'pieza':
+              /* $pieza = PiezaDeConjunto::where('codigoCjto', '=', $conjunto)
+                                        ->where('codigoPieza','=', $value->id)
+                                        ->first();
+              if ($pieza != null) {
+                $pieza->delete();
+              } */
+              $pieza = new PiezaDeConjunto();
+              $pieza->codigoCjto = $conjunto;
+              $pieza->codigoPieza = $value->id;
+              $pieza->Cantidad = $value->cantidad;
+              $pieza->save();
+              break;
+
+            case 'articulo':
+              $articulo->CodPieza = $conjunto;
+              $articulo->CodArticulo = $value->id;
+              $articulo->Cantidad = $value->cantidad;
+              break;
+
+            case 'goma':
+              $goma->CodPieza = $conjunto;
+              $goma->CodigoGoma = $value->id;
+              $goma->Cantidad = $value->cantidad;
+              break;
+          }
+        }
+
+        //$articulo->save();
+        //$goma->save();
+      }
+
+      //echo var_dump($tabla);
+      return json_encode("gil");
+    }
+  }
+
+  /*       public function addGoma()
       {
         if (request()->getMethod() == 'POST') {
           $material= json_decode(request('material'));

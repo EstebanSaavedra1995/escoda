@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PiezaDeConjunto extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    protected $primaryKey = 'codigoCjto';
     protected $table= 'piezadeconjunto';
 
 }
