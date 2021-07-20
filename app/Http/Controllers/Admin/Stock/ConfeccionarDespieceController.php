@@ -114,20 +114,28 @@ class ConfeccionarDespieceController extends Controller
       $tabla = json_decode($tabla);
 
       if ($check == 'piezas') {
+        $material = MaterialPieza::where('codigoPieza', $conjunto)->delete();
+        $value= $tabla[0];
         $material = new MaterialPieza();
-        foreach ($tabla as $value) {
-          $material->codigoPieza = $conjunto;
-          $material->codigoMaterial = $value->id;
-        }
+        $material->codigoPieza = $conjunto;
+        $material->codigoMaterial = $value->id;
+        $material->longitudCorte = $value->cantidad;
+        $material->save(); 
       }
 
       if ($check == 'conjuntos') {
         //$pieza = new PiezaDeConjunto();
-        $articulo = new ConjuntoArticulos();
-        $goma = new ConjuntoGomas();
-        $pieza = PiezaDeConjunto::where('codigoCjto', '=', $conjunto)->get();
-      
+        $articulo = ConjuntoArticulos::where('CodPieza', $conjunto)->get();
+        $goma = ConjuntoGomas::where('CodPieza', $conjunto)->get();
+        $pieza = PiezaDeConjunto::where('codigoCjto', $conjunto)->get();
+
         foreach ($pieza as $a) {
+          $a->delete();
+        }
+        foreach ($articulo as $a) {
+          $a->delete();
+        }
+        foreach ($goma as $a) {
           $a->delete();
         }
 
@@ -135,12 +143,6 @@ class ConfeccionarDespieceController extends Controller
 
           switch ($value->tipo) {
             case 'pieza':
-              /* $pieza = PiezaDeConjunto::where('codigoCjto', '=', $conjunto)
-                                        ->where('codigoPieza','=', $value->id)
-                                        ->first();
-              if ($pieza != null) {
-                $pieza->delete();
-              } */
               $pieza = new PiezaDeConjunto();
               $pieza->codigoCjto = $conjunto;
               $pieza->codigoPieza = $value->id;
@@ -149,35 +151,24 @@ class ConfeccionarDespieceController extends Controller
               break;
 
             case 'articulo':
+              $articulo = new conjuntoArticulos();
               $articulo->CodPieza = $conjunto;
               $articulo->CodArticulo = $value->id;
               $articulo->Cantidad = $value->cantidad;
+              $articulo->save();
               break;
 
             case 'goma':
+              $goma = new ConjuntoGomas();
               $goma->CodPieza = $conjunto;
               $goma->CodigoGoma = $value->id;
               $goma->Cantidad = $value->cantidad;
+              $goma->save();
               break;
           }
         }
-
-        //$articulo->save();
-        //$goma->save();
       }
-
-      //echo var_dump($tabla);
-      return json_encode("gil");
+      return json_encode("");
     }
   }
-
-  /*       public function addGoma()
-      {
-        if (request()->getMethod() == 'POST') {
-          $material= json_decode(request('material'));
-          $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $material->CodigoMaterial)->get();
-          $resultado = ['coladaMaterial' => $coladaMaterial, 'material' => $material];
-          return json_encode($resultado);
-        }
-      } */
 }

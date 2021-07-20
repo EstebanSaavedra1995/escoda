@@ -67,32 +67,45 @@ document.getElementById('predeterminarbtn').addEventListener('click', function (
     var tipo = document.getElementsByClassName('tblTipo');
     var cantidad = document.getElementsByClassName('tblCantidad');
     var conjunto = document.getElementById('piezas').value;
+    //console.log((codigos[0] == null));
+    if (codigos[0] == null) {
+        swal("Aviso!", "No puede predeterminar la tabla vacia!");
 
-    var val = [];
-    for (i = 0; i < codigos.length; i++) {
-        let e = {
-            id: codigos[i].value,
-            tipo: tipo[i].value,
-            cantidad: cantidad[i].value
-        };
-        val.push(e);
     }
-    val = JSON.stringify(val);
-    const datos = new FormData(document.getElementById('formulario'));
-    datos.append('valores', val);
-    datos.append('conjunto', conjunto);
-    fetch('/admin/confeccionardespiecepredeterminar', {
-        method: 'POST',
-        body: datos,
-    })
-        .then(res => res.json())
-        .then(data => {
-
-
-            console.log(data);
-
-
+    else
+    {
+        var val = [];
+        for (i = 0; i < codigos.length; i++) {
+            let e = {
+                id: codigos[i].value,
+                tipo: tipo[i].value,
+                cantidad: cantidad[i].value
+            };
+            val.push(e);
+        }
+        val = JSON.stringify(val);
+        //console.log(val);
+        const datos = new FormData(document.getElementById('formulario'));
+        datos.append('valores', val);
+        datos.append('conjunto', conjunto);
+        
+        fetch('/admin/confeccionardespiecepredeterminar', {
+            method: 'POST',
+            body: datos,
         })
+            .then(res => res.json())
+            .then(data => {
+    
+    
+                //console.log(data);
+                swal("Predeterminado con exito!", {
+                    icon: "success",
+                });
+    
+    
+            })
+    }
+    
 }, true)
 
 
@@ -131,7 +144,7 @@ document.getElementById('piezas').addEventListener('change', function (e) {
                             datos += `<input type="hidden" class="tblCodigo" value="${e.pieza.CodPieza}"> `;
                             datos += `<input type="hidden" class="tblTipo" value="${e.tipo}"> `;
                             datos += `<input type="hidden" class="tblCantidad" value="${e.cantidad}"> `;
-                            
+
                             datos += `<td scope="col" > ${e.pieza.CodPieza} - ${e.pieza.NombrePieza} - ${e.pieza.Medida} </td>`;
                             datos += `<td scope="col" class="">${e.cantidad}</td>`;
                             datos += `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${e.pieza.CodPieza}');">Eliminar</button></td>`;
@@ -163,14 +176,19 @@ document.getElementById('piezas').addEventListener('change', function (e) {
 
 
                 });
+                habilitarBotones('conjunto');
             } else {
                 var material = data['material'];
-                datos += `<div style="display: none" ><input type="text" class="tbl" value="${material.CodigoMaterial}"></div> `;
+                var cantidad = data['cantidad'];
                 datos += `<tr id="${material.CodigoMaterial}" class=""><td scope="col" class=""> Material </td>`;
+                datos += `<input type="hidden" id="id${material.CodigoMaterial}" class="tblCodigo" value="${material.CodigoMaterial}"> `;
+                datos += `<input type="hidden" id="tipo${material.CodigoMaterial}" class="tblTipo" value="pieza"> `;
+                datos += `<input type="hidden" id="cantidad${material.CodigoMaterial}" class="tblCantidad" value="${cantidad}"> `;
                 datos += `<td scope="col" > ${material.CodigoMaterial} - ${material.Material} - ${material.Dimension} </td>`;
                 datos += `<td scope="col" class="">${data['cantidad']}</td>`;
                 datos += `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${material.CodigoMaterial}');">Eliminar</button></td>`;
                 datos += `</tr>`;
+                habilitarBotones('pieza');
             }
             tabla.innerHTML = datos;
             //tabla.insertAdjacentHTML("beforeEnd",datos);
@@ -214,7 +232,7 @@ function agregarGoma(goma, i) {
     var cantidad = cantidadInput.value;
     let datos = `<tr id="${goma.CodigoGoma}"><td>Goma</td>`;
     datos += `<input type="hidden" id="id${goma.CodigoGoma}" class="tblCodigo" value="${goma.CodigoGoma}"> `;
-    datos += `<input type="hidden" id="tipo${goma.CodigoGoma}" class="tblTipo" value="pieza"> `;
+    datos += `<input type="hidden" id="tipo${goma.CodigoGoma}" class="tblTipo" value="goma"> `;
     datos += `<input type="hidden" id="cantidad${goma.CodigoGoma}" class="tblCantidad" value="${cantidad}"> `;
     datos += `<td value="${goma.CodigoGoma}">${goma.CodigoGoma} - ØI ${goma.DiametroInterior} - ØE ${goma.DiametroExterior} - h ${goma.Altura}</td>`
     datos += `<td value="${cantidad}">${cantidad}</td>`
@@ -236,7 +254,7 @@ function agregarArticulo(articulo, i) {
     var cantidad = cantidadInput.value;
     let datos = `<tr id="${articulo.CodArticulo}"><td>Artículos Grales.</td>`;
     datos += `<input type="hidden" id="id${articulo.CodArticulo}" class="tblCodigo" value="${articulo.CodArticulo}"> `;
-    datos += `<input type="hidden" id="tipo${articulo.CodArticulo}" class="tblTipo" value="pieza"> `;
+    datos += `<input type="hidden" id="tipo${articulo.CodArticulo}" class="tblTipo" value="articulo"> `;
     datos += `<input type="hidden" id="cantidad${articulo.CodArticulo}" class="tblCantidad" value="${cantidad}"> `;
     datos += `<td value="${articulo.CodArticulo}">${articulo.CodArticulo} -  ${articulo.Descripcion} </td>`
     datos += `<td value="${cantidad}">${cantidad}</td>`
@@ -264,7 +282,7 @@ function agregarPieza(pieza, i) {
     datos += `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${pieza.CodPieza}');">Eliminar</button></td></tr>`;
     var tabla = document.getElementById('tabla');
     cantidadInput.value = "";
-    console.log(document.getElementById(pieza.CodPieza));
+    //console.log(document.getElementById(pieza.CodPieza));
     var existe = document.getElementById(pieza.CodPieza);
     if (existe == null) {
         tabla.insertAdjacentHTML("beforeEnd", datos);
@@ -279,18 +297,17 @@ function agregaMaterial(material, i) {
     var cantidadInput = document.getElementById('cantidadMaterial' + i);
     var cantidad = cantidadInput.value;
     let datos = `<tr id="${material.CodigoMaterial}"><td>Material</td>`;
+    datos += `<input type="hidden" id="id${material.CodigoMaterial}" class="tblCodigo" value="${material.CodigoMaterial}"> `;
+    datos += `<input type="hidden" id="tipo${material.CodigoMaterial}" class="tblTipo" value="pieza"> `;
+    datos += `<input type="hidden" id="cantidad${material.CodigoMaterial}" class="tblCantidad" value="${cantidad}"> `;
     datos += `<td value="${material.CodigoMaterial}">${material.CodigoMaterial} -  ${material.Material} - ${material.Dimension}</td>`
     datos += `<td value="${cantidad}">${cantidad}</td>`
     datos += `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${material.CodigoMaterial}');">Eliminar</button></td></tr>`;
     var tabla = document.getElementById('tabla');
     cantidadInput.value = "";
-    var existe = document.getElementById(material.CodigoMaterial);
-    if (existe == null) {
-        tabla.insertAdjacentHTML("beforeEnd", datos);
-    } else {
-        eliminarSinAlert(material.CodigoMaterial);
-        tabla.insertAdjacentHTML("beforeEnd", datos);
-    }
+    eliminarTodoSinAlert();
+    tabla.insertAdjacentHTML("beforeEnd", datos);
+
 }
 
 //Habilita el boton agregar con al menos 1 unidad
@@ -315,6 +332,34 @@ function habilitarAgregar(tipo, i) {
         default:
     }
 }
+//HABILITA LOS BOTONES DE AGREGAR ELEMENTOS
+function habilitarBotones(tipo) {
+    var material= document.getElementById(`materialbtn`);
+    var pieza= document.getElementById(`piezabtn`);
+    var articulo= document.getElementById(`articulobtn`);
+    var goma= document.getElementById(`gomabtn`);
+    switch (tipo) {
+        case 'vacio':
+            material.disabled = true;
+            pieza.disabled = true;
+            articulo.disabled = true;
+            goma.disabled = true;
+            break;
+        case 'conjunto':
+            material.disabled = true;
+            pieza.disabled = false;
+            articulo.disabled = false;
+            goma.disabled = false;
+            break;
+        case 'pieza':
+            material.disabled = false;
+            pieza.disabled = true;
+            articulo.disabled = true;
+            goma.disabled = true;
+            break;
+        default:
+    }
+}
 
 function eliminar(id) {
     swal({
@@ -329,11 +374,11 @@ function eliminar(id) {
                 swal("El registro ha sido eliminado!", {
                     icon: "success",
                 });
-                
+
                 let parent = document.getElementById(id).parentNode;
                 parent.removeChild(document.getElementById(id));
-                
-                
+
+
 
             } else {
                 /* swal("Your imaginary file is safe!"); */
@@ -344,6 +389,17 @@ function eliminar(id) {
 function eliminarSinAlert(id) {
     let parent = document.getElementById(id).parentNode;
     parent.removeChild(document.getElementById(id));
+}
+function eliminarTodoSinAlert() {
+    let datos = "";
+    datos += `<thead><tr class="">`;
+    datos += `<td scope="col" class="table-primary">Tipo</td>`;
+    datos += `<td scope="col" class="table-primary">Descripción</td>`;
+    datos += `<td scope="col" class="table-primary">Cantidad</td>`;
+    datos += `<td scope="col" class="table-primary">Accion</td>`;
+    datos += `</tr></thead>`;
+    let tabla = document.getElementById('tabla');
+    tabla.innerHTML = datos;
 }
 function eliminarTodo() {
     swal({

@@ -79,6 +79,7 @@
                                     <button type="button" class="btn btn-primary" id="">Exel</button>
                                 </div>
                                 
+                                
                             </section>
                     </div>
                 </div>
@@ -375,5 +376,6 @@
 
 @section('js')
 <script src="{{ asset('js/confeccionarDespiece.js') }}"></script>
+<script> habilitarBotones('vacio');</script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop
