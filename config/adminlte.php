@@ -330,7 +330,7 @@ return [
         ],
         [
             'text' => 'Egresos y Etiquetas',
-            'url'  => 'admin/settings',
+            'route'  => 'registrar.egresos',
             'icon' => 'fas fa-fw fa-tags',
         ],
         [
