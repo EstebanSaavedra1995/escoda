@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PiezaDeConjunto extends Model
+class ConjuntoGomas extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $primaryKey = 'codigoCjto';
-    protected $table= 'piezadeconjunto';
-
+    protected $primaryKey = 'CodPieza';
+    protected $table= 'conjuntogoma';
 }
