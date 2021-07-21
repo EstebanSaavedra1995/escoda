@@ -25,23 +25,23 @@ class ConstruccionController extends Controller
     $piezas = Pieza::all();
     $materiales = Material::all();
     $construccion = Construccion::orderBy('NroOC', 'desc')->first();
-    $tareas= Tarea::all();
-    $maquinas= Maquina::all();
-    $supervisores= Personal::where('Cargo', 'Supervisor de Área')
-                          ->where('Estado','A')->get();
+    $tareas = Tarea::all();
+    $maquinas = Maquina::all();
+    $supervisores = Personal::where('Cargo', 'Supervisor de Área')
+      ->where('Estado', 'A')->get();
 
 
 
-    $operarios= Personal::Where('Estado','A')
-    ->orwhere([
-      ['Cargo','Operario Ayudante'],
-      ['Cargo','Operario c/ Especializacion'],
-      ['Cargo','Supervisor de Área']
+    $operarios = Personal::Where('Estado', 'A')
+      ->orwhere([
+        ['Cargo', 'Operario Ayudante'],
+        ['Cargo', 'Operario c/ Especializacion'],
+        ['Cargo', 'Supervisor de Área']
       ])->get();
     $nroOC = $construccion->NroOC;
     $largo = strlen($nroOC);
     $nuevaOC = sprintf("%'0{$largo}d\n", intval($nroOC) + 1);
-    return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas','materiales','tareas','maquinas','supervisores','operarios']));
+    return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas', 'materiales', 'tareas', 'maquinas', 'supervisores', 'operarios']));
   }
 
   public function piezas()
@@ -53,7 +53,7 @@ class ConstruccionController extends Controller
         $material = Material::where('CodigoMaterial', $materialPieza->codigoMaterial)->first();
         $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $materialPieza->codigoMaterial)->get();
         $piezaTarea = PiezaTarea::where('codigoPieza', $codPieza)->get();
-       
+
         $resultado = [
           'materialPieza' => $materialPieza, 'material' => $material,
           'coladaMaterial' => $coladaMaterial, 'piezaTarea' => $piezaTarea
@@ -70,8 +70,8 @@ class ConstruccionController extends Controller
   public function material()
   {
     if (request()->getMethod() == 'POST') {
-      $codigoMaterial= request('codigoMaterial');
-      $material= Material::where('CodigoMaterial', $codigoMaterial)->first();
+      $codigoMaterial = request('codigoMaterial');
+      $material = Material::where('CodigoMaterial', $codigoMaterial)->first();
       $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $codigoMaterial)->get();
       $resultado = ['coladaMaterial' => $coladaMaterial, 'material' => $material];
       return json_encode($resultado);
@@ -80,9 +80,30 @@ class ConstruccionController extends Controller
   public function buscarMaterial()
   {
     if (request()->getMethod() == 'POST') {
-      $buscador= request('buscarmaterial');
-      $materiales = Material::where('CodigoMaterial','LIKE','%'.$buscador.'%')->get();
+      $buscador = request('buscarmaterial');
+      $materiales = Material::where('CodigoMaterial', 'LIKE', '%' . $buscador . '%')->get();
       return json_encode($materiales);
+    }
+  }
+  public function modificarTarea()
+  {
+    if (request()->getMethod() == 'POST') {
+
+      $tareas = Tarea::all();
+      $maquinas = Maquina::all();
+      $supervisores = Personal::where('Cargo', 'Supervisor de Área')
+        ->where('Estado', 'A')->get();
+      $operarios = Personal::Where('Estado', 'A')
+        ->orwhere([
+          ['Cargo', 'Operario Ayudante'],
+          ['Cargo', 'Operario c/ Especializacion'],
+          ['Cargo', 'Supervisor de Área']
+        ])->get();
+      $operarios = [
+        'tareas' => $tareas, 'maquinas' => $maquinas,
+        'supervisores' => $supervisores, 'operarios' => $operarios
+      ];
+      return json_encode($operarios);
     }
   }
 }
