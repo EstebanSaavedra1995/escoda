@@ -7,6 +7,7 @@ use App\Models\Pieza;
 use App\Models\MaterialPieza;
 use App\Models\Conjunto;
 use App\Models\PiezaDeConjunto;
+use App\Models\TrazabilidadConjuntos;
 use Illuminate\Http\Request;
 
 class RegistrarEgresosController extends Controller
@@ -23,23 +24,33 @@ class RegistrarEgresosController extends Controller
   
         if ($check == 'piezas') {
           $piezas = Pieza::all();
-          $materialPieza = MaterialPieza::all();
+          //$materialPieza = MaterialPieza::all();
           $resultado = [
             'piezas' => $piezas,
-            'materialPieza' => $materialPieza
+            'materialPieza' => null
           ];
         }
   
         if ($check == 'conjuntos') {
           $conjunto = Conjunto::all();
-          $piezaConjunto = PiezaDeConjunto::all();
+          //$piezaConjunto = PiezaDeConjunto::all();
           $resultado = [
             'conjunto' => $conjunto,
-            'piezaConjunto' => $piezaConjunto
+            'piezaConjunto' => null
           ];
         }
   
         return json_encode($resultado);
       }
     }
+
+    public function tabla(){
+      if (request()->getMethod() == 'POST') {
+        //$check = request('ckMod');
+        $trazabilidad = TrazabilidadConjuntos::all();
+        return json_encode($trazabilidad);
+      }
+    }
+
+    
 }
