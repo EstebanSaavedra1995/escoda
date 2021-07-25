@@ -29,6 +29,7 @@ Route::post('/admin/confeccionardespiecepiezas',[ConfeccionarDespieceController:
 Route::post('/admin/confeccionardespiecetabla',[ConfeccionarDespieceController::class,'tabla']);
 Route::post('/admin/confeccionardespiecepredeterminar',[ConfeccionarDespieceController::class,'predeterminar']);
 Route::get('/admin/registraregreso',[RegistrarEgresosController::class,'index'])->name('registrar.egresos');
-Route::post('/admin/registraregresopiezas',[ConfeccionarDespieceController::class,'piezas']);
+Route::post('/admin/registraregresopiezas',[RegistrarEgresosController::class,'piezas']);
+Route::post('/admin/registraregresotabla',[RegistrarEgresosController::class,'tabla']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
 
