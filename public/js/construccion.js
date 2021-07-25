@@ -1,3 +1,76 @@
+function verificarRadios() {
+    let nameradio = document.getElementsByName('nameradio');
+    let flag = false;
+
+    for (let i = 0; i < nameradio.length; i++) {
+        if (nameradio[i].checked === true) {
+            flag = true;
+        }
+    }
+    return flag;
+}
+function validar() {
+    let celdasincorrectas = document.getElementsByClassName('celdasincorrectas').length;
+    let filasDeTarea = document.getElementsByClassName('filasDeTarea').length;
+    let cantidadrealizar = document
+    let radios = verificarRadios();
+
+
+    if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar != 0 && radios == true) {
+        enviarDatos();
+    } else {
+        swal({
+            title: "¡Faltan datos por completar!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+}
+function enviarDatos() {
+    const datos = new FormData(document.getElementById('formulario'));
+    let arreglo = pasarFilas();
+    datos.append('arreglo', arreglo);
+    fetch('/admin/construccion/agregarconstruccion', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+
+}
+
+function pasarFilas() {
+    let filas = document.getElementsByClassName('filasDeTarea');
+    let filasText = [];
+
+    for (let i = 0; i < filas.length; i++) {
+        let celdas = filas[i].cells;
+        let celdasText = [];
+        for (let j = 0; j < 5; j++) {
+            celdasText.push(celdas[j].innerHTML);
+        }
+        filasText.push(celdasText);
+    }
+    return JSON.stringify(filasText);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Cada vez que selecciona una pieza en el selector
 document.getElementById('piezas').addEventListener('change', function (e) {
@@ -16,6 +89,8 @@ document.getElementById('piezas').addEventListener('change', function (e) {
             } else {
                 let material = document.getElementById('material');
                 material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
+                let idmaterial = document.getElementById('idmaterial');
+                idmaterial.value = data.material.CodigoMaterial;
                 let longcorte = document.getElementById('longcorte');
                 longcorte.value = data.materialPieza.longitudCorte;
                 let cantidadNecesaria = document.getElementById('cantidad-necesaria');
@@ -89,7 +164,7 @@ function modificarTareas(tarea, maquina) {
                 if (option.text === tarea) {
                     option.selected = true;
                 }
-                option.disabled=true;
+                option.disabled = true;
                 option.value = str;
                 comboTareas.appendChild(option);
             })
@@ -121,6 +196,8 @@ function modificarTareas(tarea, maquina) {
                 }
                 comboSupervisor.appendChild(option);
             })
+
+
         })
 
 
@@ -130,7 +207,7 @@ $mtarea.on('click', modificarTareas);
 ////////////////////////////////////////////////////////
 let $mtarea2 = $('#modificarTarea2');
 
-function modificarTareas2(tarea, maquina, operario, supervisor,horas) {
+function modificarTareas2(tarea, maquina, operario, supervisor, horas) {
     vaciarSelector();
     const datos = new FormData(document.getElementById('formulario-modalmodificartareas'));
     let idMaquina = maquina.split(" ", 1);
@@ -146,9 +223,8 @@ function modificarTareas2(tarea, maquina, operario, supervisor,horas) {
     })
         .then(res => res.json())
         .then(data => {
-            let horasminutos= document.getElementById('modificarhoraminuto');
-            horasminutos.value= horas;
-            console.log(horasminutos);
+            let horasminutos = document.getElementById('modificarhoraminuto');
+            horasminutos.value = horas;
 
             idTareaModifcar.value = tarea;
             data.tareas.forEach(tareas => {
@@ -158,7 +234,7 @@ function modificarTareas2(tarea, maquina, operario, supervisor,horas) {
                 if (option.text === tarea) {
                     option.selected = true;
                 }
-                option.disabled=true;
+                option.disabled = true;
                 option.value = str;
                 comboTareas.appendChild(option);
             })
@@ -193,6 +269,7 @@ function modificarTareas2(tarea, maquina, operario, supervisor,horas) {
                 option.value = str;
                 comboSupervisor.appendChild(option);
             })
+
         })
 
 
@@ -215,49 +292,80 @@ function realizarModificacion() {
 
     let comboSupervisor = document.getElementById('supervisor-modificar').value;
     comboSupervisor = JSON.parse(comboSupervisor);
-    
-    let horas= document.getElementById('modificarhoraminuto').value;
+
+    let horas = document.getElementById('modificarhoraminuto').value;
 
 
     let idTareaModifcar = document.getElementById('idTareaModificar').value;
     let fila = document.getElementById(idTareaModifcar);
-    fila.innerHTML = '';
-    fila.id= comboTareas.Tarea.trim();
 
-    let celda1 = document.createElement('td');
-    celda1.innerHTML = comboTareas.Tarea.trim();
-    fila.appendChild(celda1);
+    if (comboMaquinas.NombreMaquina === '(Ninguna)') {
+        event.stopPropagation();
+        swal({
+            title: "¡Debe elegir una maquina!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    } else if (comboOperario.NroLegajo === '000') {
+        event.stopPropagation();
+        swal({
+            title: "¡Debe elegir un operario!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+    else if (horas === '') {
+        event.stopPropagation();
+        swal({
+            title: "¡Debe ingresar un tiempo estimado!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+    else {
+
+        fila.innerHTML = '';
+        fila.id = comboTareas.Tarea.trim();
+
+        let celda1 = document.createElement('td');
+        celda1.innerHTML = comboTareas.Tarea.trim();
+        fila.appendChild(celda1);
 
 
-    let celda2 = document.createElement('td');
-    celda2.innerHTML = `${comboMaquinas.CodMaquina} - ${comboMaquinas.NombreMaquina}`;
-    fila.appendChild(celda2);
+        let celda2 = document.createElement('td');
+        celda2.innerHTML = `${comboMaquinas.CodMaquina} - ${comboMaquinas.NombreMaquina}`;
+        fila.appendChild(celda2);
 
-    let celda3 = document.createElement('td');
-    celda3.innerHTML = `${comboOperario.NroLegajo} - ${comboOperario.ApellidoNombre}`;
-    fila.appendChild(celda3);
+        let celda3 = document.createElement('td');
+        celda3.innerHTML = `${comboOperario.NroLegajo} - ${comboOperario.ApellidoNombre}`;
+        fila.appendChild(celda3);
 
-    let celda4 = document.createElement('td');
-    celda4.innerHTML = `${comboSupervisor.NroLegajo} - ${comboSupervisor.ApellidoNombre}`;
-    fila.appendChild(celda4);
+        let celda4 = document.createElement('td');
+        celda4.innerHTML = `${comboSupervisor.NroLegajo} - ${comboSupervisor.ApellidoNombre}`;
+        fila.appendChild(celda4);
 
-    let celda5 = document.createElement('td');
-    celda5.innerHTML = horas;
-    fila.appendChild(celda5);
+        let celda5 = document.createElement('td');
+        celda5.innerHTML = horas;
+        fila.appendChild(celda5);
 
-    let celda6 = document.createElement('td');
-    let botones = `<button type="button" class="btn btn-info" id= "modificarTarea2" onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');"> Modificar</button>`;
-    botones += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${fila.id}');"> Eliminar </button>`;
-    celda6.innerHTML = botones;
-    fila.appendChild(celda6);
-
+        let celda6 = document.createElement('td');
+        let botones = `<button type="button" class="btn btn-info" id= "modificarTarea2" onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');"> Modificar</button>`;
+        botones += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${fila.id}');"> Eliminar </button>`;
+        celda6.innerHTML = botones;
+        fila.appendChild(celda6);
+        swal({
+            title: "¡La tarea se ha modificado con éxito!",
+            icon: "success",
+            button: "Aceptar",
+        });
+    }
     /*  console.log(JSON.parse(comboMaquinas)); //IMPORTANTEEE */
 
 }
 $idbtnModificarTarea.on('click', realizarModificacion);
 
 //Cada vez que se cambie el valor de cantidad a realizar, la multiplique por la longitud de corte y lo ponga en cantidad necesaria
-document.getElementById('cantidad-realizar').addEventListener('change', function (e) {
+document.getElementById('cantidad-realizar').addEventListener('keyup', function (e) {
     e.preventDefault();
     let cantidadNecesaria = document.getElementById('cantidad-necesaria');
     let cantidadRealizar = document.getElementById('cantidad-realizar');
@@ -280,6 +388,11 @@ const agregarMaterial = (codigoMaterial) => {
             let material = document.getElementById('material');
             material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
             completarColadas(data.coladaMaterial);
+            swal({
+                title: "¡El material se ha agregado con éxito!",
+                icon: "success",
+                button: "Aceptar",
+            });
             /* alert(data); */
         })
     /*  alert(material); */
@@ -291,14 +404,27 @@ const agregarMaterial = (codigoMaterial) => {
 }); */
 
 function eliminarTarea(id) {
-    
+    swal({
+        title: "¿Desea eliminar la tarea?",
+        /* text: "Once deleted, you will not be able to recover this imaginary file!", */
+        icon: "warning",
+        buttons: ["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal("¡La tarea ha sido eliminada!", {
+                    icon: "success",
+                    button: "Aceptar",
+                });
+
+                let parent = document.getElementById(id).parentNode;
+                parent.removeChild(document.getElementById(id));
+
+            }
+        });
 
 
-
-
-
-    let parent = document.getElementById(id).parentNode;
-    parent.removeChild(document.getElementById(id));
 }
 /* function modificarTarea() {
     alert('id');
@@ -329,7 +455,7 @@ const completarColadas = (data) => {
     let tablacoladas = '';
     data.forEach(colada => {
         tablacoladas += `<tr>`;
-        tablacoladas += `<td> <input type="radio" name= "radio"> ${colada.Colada} </td>`;
+        tablacoladas += `<td> <input type="radio" name="nameradio" value="${colada.Colada}"> ${colada.Colada} </td>`;
         tablacoladas += `<td> ${colada.Stock} </td>`;
         tablacoladas += `</tr>`;
     })
@@ -343,12 +469,12 @@ const completarTareas = (data) => {
         let id = tarea.Tarea.trim();
         /* console.log(id); */
         tablatareas += `<tr class="filasDeTarea" id= "${id}">`;
-        tablatareas += `<td> ${tarea.Tarea} </td>`;
-        tablatareas += `<td> ${tarea.Maquina} </td>`;
-        tablatareas += `<td> Operario </td>`;
-        tablatareas += `<td> ${tarea.Supervisor} </td>`;
-        tablatareas += `<td> ${tarea.Horas} </td>`;
-        tablatareas += `<td><button type="button" class="btn btn-info" id= "modificarTarea" onclick="modificarTareas('${tarea.Tarea.trim()}','${tarea.Maquina}');"> Modificar</button>`;
+        tablatareas += `<td class="celdasincorrectas">${tarea.Tarea}</td>`;
+        tablatareas += `<td class="celdasincorrectas">${tarea.Maquina}</td>`;
+        tablatareas += `<td class="celdasincorrectas">Operario</td>`;
+        tablatareas += `<td class="celdasincorrectas">${tarea.Supervisor}</td>`;
+        tablatareas += `<td class="celdasincorrectas">${tarea.Horas}</td>`;
+        tablatareas += `<td class="celdasincorrectas"><button type="button" class="btn btn-info" id= "modificarTarea" onclick="modificarTareas('${tarea.Tarea.trim()}','${tarea.Maquina}');"> Modificar</button>`;
         tablatareas += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${id}');"> Eliminar </button>`;
         tablatareas += `</td></tr>`;
 
@@ -387,27 +513,65 @@ const agregarTareaModal = () => {
     let supervisor = datos.get('supervisor')
     supervisor = JSON.parse(supervisor);
 
-    let horaminuto= document.getElementById('horaminuto').value;
+    let horaminuto = document.getElementById('horaminuto').value;
 
     let id = tarea.Tarea.trim();
     let filas = document.getElementsByClassName("filasDeTarea");
 
+
+
     if (verificarTareaExistente(filas, id) === true) {
-        return alert('Existe la tarea');
-    } else {
-        //AGREGAR en 390 mas parametros para la funcion modificarTareas!!!
-        console.log(horaminuto);
+        event.stopPropagation();
+        swal({
+            title: "¡La tarea ya existe!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+    else if (maquina.NombreMaquina === '(Ninguna)') {
+        event.stopPropagation();
+        swal({
+            title: "¡Debe elegir una maquina!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+    else if (operario.NroLegajo === '000') {
+        event.stopPropagation();
+        swal({
+            title: "¡Debe elegir un operario!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+    else if (horaminuto === '') {
+        event.stopPropagation();
+        swal({
+            title: "¡Debe ingresar un tiempo estimado!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+
+    else {
+
         tablatareas = `<tr class="filasDeTarea" id="${id}">`;
-        tablatareas += `<td> ${tarea.Tarea}</td>`;
-        tablatareas += `<td> ${maquina.NombreMaquina} </td>`;
-        tablatareas += `<td> ${operario.NroLegajo} ${operario.ApellidoNombre} </td>`;
-        tablatareas += `<td> ${supervisor.NroLegajo} ${supervisor.ApellidoNombre} </td>`;
-        tablatareas += `<td> ${horaminuto}</td>`;
+        tablatareas += `<td>${tarea.Tarea}</td>`;
+        tablatareas += `<td>${maquina.NombreMaquina}</td>`;
+        tablatareas += `<td>${operario.NroLegajo} - ${operario.ApellidoNombre}</td>`;
+        tablatareas += `<td>${supervisor.NroLegajo} - ${supervisor.ApellidoNombre}</td>`;
+        tablatareas += `<td>${horaminuto}</td>`;
         tablatareas += `<td><button type="button" class="btn btn-info" id="modificarTarea" onclick="modificarTareas2('${tarea.Tarea}','${maquina.CodMaquina}','${operario.NroLegajo}','${supervisor.NroLegajo}','${horaminuto}');" >Modificar</button>`;
         tablatareas += `<button type="button" class="btn btn-danger" id="eliminar" onclick="eliminarTarea('${id}');">Eliminar</button>`;
         tablatareas += `</td></tr>`;
         let boton = document.getElementById('filaboton');
         boton.insertAdjacentHTML('beforebegin', tablatareas);
+
+        swal({
+            title: "¡La tarea se ha agregado con éxito!",
+            icon: "success",
+            button: "Aceptar",
+        });
         /* onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');" */
     }
 

@@ -15,6 +15,7 @@
 
         <form id="formulario" method="POST" action="">
             @csrf
+            <input type="hidden" value="{{$nuevaOC}}">
             <div class="card-body">
                 <div class="container">
                     <div class="row mb-2">
@@ -42,18 +43,19 @@
                     <div class="row mb-2">
                         <label class=" col mr-2">Material</label>
                         <input type="text" class="form-control col mr-2" id="material" name="material" readonly>
+                        <input type="hidden" id="idmaterial" name="idmaterial">
 
                         <button type="button" id="buscar" name="buscar" class="btn btn-primary col ">Buscar
                             materiales</button>
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Longitud de corte (mm)</label>
-                        <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte">
+                        <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte" readonly>
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Cantidad necesaria (mts)</label>
                         <input type="number" class="form-control col mr-2" id="cantidad-necesaria"
-                            name="cantidad-necesaria" >
+                            name="cantidad-necesaria" readonly >
                     </div>
                     <div class="contenedor-tabla">
                         <table class="table table-striped table-bordered table-scroll1">
@@ -89,7 +91,7 @@
             </div>
             <div class="card-footer">
             </div>
-            <button type="button" class="btn btn-primary">Continuar</button>
+            <button type="button" class="btn btn-primary" id="continuar" name="continuar" onclick="validar();">Continuar</button>
             <button type="button" class="btn btn-danger">Cancelar</button>
         </form>
         {{-- MODAL MATERIALES --}}
@@ -281,5 +283,6 @@
 
 @section('js')
     <script src="{{ asset('js/construccion.js') }}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 @stop
