@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
+use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
-use App\Http\Controllers\Admin\RegistrarEgresosController;
+use App\Http\Controllers\Admin\EgresosYEtiquetas\RegistrarEgresosController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,5 +30,8 @@ Route::post('/admin/confeccionardespiecepredeterminar',[ConfeccionarDespieceCont
 Route::get('/admin/registraregreso',[RegistrarEgresosController::class,'index'])->name('registrar.egresos');
 Route::post('/admin/registraregresopiezas',[RegistrarEgresosController::class,'piezas']);
 Route::post('/admin/registraregresotabla',[RegistrarEgresosController::class,'tabla']);
+Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
+Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
+Route::get('/admin/listar',[ListarController::class,'index'])->name('listar');
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
 

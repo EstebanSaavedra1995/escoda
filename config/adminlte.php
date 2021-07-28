@@ -330,8 +330,18 @@ return [
         ],
         [
             'text' => 'Egresos y Etiquetas',
-            'route'  => 'registrar.egresos',
+            'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-tags',
+            'submenu' => [
+                [
+                    'text' => 'Registrar Egreso',
+                    'route'  => 'registrar.egresos',
+                ],
+                [
+                    'text' => 'Listar/Modificar/Eliminar/Imprimir Etiquetas',
+                    'route'  => 'listar',
+                ],
+            ]
         ],
         [
             'text' => 'Horarios Maquinas',

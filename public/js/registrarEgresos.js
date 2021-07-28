@@ -1,5 +1,37 @@
+//Evento gaurdar
+document.getElementById('btnGuardar').addEventListener('click', function (e) {
+    e.preventDefault(); //para evitar que se recargue la pagina
+    //$("#cargandoDiv").show();
+    $pieza = document.getElementById('piezas').value;
+    $fecha = document.getElementById('fechaEgreso').value;
+    if ($pieza == "" || $fecha == "") {
+        if ($pieza == "") {
+            swal("Aviso!", "No puede guardar el registro sin elegir una pieza o conjunto!");
+        }
+        if ($fecha == "") {
+            swal("Aviso!", "No puede guardar el registro sin elegir una fecha de egreso");
+        }
+    }else{
+      
 
-//Eventos de check para diferenciar pieza y conjunto
+        const datos = new FormData(document.getElementById('formulario'));
+        fetch('/admin/registraregresoguardar', {
+            method: 'POST',
+            body: datos,
+        })
+        .then(res => res.json())
+        .then(data => {
+            swal("Guardado con Exito!", {
+                icon: "success",
+            });
+        })
+    }
+        /* .finally(()=>{
+            $("#cargandoDiv").hide();
+        }) */
+}, true)
+
+//Eventos de check para diferenciar pieza y conjunto / pag
 document.getElementById('ck1').addEventListener('change', function (e) {
     e.preventDefault(); //para evitar que se recargue la pagina
 
@@ -59,6 +91,7 @@ document.getElementById('ck2').addEventListener('change', function (e) {
 
         })
 }, true)
+//Eventos de check para diferenciar pieza y conjunto / modal
 document.getElementById('ck1Mod').addEventListener('change', function (e) {
     e.preventDefault(); //para evitar que se recargue la pagina
 
@@ -119,7 +152,7 @@ document.getElementById('ck2Mod').addEventListener('change', function (e) {
         })
 }, true)
 
-
+//Evento listar modal
 document.getElementById('btnListarMod').addEventListener('click', function (e) {
     e.preventDefault(); //para evitar que se recargue la pagina
     $("#cargandoDiv").show();
@@ -153,7 +186,9 @@ document.getElementById('btnListarMod').addEventListener('click', function (e) {
 
             var tabla = document.getElementById('tablaMod');
             //var ck1 = document.getElementById('ck1');
+            var long = 0;
             data.forEach(e => {
+                long++;
                 /* datos += `<tr id="${e.CodPieza+e.Numero+e.Fecha}" class="" onclick=""><td scope="col" class=""> ${e.tipo} </td>`;
                 datos += `<input type="hidden" class="tblCodigo" value="${e.pieza.CodPieza}"> `;
                 datos += `<input type="hidden" class="tblTipo" value="${e.tipo}"> `;
@@ -171,6 +206,8 @@ document.getElementById('btnListarMod').addEventListener('click', function (e) {
                 //datos += `<td scope="col" class=""><button type="button" class="btn btn-primary " id="" onclick="eliminar('${e.pieza.CodPieza}');">Eliminar</button></td>`;
                 datos += '</tr>';
             });
+            var cantidad = document.getElementById('cantidadHtas');
+            cantidad.innerText = 'Cantidad de Htas.: ' + long;
             tabla.innerHTML = datos;
         })
         .finally(()=>{
@@ -178,8 +215,10 @@ document.getElementById('btnListarMod').addEventListener('click', function (e) {
         })
 }, true)
 
+
+
 $(document).ready(function () {
-    $('#listarBtn').click(function () {
+    $('#btnListar').click(function () {
         $('#modalListar').modal('show');
     })
 })
