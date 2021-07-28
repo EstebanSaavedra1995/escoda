@@ -15,6 +15,8 @@ use App\Models\Personal;
 use App\Models\PiezaOCStock;
 use App\Models\PiezaTarea;
 use App\Models\Tarea;
+use App\Models\TotalStockMateriales;
+use App\Models\TotalStockPiezas;
 
 class ConstruccionController extends Controller
 {
@@ -40,9 +42,10 @@ class ConstruccionController extends Controller
         ['Cargo', 'Operario c/ Especializacion'],
         ['Cargo', 'Supervisor de Área']
       ])->get();
-    $nroOC = $construccion->NroOC;
+    $nroOC = $construccion->NroOC + 1;
     $largo = strlen($nroOC);
-    $nuevaOC = sprintf("%'0{$largo}d\n", intval($nroOC) + 1);
+    $nuevaOC = str_repeat('0', 8 - $largo);
+    $nuevaOC .= $nroOC;
     return view('admin.ordenes.construccion', compact(['nuevaOC', 'piezas', 'materiales', 'tareas', 'maquinas', 'supervisores', 'operarios']));
   }
 
@@ -114,29 +117,65 @@ class ConstruccionController extends Controller
 
   public function agregarconstruccion()
   {
-    if (request()->getMethod() == 'POST') {
-      $arreglo = request('arreglo');
-      $arreglo = json_decode($arreglo);
-      $pieza= request('piezas');
-      $cantidadRealizar= request('cantidad-realizar');
-      $idMaterial= request('idmaterial');
-      $colada= request('nameradio');
-      $cantidadMaterial= request('cantidad-necesaria');
-      $longitudCorte= request('longcorte');
-      $fecha= date('Y-m-d');
-      $fecha= str_replace('-','',$fecha);
 
-      $ordenConstruccion = new Construccion();
-      $detalleOC= new DetalleOC();
-      $piezaOCStock= new PiezaOCStock();
 
-      
-      /* Crear una orden de construccion
-      Crear detalles de orden de construccion
-      Crear pieza stock
-      Actualizar total stock materiales
-      Actualizar total stock piezas */
-      return json_encode($fecha);
+    $tareas = request('arreglo');
+    $tareas = json_decode($tareas);
+    $pieza = request('piezas');
+    $cantidadRealizar = request('cantidad-realizar');
+    $idMaterial = request('idmaterial');
+    $colada = request('nameradio');
+    $cantidadMaterial = request('cantidad-necesaria');
+    $longitudCorte = request('longcorte');
+    $fecha = date('y-m-d');
+    $fecha = str_replace('-', '', $fecha);
+    $nroOC = request('numerooc');
+
+    $ordenConstruccion = new Construccion();
+    $ordenConstruccion->NroOC = strval($nroOC);
+    $ordenConstruccion->Fecha = $fecha;
+    $ordenConstruccion->CodigoPieza = $pieza;
+    $ordenConstruccion->Cantidad = intval($cantidadRealizar);
+    $ordenConstruccion->CodigoMaterial = $idMaterial;
+    $ordenConstruccion->LongitudCorte = doubleval($longitudCorte);
+    $ordenConstruccion->Colada = $colada;
+    $ordenConstruccion->Estado = 'A';
+    $ordenConstruccion->saveOrFail();
+
+    foreach ($tareas as $key => $tarea) {
+      $detalleOC = new DetalleOC();
+      $detalleOC->NroOC = strval($nroOC);
+      $detalleOC->Tarea = $tarea[0];
+      $detalleOC->Maquina = $tarea[1];
+      $detalleOC->Operario = $tarea[2];
+      $detalleOC->Supervisor = $tarea[3];
+      $detalleOC->Horas = $tarea[4];
+      $detalleOC->Renglon = $key + 1;
+      $detalleOC->saveOrFail();
     }
+
+    $piezaOCStock = new PiezaOCStock();
+    $piezaOCStock->NroOC = strval($nroOC);
+    $piezaOCStock->Stock = intval($cantidadRealizar);
+    $piezaOCStock->saveOrFail();
+
+    $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $idMaterial)
+      ->where('Colada', $colada)->first();
+    $coladaMaterial->Stock = $coladaMaterial->Stock - $cantidadMaterial;
+    $coladaMaterial->saveOrFail();
+
+    $materiales = Material::where('CodigoMaterial', $idMaterial)->first();
+    $materiales->Stock = $materiales->Stock - $cantidadMaterial;
+    $materiales->saveOrFail();
+
+    $totalStockPiezas = TotalStockPiezas::where('CodigoPieza', $pieza)->first();
+    $totalStockPiezas->Stock = $totalStockPiezas->Stock + $ordenConstruccion->Cantidad;
+    $totalStockPiezas->saveOrFail();
+
+    $totalStockMateriales = TotalStockMateriales::where('CodigoMaterial', $idMaterial)->first();
+    $totalStockMateriales->Stock = $totalStockMateriales->Stock - $cantidadMaterial;
+    $totalStockMateriales->saveOrFail();
+
+    return json_encode('ok');
   }
 }

@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PiezaOCStock extends Model
+class TotalStockPiezas extends Model
 {
     use HasFactory;
-    protected $table= 'piezaocstock';
-    protected $primaryKey = 'NroOC';
     public $timestamps = false;
     public $incrementing = false;
-    
-    
+    protected $primaryKey = 'CodigoPieza'; //poner primary key en la base
+    protected $table = 'totalstockpiezas';
 }

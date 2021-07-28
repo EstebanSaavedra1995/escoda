@@ -9,6 +9,23 @@ function verificarRadios() {
     }
     return flag;
 }
+function cancelar() {
+    swal({
+        title: "¿Desea cancelar la orden de construcción?",
+        /* text: "Once deleted, you will not be able to recover this imaginary file!", */
+        icon: "warning",
+        buttons: ["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+        .then((willCancel) => {
+            if (willCancel) {
+                setTimeout(function () {
+                    window.location.href = "http://escoda.test/admin/construccion";
+                }, 1000)
+            }
+        });
+
+}
 function validar() {
     let celdasincorrectas = document.getElementsByClassName('celdasincorrectas').length;
     let filasDeTarea = document.getElementsByClassName('filasDeTarea').length;
@@ -17,7 +34,18 @@ function validar() {
 
 
     if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar != 0 && radios == true) {
-        enviarDatos();
+        swal({
+            title: "¿Desea agregar una nueva orden de construcción?",
+            /* text: "Once deleted, you will not be able to recover this imaginary file!", */
+            icon: "warning",
+            buttons: ["Cancelar", "Aceptar"],
+            dangerMode: true,
+        })
+            .then((willAdd) => {
+                if (willAdd) {
+                    enviarDatos();
+                }
+            });
     } else {
         swal({
             title: "¡Faltan datos por completar!",
@@ -26,6 +54,7 @@ function validar() {
         });
     }
 }
+
 function enviarDatos() {
     const datos = new FormData(document.getElementById('formulario'));
     let arreglo = pasarFilas();
@@ -36,10 +65,26 @@ function enviarDatos() {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
+            if (data === 'ok') {
+                swal({
+                    title: "¡Se ha agregado una nueva orden de construcción!",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+                setTimeout(function () {
+                    window.location.href = "http://escoda.test/admin/construccion";
+                }, 1500)
+            } else {
+                swal({
+                    title: "¡Ocurrió un fallo, por favor revise los campos!",
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+            }
         })
-
 }
+
 
 function pasarFilas() {
     let filas = document.getElementsByClassName('filasDeTarea');
@@ -55,20 +100,6 @@ function pasarFilas() {
     }
     return JSON.stringify(filasText);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -322,6 +353,14 @@ function realizarModificacion() {
             button: "Aceptar",
         });
     }
+    else if (horas[2] != ':' || horas.length != 5 || isNaN(horas[0]) || isNaN(horas[1]) || isNaN(horas[3]) || isNaN(horas[4])) {
+        event.stopPropagation();
+        swal({
+            title: "¡Formato de tiempo incorrecto! Ejemplo: 03:45",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
     else {
 
         fila.innerHTML = '';
@@ -548,6 +587,14 @@ const agregarTareaModal = () => {
         event.stopPropagation();
         swal({
             title: "¡Debe ingresar un tiempo estimado!",
+            icon: "warning",
+            button: "Aceptar",
+        });
+    }
+    else if (horaminuto[2] != ':' || horaminuto.length != 5 || isNaN(horaminuto[0]) || isNaN(horaminuto[1]) || isNaN(horaminuto[3]) || isNaN(horaminuto[4])) {
+        event.stopPropagation();
+        swal({
+            title: "¡Formato de tiempo incorrecto! Ejemplo: 03:45",
             icon: "warning",
             button: "Aceptar",
         });

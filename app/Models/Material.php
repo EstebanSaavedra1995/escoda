@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Material extends Model
 {
     use HasFactory;
-    protected $table= 'materiales';
+    public $timestamps = false;
+    public $incrementing = false;
+    protected $primaryKey = 'CodigoMaterial';
+    protected $table = 'materiales';
 }

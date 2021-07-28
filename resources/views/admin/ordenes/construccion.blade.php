@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content_header')
-    <h1>Construcción</h1>
+    <h1>Orden de construcción</h1>
 @stop
 
 @section('content')
@@ -15,7 +15,7 @@
 
         <form id="formulario" method="POST" action="">
             @csrf
-            <input type="hidden" value="{{$nuevaOC}}">
+            <input type="hidden" value="{{ $nuevaOC }}" name="numerooc" id="numerooc">
             <div class="card-body">
                 <div class="container">
                     <div class="row mb-2">
@@ -54,8 +54,8 @@
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Cantidad necesaria (mts)</label>
-                        <input type="number" class="form-control col mr-2" id="cantidad-necesaria"
-                            name="cantidad-necesaria" readonly >
+                        <input type="number" class="form-control col mr-2" id="cantidad-necesaria" name="cantidad-necesaria"
+                            readonly>
                     </div>
                     <div class="contenedor-tabla">
                         <table class="table table-striped table-bordered table-scroll1">
@@ -91,8 +91,9 @@
             </div>
             <div class="card-footer">
             </div>
-            <button type="button" class="btn btn-primary" id="continuar" name="continuar" onclick="validar();">Continuar</button>
-            <button type="button" class="btn btn-danger">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="continuar" name="continuar"
+                onclick="validar();">Continuar</button>
+            <button type="button" class="btn btn-danger" id="idcancelar" name="idcancelar"  onclick="cancelar();">Cancelar</button>
         </form>
         {{-- MODAL MATERIALES --}}
         <div id="modal" class="modal" tabindex="-1" role="dialog">
@@ -206,7 +207,9 @@
                                     </tr>
                                     <tr>
                                         <td><label for="tiempo-agregartarea">Tiempo estimado de la tarea</label></td>
-                                        <td><input type="time" min="09:00" step="5" id="horaminuto" name="horaminuto"></td>
+                                        <td><input type="text" placeholder="03:45" id="horaminuto" name="horaminuto"
+                                                minlength="5" maxlength="5" size="5"></td>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -259,7 +262,9 @@
                                     </tr>
                                     <tr>
                                         <td><label for="tiempo-agregartarea">Tiempo estimado de la tarea</label></td>
-                                        <td><input type="time" min="09:00" step="5" id="modificarhoraminuto" name="modificarhoraminuto"></td>
+                                        <td><input type="text" placeholder="03:45" id="modificarhoraminuto"
+                                                name="modificarhoraminuto" minlength="5" maxlength="5" size="5"></td>
+                                        {{-- <td><input type="time" min="09:00" step="5" id="modificarhoraminuto" name="modificarhoraminuto"></td> --}}
                                     </tr>
                                 </tbody>
                             </table>
