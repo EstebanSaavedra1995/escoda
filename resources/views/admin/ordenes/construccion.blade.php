@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content_header')
-    <h1>Construcción</h1>
+    <h1>Orden de construcción</h1>
 @stop
 
 @section('content')
@@ -15,6 +15,7 @@
 
         <form id="formulario" method="POST" action="">
             @csrf
+            <input type="hidden" value="{{ $nuevaOC }}" name="numerooc" id="numerooc">
             <div class="card-body">
                 <div class="container">
                     <div class="row mb-2">
@@ -42,18 +43,19 @@
                     <div class="row mb-2">
                         <label class=" col mr-2">Material</label>
                         <input type="text" class="form-control col mr-2" id="material" name="material" readonly>
+                        <input type="hidden" id="idmaterial" name="idmaterial">
 
                         <button type="button" id="buscar" name="buscar" class="btn btn-primary col ">Buscar
                             materiales</button>
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Longitud de corte (mm)</label>
-                        <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte">
+                        <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte" readonly>
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Cantidad necesaria (mts)</label>
-                        <input type="number" class="form-control col mr-2" id="cantidad-necesaria"
-                            name="cantidad-necesaria">
+                        <input type="number" class="form-control col mr-2" id="cantidad-necesaria" name="cantidad-necesaria"
+                            readonly>
                     </div>
                     <div class="contenedor-tabla">
                         <table class="table table-striped table-bordered table-scroll1">
@@ -89,8 +91,9 @@
             </div>
             <div class="card-footer">
             </div>
-            <button type="button" class="btn btn-primary">Continuar</button>
-            <button type="button" class="btn btn-danger">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="continuar" name="continuar"
+                onclick="validar();">Continuar</button>
+            <button type="button" class="btn btn-danger" id="idcancelar" name="idcancelar"  onclick="cancelar();">Cancelar</button>
         </form>
         {{-- MODAL MATERIALES --}}
         <div id="modal" class="modal" tabindex="-1" role="dialog">
@@ -174,7 +177,7 @@
                                         <td><label for="maquina">Maquina: </label></td>
                                         <td> <select class=" col mr-2" name="maquina" id="maquina">
                                                 @foreach ($maquinas as $maquina)
-                                                    <option value="{{$maquina}}">
+                                                    <option value="{{ $maquina }}">
                                                         {{ $maquina->CodMaquina }} - {{ $maquina->NombreMaquina }}
                                                     </option>
                                                 @endforeach
@@ -196,17 +199,81 @@
                                         <td> <select class=" col mr-2" name="supervisor" id="supervisor">
                                                 @foreach ($supervisores as $supervisor)
                                                     <option value="{{ $supervisor }}">
-                                                        {{ $supervisor->NroLegajo }} - {{ $supervisor->ApellidoNombre }}
+                                                        {{ $supervisor->NroLegajo }} -
+                                                        {{ $supervisor->ApellidoNombre }}
                                                     </option>
                                                 @endforeach
                                             </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="tiempo-agregartarea">Tiempo estimado de la tarea</label></td>
+                                        <td><input type="text" placeholder="03:45" id="horaminuto" name="horaminuto"
+                                                minlength="5" maxlength="5" size="5"></td>
+
                                     </tr>
                                 </tbody>
                             </table>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="agregarTareaModal();">Agregar</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            onclick="agregarTareaModal();">Agregar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- MODAL Modificar TAREAS --}}
+        <div id="modalmodificartareas" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modificar tarea</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-modalmodificartareas">
+
+                            @csrf
+                            <table class="table table-bordered table-striped">
+                                <tbody id="tablamodalmodificartareas">
+                                    <tr>
+                                        <td><label for="tarea-modificar">Tarea: </label></td>
+                                        <td> <select class=" col mr-2" name="tarea-modificar" id="tarea-modificar">
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="maquina-modificar">Maquina: </label></td>
+                                        <td> <select class=" col mr-2" name="maquina-modificar" id="maquina-modificar">
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="operario-modificar">Operario: </label> </td>
+                                        <td> <select class=" col mr-2" name="operario-modificar" id="operario-modificar">
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="supervisor-modificar">Supervisor de área: </label></td>
+                                        <td> <select class=" col mr-2" name="supervisor-modificar"
+                                                id="supervisor-modificar">
+                                            </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="tiempo-agregartarea">Tiempo estimado de la tarea</label></td>
+                                        <td><input type="text" placeholder="03:45" id="modificarhoraminuto"
+                                                name="modificarhoraminuto" minlength="5" maxlength="5" size="5"></td>
+                                        {{-- <td><input type="time" min="09:00" step="5" id="modificarhoraminuto" name="modificarhoraminuto"></td> --}}
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input id="idTareaModificar" name="idTareaModificar" type="hidden">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            id="idbtnModificarTarea">Modificar</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
@@ -221,5 +288,6 @@
 
 @section('js')
     <script src="{{ asset('js/construccion.js') }}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 @stop
