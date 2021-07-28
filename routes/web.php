@@ -35,5 +35,7 @@ Route::post('/admin/registraregresotabla',[RegistrarEgresosController::class,'ta
 Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
 Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
 Route::get('/admin/listar',[ListarController::class,'index'])->name('listar');
+Route::post('/admin/listartabla',[ListarController::class,'tabla']);
+Route::post('/admin/listarpiezas',[ListarController::class,'piezas']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
 

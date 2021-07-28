@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\EgresosYEtiquetas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pieza;
@@ -43,7 +43,7 @@ class RegistrarEgresosController extends Controller
       return json_encode($resultado);
     }
   }
-
+//tabla del modal
   public function tabla()
   {
     if (request()->getMethod() == 'POST') {

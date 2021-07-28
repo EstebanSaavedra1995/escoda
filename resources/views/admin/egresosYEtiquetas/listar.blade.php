@@ -45,7 +45,7 @@
                         <div class="conteiner collapse" id="collNroEgreso">
                             <div class="row mb-2 ">
                                 <label class=" col-2 mr-2">Nro. Egreso:</label>
-                                <input type="text" class="form-control col-2 mr-2" id="nroEgreso" name="nroEgreso">
+                                <input type="text" class="form-control col-2 mr-2" id="nroEgreso" name="nroEgreso" value="0">
                             </div>
                         </div>
                         {{-- OPCION FECHA --}}
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="contenedor-tabla-modal">
-                        <table class="table table-bordered table-scroll2" id="tablaMod">
+                        <table class="table table-bordered " id="tablaMod">
                             <thead>
                                 <tr>
                                     <th scope="col">Nro. Egreso</th>
@@ -123,16 +123,20 @@
                 </form>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+              
             </div>
        
 
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 @stop
 
 @section('js')
-
+<script src="{{ asset('js/listar.js') }}"></script>
+    <script>
+        $("#cargandoDiv").hide();
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop
