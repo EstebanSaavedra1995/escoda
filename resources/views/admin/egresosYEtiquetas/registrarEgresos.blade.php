@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="row mb-2">
-                        <label class=" col-2 mr-2">Orden de Tarea relacionada:</label>
+                        <label class=" col-2 mr-2">Orden de Trabajo relacionada:</label>
                         <select class="form-select col-2 mr-2" name="ordenTarea" id="ordenTarea"></select>
                     </div>
 

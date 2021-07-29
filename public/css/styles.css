@@ -62,4 +62,12 @@ display: inline-block;
     width: 800px;
 } 
 
+.table-E{
+    table-layout: fixed;
+    width: 1050px;
+}
 
+.oculto{
+	background-color:transparent; 
+    border-width:0;
+}

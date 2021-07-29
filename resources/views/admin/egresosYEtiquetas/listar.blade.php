@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="contenedor-tabla-modal">
-                        <table class="table table-bordered " id="tablaMod">
+                        <table class="table table-bordered table-striped table-E" id="tablaMod">
                             <thead>
                                 <tr>
                                     <th scope="col">Nro. Egreso</th>
@@ -110,6 +110,7 @@
                                     <th scope="col">Intervención</th>
                                     <th scope="col">Pozo</th>
                                     <th scope="col">Orden Trabajo</th>
+                                    <th scope="col">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,6 +123,72 @@
                     </div>
                 </form>
             </div>
+
+            {{-- MODAL MODIFICAR--}}
+        <div id="modalModificar" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modificar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formulario-modalModificar">
+
+                            @csrf
+                            <table class="table table-bordered table-striped">
+                                <tbody id="tablamodalmodificartareas">
+                                    <tr>
+                                        <td><label for="FechaEgreso">Fecha de Egreso: </label></td>
+                                        <td> <input type="date" id="FechaEgreso" name="FechaEgreso" class="form-control"
+                                            value="" max="{{$date = date('Y-m-d')}}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="condicion">Condición: </label></td>
+                                        <td><select class="form-select" name="condicion" id="condicion">
+                                            <option value="CONDICION I">CONDICION I</option>
+                                            <option value="CONDICION II">CONDICION II</option>
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td> <label for="tipoEgreso">Tipo de Egreso: </label> </td>
+                                        <td><select class="form-select" name="tipoEgreso" id="tipoEgreso">
+                                            <option value="EG 2">EG 2</option>
+                                            <option value="EG 4">EG 4</option>
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="nroEgreso">Nro. de Egreso: </label></td>
+                                        <td> <input type="text" class="form-control" id="nroEgreso" name="nroEgreso" value=""></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="FechaI">Fecha de Intervención: </label></td>
+                                        <td><input type="date" id="FechaI" name="FechaI" class="form-control"
+                                            value="" max="{{$date = date('Y-m-d')}}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="pozo">Pozo: </label></td>
+                                        <td><input type="text" class="form-control" id="pozo" name="pozo"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="ordenTarea">Orden de Trabajo relacionada: </label></td>
+                                        <td><input type="text" class="form-control" name="ordenTarea" id="ordenTarea"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            id="btnModificarModal">Modificar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
             <div class="card-footer">
               
             </div>
