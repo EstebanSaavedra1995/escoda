@@ -19,14 +19,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
     return view('layouts.index');
 })->name('index');
 
-<<<<<<< HEAD
 Route::get('/admin/construccion', [ConstruccionController::class, 'index'])->name('construccion.confeccionar');
 Route::post('/admin/construccion', [ConstruccionController::class, 'piezas']);
 Route::post('/admin/construccion/material', [ConstruccionController::class, 'material']);
 Route::post('/admin/construccion/material/buscar', [ConstruccionController::class, 'buscarMaterial']);
 Route::post('/admin/construccion/modificartarea', [ConstruccionController::class, 'modificarTarea']);
 Route::post('/admin/construccion/agregarconstruccion', [ConstruccionController::class, 'agregarconstruccion']);
-=======
 Route::get('/admin/construccion',[ConstruccionController::class,'index'])->name('construccion.confeccionar');
 Route::post('/admin/construccion',[ConstruccionController::class,'piezas']);
 Route::post('/admin/construccion/material',[ConstruccionController::class,'material']);
@@ -48,7 +46,6 @@ Route::get('/admin/listar',[ListarController::class,'index'])->name('listar');
 Route::post('/admin/listartabla',[ListarController::class,'tabla']);
 Route::post('/admin/listarpiezas',[ListarController::class,'piezas']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
->>>>>>> a6162d98889fbcdcdaeb94985d1407a2b69e50b8
 
 Route::get('/admin/listarcancelar', [ListarCancelarController::class, 'index'])->name('construccion.listarcancelar');
 Route::post('/admin/listarcancelar/piezas', [ListarCancelarController::class, 'piezas']);
