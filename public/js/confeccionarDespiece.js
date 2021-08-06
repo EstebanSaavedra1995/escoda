@@ -98,7 +98,7 @@ document.getElementById('predeterminarbtn').addEventListener('click', function (
     
     
                 //console.log(data);
-                swal("Predeterminado con exito!", {
+                swal("Predeterminado con Exito!", {
                     icon: "success",
                 });
     

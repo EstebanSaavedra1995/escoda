@@ -68,7 +68,18 @@ display: inline-block;
     display:inline-block;
 }
 
+<<<<<<< HEAD
 .table-scroll3 td{
     width: 800px;
 } 
+=======
+.table-E{
+    table-layout: fixed;
+    width: 1050px;
+}
+>>>>>>> a6162d98889fbcdcdaeb94985d1407a2b69e50b8
 
+.oculto{
+	background-color:transparent; 
+    border-width:0;
+}
