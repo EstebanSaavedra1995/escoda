@@ -6,12 +6,8 @@ use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\RegistrarEgresosController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
-<<<<<<< HEAD
-use App\Http\Controllers\PDFController;
-=======
 use App\Http\Controllers\Admin\Ordenes\ListarCancelarController;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
->>>>>>> db52696b8fbe382fc1cb6a93ba5b0e1a1eabc27e
 use Illuminate\Support\Facades\Route;
 
 
