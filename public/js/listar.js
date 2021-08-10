@@ -1,3 +1,9 @@
+//// añadir pack de pdf composer require barryvdh/laravel-dompdf
+/// y service provider Después de actualizar Composer, agregue ServiceProvider a la matriz de proveedores en config / app.php
+
+/* Barryvdh\DomPDF\ServiceProvider::class, Opcionalmente, puede usar la fachada para un código más corto. Agregue esto a sus fachadas:
+
+'PDF' => Barryvdh\DomPDF\Facade::class, #Ejemplo */
 //EVENTOS CHECK DE PIEZA/CONJUNTO
 document.getElementById('ck1Mod').addEventListener('change', function (e) {
     e.preventDefault(); //para evitar que se recargue la pagina
@@ -97,19 +103,10 @@ document.getElementById('btnListarMod').addEventListener('click', function (e) {
             var long = 0;
             data.forEach(e => {
                 long++;
-                //Convertir el string a fecha para poder modificarlo
-                let fechaE = new Date(e.Fecha);
-                //Poner el formato que quieres
-                //fechaE = fechaE.format('DD/MM/YYYY');
-                //Volver a convertirlo a string
-                fechaE = ('0' + fechaE.getDate()).slice(-2) + '/'
-                    + ('0' + (fechaE.getMonth() + 1)).slice(-2) + '/'
-                    + fechaE.getFullYear();
-                
-
                 datos += `<tr id="${e.id}" class="" onclick="">`;
+                datos += `<input id="id${e.id}" type="text" value="${e.id}" class="tblId" hidden>`;
                 datos += `<td scope="col" ><input id="NroE${e.id}" type="text" value="${e.NroEgreso}" class="oculto tblNroE" readonly></td>`;
-                datos += `<td scope="col" ><input id="FechaE${e.id}" type="text" value="${fechaE}" class="oculto tblFechaE" readonly></td>`;
+                datos += `<td scope="col" ><input id="FechaE${e.id}" type="text" value="${e.Fecha}" class="oculto tblFechaE" readonly></td>`;
                 datos += `<td scope="col" ><input id="Cod${e.id}" type="text" value="${e.CodPieza}" class="oculto tblCod" readonly></td>`;
                 datos += `<td scope="col" ><input id="Numero${e.id}" type="text" value="${e.Numero}" class="oculto tblNumero" readonly></td>`;
                 datos += `<td scope="col" ><input id="Condicion${e.id}" type="text" value="${e.Condicion}" class="oculto tblCondicion" readonly></td>`;
@@ -118,8 +115,8 @@ document.getElementById('btnListarMod').addEventListener('click', function (e) {
                 datos += `<td scope="col" ><input id="Pozo${e.id}" type="text" value="${e.Pozo}" class="oculto tblPozo" readonly></td>`;
                 datos += `<td scope="col" ><input id="NroOR${e.id}" type="text" value="${e.NroOR}" class="oculto tblNroOR" readonly></td>`;
                 datos += `<td scope="col" >
-                <button class="btn btn-primary mb-1" type="button" id="" onclick="modificar(${e.id});">Modificar</button>
-                <button class="btn btn-danger" type="button" id="" onclick="borrar(${e.id});">Borrar</button>
+                <button class="btn btn-primary mb-1" type="button"  onclick="modificar(${e.id});">Modificar</button>
+                <button class="btn btn-danger" type="button"  onclick="borrar(${e.id});">Borrar</button>
                 </td>`;
                 datos += '</tr>';
             });
@@ -132,23 +129,111 @@ document.getElementById('btnListarMod').addEventListener('click', function (e) {
         })
 }, true)
 
+//Modificar, guarda cambios en bd
+document.getElementById('btnModificarModal').addEventListener('click', function (e) {
+    e.preventDefault(); //para evitar que se recargue la pagina
+    const datos = new FormData(document.getElementById('formulario-modalModificar'));
+    fetch('/admin/listarmodificar', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data);
+            swal("Modificado con Exito!", {
+                icon: "success",
+            });
+        })
+}, true)
+
+
+
 function modificar(id) {
     //Activar el modal
     $('#modalModificar').modal('show');
-    var NroE = document.getElementById('NroE' + id);
-    var FechaE = document.getElementById('FechaE' + id);
-    var Cod = document.getElementById('Cod' + id);
-    var Numero = document.getElementById('Numero' + id);
-    var Condicion = document.getElementById('Condicion' + id);
-    var Tipo = document.getElementById('Tipo' + id);
-    var FechaI = document.getElementById('FechaI' + id);
-    var Pozo = document.getElementById('Pozo' + id);
-    var NroOR = document.getElementById('NroOR' + id);
+    var NroE = document.getElementById('NroE' + id).value;
+    var FechaE = document.getElementById('FechaE' + id).value;
+    var Cod = document.getElementById('Cod' + id).value;
+    var Numero = document.getElementById('Numero' + id).value;
+    var Condicion = document.getElementById('Condicion' + id).value;
+    var Tipo = document.getElementById('Tipo' + id).value;
+    var FechaI = document.getElementById('FechaI' + id).value;
+    var Pozo = document.getElementById('Pozo' + id).value;
+    var NroOR = document.getElementById('NroOR' + id).value;
+
+    document.getElementById('idMod').value = id;
+    document.getElementById('nroEMod').value = NroE;
+    document.getElementById('FechaEMod').value = fechaISO(FechaE);
+    document.getElementById('condicionMod').value = Condicion;
+    document.getElementById('tipoMod').value = Tipo;
+    document.getElementById('FechaIMod').value = fechaISO(FechaI);
+    document.getElementById('pozoMod').value = Pozo;
+    document.getElementById('nroORMod').value = NroOR;
+
 
 }
 
+function fechaISO(fecha) {
+    //convierte una fecha de dd/mm/yyyy a yyyy-mm-dd formato iso
+    if (fecha != '-') {
+        split = fecha.split('/');
+        return split[2] + '-' + split[1] + '-' + split[0];
+    } else {
+        return '';
+    }
+}
+
 function borrar(id) {
-    null
+    swal({
+        title: "Seguro desea eliminar?",
+        /* text: "Once deleted, you will not be able to recover this imaginary file!", */
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                //Eliminar, borra en bd
+                const datos = new FormData(document.getElementById('formulario-modalModificar'));
+                datos.append('idBorrar', id);
+                fetch('/admin/listareliminar', {
+                    method: 'POST',
+                    body: datos,
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        swal("El registro ha sido eliminado!", {
+                            icon: "success",
+                        });
+                    });
+
+                let parent = document.getElementById(id).parentNode;
+                parent.removeChild(document.getElementById(id));
+                /* setTimeout(function () {
+                    window.location.href = "http://escoda.test/admin/listartabla";
+                }, 1500); */
+            } else {
+                /* swal("Your imaginary file is safe!"); */
+            }
+        });
+}
+function borrarEtiqueta(id) {
+    swal({
+        title: "Seguro desea eliminar?",
+        /* text: "Once deleted, you will not be able to recover this imaginary file!", */
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                let parent = document.getElementById(id).parentNode;
+                parent.removeChild(document.getElementById(id));
+            } else {
+                /* swal("Your imaginary file is safe!"); */
+            }
+        });
 }
 //COLAPPSE DE LISTAR POR
 function collapse() {
@@ -183,3 +268,123 @@ function collapse() {
 
 
 }
+//carga la tabla del modal de etiquetas
+function etiqueta() {
+    $('#modalEtiquetas').modal('show');
+    var codigos = document.getElementsByClassName('tblId');
+    var val = [];
+    for (i = 0; i < codigos.length; i++) {
+        let e = {
+            id: codigos[i].value,
+        };
+        val.push(e);
+        //console.log(codigos[i].value);
+    }
+    val = JSON.stringify(val);
+    //console.log(val);
+    const datos = new FormData(document.getElementById('formulario-modal'));
+    datos.append('codigos', val);
+
+    fetch('/admin/listartablaEtiqueta', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data);
+            let datos = "";
+
+            datos += `<thead>
+                <tr>
+                    <th scope="col">Herramienta</th>
+                    <th scope="col">Medida</th>
+                    <th scope="col">Número</th>
+                    <th scope="col">Condición</th>
+                    <th scope="col">Tamaño</th>
+                    <th scope="col">Acción</th>
+                </tr>
+                </thead>`;
+
+            var tabla = document.getElementById('tablaEtiqueta');
+            var etChica = document.getElementById('etiquetasChicas');
+            var etChicasTodo = document.getElementById('etChicas');
+            let str = '';
+            data.forEach(e => {
+                str += `${e.trazabilidad.id}/`;
+                datos += `<tr id="${e.trazabilidad.id}" class="" onclick="">`;
+                datos += `<input id="id${e.trazabilidad.id}" type="text" value="${e.trazabilidad.id}" class="tblId" hidden>`;
+                datos += `<td scope="col" ><input id="nombre${e.trazabilidad.id}" type="text" value="${e.pieza.CodPieza} - ${e.pieza.NombrePieza}" class="oculto tblNombre" readonly></td>`;
+                datos += `<td scope="col" ><input id="Medida${e.trazabilidad.id}" type="text" value="${e.pieza.Medida}" class="oculto tblMedida" readonly></td>`;
+                datos += `<td scope="col" ><input id="Numero${e.trazabilidad.id}" type="text" value="${e.trazabilidad.Numero}" class="oculto tblNumero" readonly></td>`;
+                datos += `<td scope="col" ><input id="Condicion${e.trazabilidad.id}" type="text" value="${e.trazabilidad.Condicion}" class="oculto tblCondicion" readonly></td>`;
+                datos += `<td scope="col" >
+                        <select name="tamaño" id="tamaño${e.trazabilidad.id}" class="tblTamaño" onchange="cargarEtiquetas(${e.trazabilidad.id});">
+                        <option value="chica">Chica</option>
+                        <option value="grande">Grande</option>
+                        </select></td>`;
+                datos += `<td scope="col" >
+                        <button class="btn btn-danger" type="button"  onclick="borrarEtiqueta(${e.pieza.id});">Borrar</button>
+                        </td>`;
+                datos += '</tr>';
+            });
+            etChica.value = str;
+            etChicasTodo.value = str;
+            //console.log(str);
+            tabla.innerHTML = datos;
+        })
+}
+
+function cargarEtiquetas(id) {
+    var codigos = document.getElementsByClassName('tblId');
+    var tamaño = document.getElementById('tamaño' + id).value;
+    var etChicas = document.getElementById('etiquetasChicas');
+    var etGrandes = document.getElementById('etiquetasGrandes');
+    var etChicasTodo = document.getElementById('etChicas');
+    var etGrandesTodo = document.getElementById('etGrandes');
+    var str = '';
+    if (tamaño == 'grande') {
+        etGrandes.value += `${id}/`;
+        etGrandesTodo.value += `${id}/`;
+        str = etChicas.value;
+        str = str.replace(id+'/', "");
+        etChicas.value= str;
+        etChicasTodo.value= str;
+    }
+    if (tamaño == 'chica') {
+        etChicas.value += `${id}/`;
+        str = etGrandes.value;
+        str = str.replace(id+'/', "");
+        etGrandes.value= str;
+        etGrandesTodo.value= str;
+    }
+    /* console.log('chicas ' + etChicas.value);
+    console.log('grandes ' + etGrandes.value); */
+}
+
+/* function enviarEtChicas() {
+    const datos = new FormData(document.getElementById('formulario-etChicas'));
+    fetch('/admin/etchicaspdf', {
+        method: 'POST',
+        body: datos,
+    })      
+}
+
+function enviarEtGrandes() {
+    const datos = new FormData(document.getElementById('formulario-etGrandes'));
+    fetch('/admin/etgrandespdf', {
+        method: 'POST',
+        body: datos,
+    })      
+}
+function imprimirTodo() {
+    const datos = new FormData(document.getElementById('formulario-modalEtiquetas'));
+    fetch('/admin/imprimirtodo', {
+        method: 'POST',
+        body: datos,
+    })      
+} */
+    
+
+
+
+

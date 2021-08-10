@@ -434,6 +434,7 @@ $(document).ready(function () {
     })
 })
 
+
 //AGREGAR A LA FILA CON OTRO MODAL
 /* $(document).ready(function () {
     $('#agregarFinal').click(function () {

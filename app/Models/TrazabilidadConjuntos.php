@@ -9,6 +9,7 @@ class TrazabilidadConjuntos extends Model
 {
     // alter table 'coladamaterial' drop primary key;
     //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
+    //CAMBIAR FECHAS A TIPO DATE
     use HasFactory;
     public $timestamps = false;
     protected $table= 'trazabilidadconjuntos';

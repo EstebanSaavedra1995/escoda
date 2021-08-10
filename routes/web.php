@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\RegistrarEgresosController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -37,5 +38,13 @@ Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'
 Route::get('/admin/listar',[ListarController::class,'index'])->name('listar');
 Route::post('/admin/listartabla',[ListarController::class,'tabla']);
 Route::post('/admin/listarpiezas',[ListarController::class,'piezas']);
+Route::post('/admin/listarmodificar',[ListarController::class,'modificar']);
+Route::post('/admin/listareliminar',[ListarController::class,'eliminar']);
+Route::post('/admin/listartablaEtiqueta',[ListarController::class,'tablaEtiqueta']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
+Route::get('/admin/pdf/{id}', [ListarController::class,'PDF'])->name('descargarPDF');
+Route::post('/admin/etchicaspdf', [ListarController::class,'etChicasPDF'])->name('etChicasPDF');
+Route::post('/admin/etgrandespdf', [ListarController::class,'etGrandesPDF'])->name('etGrandesPDF');
+Route::post('/admin/imprimirtodo', [ListarController::class,'imprimirTodo'])->name('todoPDF');
+
 
