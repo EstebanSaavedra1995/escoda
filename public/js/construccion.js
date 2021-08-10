@@ -432,15 +432,12 @@ const agregarMaterial = (codigoMaterial) => {
                 icon: "success",
                 button: "Aceptar",
             });
-            /* alert(data); */
+          
         })
-    /*  alert(material); */
+  
 }
 
-/* $(document).on('click', '#eliminarTarea', function () {
-    console.log('id');
-    alert('id');
-}); */
+
 
 function eliminarTarea(id) {
     swal({

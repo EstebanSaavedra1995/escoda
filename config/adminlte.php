@@ -260,13 +260,10 @@ return [
                             'route'  => 'construccion.confeccionar',
                         ],
                         [
-                            'text' => 'Completar/Cancelar',
-                            'url'  => '#',
+                            'text' => 'Listar/Cancelar',
+                            'route'  => 'construccion.listarcancelar',
                         ],
-                        [
-                            'text' => 'Listar',
-                            'url'  => '#',
-                        ],
+                      
                     ],
                 ],
                 [
@@ -275,7 +272,7 @@ return [
                     'submenu' => [
                         [
                             'text' => 'Confeccionar',
-                            'url'  => '#',
+                            'route'  => 'reparacion.confeccionar',
                         ],
                         [
                             'text' => 'Completar/Cancelar',

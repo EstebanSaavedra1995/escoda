@@ -161,7 +161,11 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+<<<<<<< HEAD
         Barryvdh\DomPDF\ServiceProvider::class,
+=======
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+>>>>>>> db52696b8fbe382fc1cb6a93ba5b0e1a1eabc27e
 
         /*
          * Package Service Providers...
@@ -230,7 +234,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+<<<<<<< HEAD
         'PDF' => Barryvdh\DomPDF\Facade::class,
+=======
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+>>>>>>> db52696b8fbe382fc1cb6a93ba5b0e1a1eabc27e
 
     ],
 

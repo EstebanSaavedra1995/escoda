@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content_header')
-    <h1>Listar o cancelar orden de construcción</h1>
+    <h1>Confeccionar orden de reparación</h1>
 @stop
 
 @section('content')
@@ -15,34 +15,31 @@
         <form id="formulario" method="POST" action="">
             @csrf
             <div class="card-body">
+
                 <div class="container">
                     <div class="row mb-2">
                         <label class=" col mr-2">Listar por:</label>
-                        <select class=" col mr-2" name="lista" id="lista">
-                            <option value="0">Nro de orden</option>
-                            <option value="1">Fecha</option>
-                            <option value="2">Pieza</option>
-                        </select>
-                        <button type="button" id="buscar" name="buscar" onclick="listarOrdenes();" disabled
-                            class="btn btn-primary col">Listar</button>
+                        <select class=" col mr-2" name="lista" id="lista"></select>
                     </div>
 
-                    <div id="filtro"></div>
-                </div>
-                <div class="container">
-                    <div id="divtabla" name="divtabla">
+                    <div id="filtro">
                     </div>
                 </div>
+                <div class="container">
+                    <div class="row mb-2">
+                        <button type="button" class="btn btn-primary col ">Continuar</button>
+                        <button type="button" class="btn btn-danger col ">Cancelar</button>
+                    </div>
+                </div>
+
                 <div class="container">
                     <div id="divtablatareas" name="divtablatareas">
                     </div>
                 </div>
-            </div>
-        </form>
-        {{-- MODAL MATERIALES --}}
 
-        {{-- MODAL TAREAS --}}
-        {{-- MODAL Modificar TAREAS --}}
+            </div>
+
+        </form>
 
     </div>
 @stop
@@ -52,6 +49,6 @@
 
 @stop
 @section('js')
-    <script src="{{ asset('js/listarcancelar.js') }}"></script>
+    {{-- <script src="{{ asset('js/listarcancelar.js') }}"></script> --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop
