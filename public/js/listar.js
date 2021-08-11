@@ -30,6 +30,9 @@ document.getElementById('ck1Mod').addEventListener('change', function (e) {
                 datos += '</option>';
             });
             data = [];
+            document.getElementById('tipoTodo').value = 'conjunto';
+            document.getElementById('tipoChicas').value = 'conjunto';
+            document.getElementById('tipoGrandes').value = 'conjunto';
             select.innerHTML = datos;
 
 
@@ -60,6 +63,9 @@ document.getElementById('ck2Mod').addEventListener('change', function (e) {
                 datos += '</option>';
             });
             data = [];
+            document.getElementById('tipoTodo').value = 'pieza';
+            document.getElementById('tipoChicas').value = 'pieza';
+            document.getElementById('tipoGrandes').value = 'pieza';
             select.innerHTML = datos;
 
         })
@@ -210,9 +216,6 @@ function borrar(id) {
 
                 let parent = document.getElementById(id).parentNode;
                 parent.removeChild(document.getElementById(id));
-                /* setTimeout(function () {
-                    window.location.href = "http://escoda.test/admin/listartabla";
-                }, 1500); */
             } else {
                 /* swal("Your imaginary file is safe!"); */
             }
@@ -228,13 +231,14 @@ function borrarEtiqueta(id) {
     })
         .then((willDelete) => {
             if (willDelete) {
-                let parent = document.getElementById(id).parentNode;
-                parent.removeChild(document.getElementById(id));
+                let parent = document.getElementById('et'+id).parentNode;
+                parent.removeChild(document.getElementById('et'+id));
             } else {
                 /* swal("Your imaginary file is safe!"); */
             }
         });
 }
+
 //COLAPPSE DE LISTAR POR
 function collapse() {
     var select = document.getElementById('listarPor').value;
@@ -270,6 +274,8 @@ function collapse() {
 }
 //carga la tabla del modal de etiquetas
 function etiqueta() {
+    var tabla = document.getElementById('tablaEtiqueta');
+    tabla.innerHTML = '';
     $('#modalEtiquetas').modal('show');
     var codigos = document.getElementsByClassName('tblId');
     var val = [];
@@ -293,40 +299,47 @@ function etiqueta() {
         .then(data => {
             //console.log(data);
             let datos = "";
-
+            datos += `<table class="table table-bordered table-striped table-Etiqueta">`;
             datos += `<thead>
-                <tr>
-                    <th scope="col">Herramienta</th>
-                    <th scope="col">Medida</th>
-                    <th scope="col">Número</th>
-                    <th scope="col">Condición</th>
-                    <th scope="col">Tamaño</th>
-                    <th scope="col">Acción</th>
-                </tr>
-                </thead>`;
+            <tr>
+            <th scope="col">Herramienta</th>
+            <th scope="col">Medida</th>
+            <th scope="col">Número</th>
+            <th scope="col">Condición</th>
+            <th scope="col">Tamaño</th>
+            <th scope="col">Acción</th>
+            </tr>
+            </thead>`;
+            datos += `<tbody>`;
 
             var tabla = document.getElementById('tablaEtiqueta');
             var etChica = document.getElementById('etiquetasChicas');
             var etChicasTodo = document.getElementById('etChicas');
+            var etGrandes = document.getElementById('etiquetasGrandes');
+            etGrandes.value='';
+            var etGrandesTodo = document.getElementById('etGrandes');
+            etGrandesTodo.value='';
             let str = '';
             data.forEach(e => {
                 str += `${e.trazabilidad.id}/`;
-                datos += `<tr id="${e.trazabilidad.id}" class="" onclick="">`;
-                datos += `<input id="id${e.trazabilidad.id}" type="text" value="${e.trazabilidad.id}" class="tblId" hidden>`;
-                datos += `<td scope="col" ><input id="nombre${e.trazabilidad.id}" type="text" value="${e.pieza.CodPieza} - ${e.pieza.NombrePieza}" class="oculto tblNombre" readonly></td>`;
-                datos += `<td scope="col" ><input id="Medida${e.trazabilidad.id}" type="text" value="${e.pieza.Medida}" class="oculto tblMedida" readonly></td>`;
-                datos += `<td scope="col" ><input id="Numero${e.trazabilidad.id}" type="text" value="${e.trazabilidad.Numero}" class="oculto tblNumero" readonly></td>`;
-                datos += `<td scope="col" ><input id="Condicion${e.trazabilidad.id}" type="text" value="${e.trazabilidad.Condicion}" class="oculto tblCondicion" readonly></td>`;
+                datos += `<tr id="et${e.trazabilidad.id}" class="" onclick="">`;
+                datos += `<input id="idEt${e.trazabilidad.id}" type="text" value="${e.trazabilidad.id}" class="tblId" hidden>`;
+                datos += `<td scope="col" ><input id="nombreEt${e.trazabilidad.id}" type="text" value="${e.pieza.CodPieza} - ${e.pieza.NombrePieza}" class="oculto tblNombre" readonly></td>`;
+                datos += `<td scope="col" ><input id="MedidaEt${e.trazabilidad.id}" type="text" value="${e.pieza.Medida}" class="oculto tblMedida" readonly></td>`;
+                datos += `<td scope="col" ><input id="NumeroEt${e.trazabilidad.id}" type="text" value="${e.trazabilidad.Numero}" class="oculto tblNumero" readonly></td>`;
+                datos += `<td scope="col" ><input id="CondicionEt${e.trazabilidad.id}" type="text" value="${e.trazabilidad.Condicion}" class="oculto tblCondicion" readonly></td>`;
                 datos += `<td scope="col" >
-                        <select name="tamaño" id="tamaño${e.trazabilidad.id}" class="tblTamaño" onchange="cargarEtiquetas(${e.trazabilidad.id});">
-                        <option value="chica">Chica</option>
-                        <option value="grande">Grande</option>
-                        </select></td>`;
+                <select name="tamaño" id="tamañoEt${e.trazabilidad.id}" class="tblTamaño" onchange="cargarEtiquetas(${e.trazabilidad.id});">
+                <option value="chica">Chica</option>
+                <option value="grande">Grande</option>
+                </select></td>`;
                 datos += `<td scope="col" >
-                        <button class="btn btn-danger" type="button"  onclick="borrarEtiqueta(${e.pieza.id});">Borrar</button>
-                        </td>`;
+                <button class="btn btn-danger" type="button"  onclick="borrarEtiqueta(${e.trazabilidad.id});">Borrar</button>
+                </td>`;
                 datos += '</tr>';
             });
+            datos += `</tbody>`;
+            datos += `</table>`;
             etChica.value = str;
             etChicasTodo.value = str;
             //console.log(str);
@@ -346,44 +359,21 @@ function cargarEtiquetas(id) {
         etGrandes.value += `${id}/`;
         etGrandesTodo.value += `${id}/`;
         str = etChicas.value;
-        str = str.replace(id+'/', "");
-        etChicas.value= str;
-        etChicasTodo.value= str;
+        str = str.replace(id + '/', "");
+        etChicas.value = str;
+        etChicasTodo.value = str;
     }
     if (tamaño == 'chica') {
         etChicas.value += `${id}/`;
         str = etGrandes.value;
-        str = str.replace(id+'/', "");
-        etGrandes.value= str;
-        etGrandesTodo.value= str;
+        str = str.replace(id + '/', "");
+        etGrandes.value = str;
+        etGrandesTodo.value = str;
     }
     /* console.log('chicas ' + etChicas.value);
     console.log('grandes ' + etGrandes.value); */
 }
 
-/* function enviarEtChicas() {
-    const datos = new FormData(document.getElementById('formulario-etChicas'));
-    fetch('/admin/etchicaspdf', {
-        method: 'POST',
-        body: datos,
-    })      
-}
-
-function enviarEtGrandes() {
-    const datos = new FormData(document.getElementById('formulario-etGrandes'));
-    fetch('/admin/etgrandespdf', {
-        method: 'POST',
-        body: datos,
-    })      
-}
-function imprimirTodo() {
-    const datos = new FormData(document.getElementById('formulario-modalEtiquetas'));
-    fetch('/admin/imprimirtodo', {
-        method: 'POST',
-        body: datos,
-    })      
-} */
-    
 
 
 

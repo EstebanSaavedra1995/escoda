@@ -32,33 +32,72 @@
         
     {{$dato['pieza']}}<br>
     @endforeach --}}
-@foreach ($arrayDatos as $datos)
-    
-<table class="" border="1" width="500" style="border-collapse:collapse; ">
-    <tr>
-        <td HEIGHT="50" style="font-size:30px;">
-            {{ $date = date('d/m/y') }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            ESCODA
-        </td>
-    </tr>
-    <tr>
-        <td style="font-size:20px;">
-            Descripción: &nbsp;&nbsp;&nbsp;&nbsp;
-            {{ $datos['trazabilidad']->CodPieza }} - {{$datos['pieza']->NombrePieza}}<br>
-            
-            Medida: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            s<br>
-            
-            Número: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{ $datos['trazabilidad']->Numero }}<br>
-            
-            Condición: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {{ $datos['trazabilidad']->Condicion }}
-        </td>
-    </tr>
-</table>
-<br>
-@endforeach
+    {{-- grande es 10% y 20% fontsize 20px y 30 px --}}
+    @foreach ($arrayDatos as $datos)
+        @if ($datos['tamaño'] == 'grande')
+
+            <table class="" border="1" width="100%" style="border-collapse:collapse; ">
+                <tr>
+                    <td height="10%" style="font-size:20px;">
+                        {{ $date = date('d/m/y') }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        ESCODA
+                    </td>
+                </tr>
+                <tr>
+                    <td height="20%" style="font-size:30px; text-align: left">
+                        {{-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {{ $datos['trazabilidad']->CodPieza }} - {{$datos['pieza']->NombrePieza}}<br> --}}
+                        <p align="center">{{ $datos['trazabilidad']->CodPieza }} -
+                            {{ $datos['pieza']->NombrePieza }}
+                        </p>
+
+                        Medida: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        s<br>
+
+                        Número: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ $datos['trazabilidad']->Numero }}<br>
+
+                        Condición: &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ $datos['trazabilidad']->Condicion }}
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+
+        @else
+
+            <table class="" border="1" width="100%" style="border-collapse:collapse; ">
+                <tr>
+                    <td height="5%" style="font-size:15px;">
+                        {{ $date = date('d/m/y') }}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        ESCODA
+                    </td>
+                </tr>
+                <tr>
+                    <td height="10%" style="font-size:18px; text-align: left">
+
+                        <p align="center">{{ $datos['trazabilidad']->CodPieza }} -
+                            {{ $datos['pieza']->NombrePieza }}
+                        </p>
+
+                        Medida: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        s<br>
+
+                        Número: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ $datos['trazabilidad']->Numero }}<br>
+
+                        Condición: &nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ $datos['trazabilidad']->Condicion }}
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+        @endif
+    @endforeach
 
 </body>
 

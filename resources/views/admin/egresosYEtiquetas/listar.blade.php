@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Escoda')
+@section('title', 'Listar/Modificar/...')
 
 @section('content_header')
 
@@ -202,25 +202,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="contenedor-tabla-modal">
-                        <table class="table table-bordered table-striped table-Etiqueta" id="tablaEtiqueta">
-                            <thead>
-                                <tr>
-                                    <th>Herramienta</th>
-                                    <th>Medida</th>
-                                    <th>Número</th>
-                                    <th>Condición</th>
-                                    <th>Tamaño</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-
-                                </tr>
-
-                            </tbody>
-                        </table>
+                    <div class="contenedor-tabla-modal" id="tablaEtiqueta">
+                        {{-- tabla desde js --}}
                     </div>
                     <input type="hidden" name="idprueba" value="1">
                 </div>
@@ -229,6 +212,7 @@
                     <form id="formulario-etChicas" method="POST" action="{{ route('etChicasPDF') }}" target="_blank">
                         @csrf
                         <input type="text" hidden id="etiquetasChicas" name="etiquetasChicas">
+                        <input type="text" hidden id="tipoChicas" name="tipoChicas">
                         <button type="submit" id="btnEtChicas" class="btn btn-primary">Vista Previa Etiquetas
                             Chicas</button>
                     </form>
@@ -236,6 +220,7 @@
                     <form id="formulario-etGrandes" method="POST" action="{{ route('etGrandesPDF') }}" target="_blank">
                         @csrf
                         <input type="text" hidden id="etiquetasGrandes" name="etiquetasGrandes">
+                        <input type="text" hidden id="tipoGrandes" name="tipoGrandes">
                         <button type="submit" id="btnEtGrandes" class="btn btn-primary">Vista Previa Etiquetas
                             Grandes</button>
                     </form>
@@ -245,6 +230,7 @@
                         @csrf
                         <input type="text" hidden id="etChicas" name="etChicas">
                         <input type="text" hidden id="etGrandes" name="etGrandes">
+                        <input type="text" hidden id="tipoTodo" name="tipoTodo">
                         <button type="submit" class="btn btn-primary" id="btnTodo">Imprimir Todo</button>
                     </form>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>

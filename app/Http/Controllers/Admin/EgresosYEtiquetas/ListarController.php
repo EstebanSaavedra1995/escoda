@@ -205,7 +205,7 @@ class ListarController extends Controller
             $etGrandes = request('etiquetasGrandes');
             $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
             $pdf = App::make('dompdf.wrapper');
-            $pdf->loadView('vistaPDF', compact(['trazabilidad', 'etChicas','etGrandes']));
+            $pdf->loadView('vistaPDF', compact(['trazabilidad', 'etChicas', 'etGrandes']));
             return $pdf->stream();
         }
     }
@@ -213,21 +213,28 @@ class ListarController extends Controller
     public function etChicasPDF()
     {
         $codigos = request('etiquetasChicas');
-        $codigos = explode('/',$codigos);
-        $resultado = [];
-        foreach ($codigos as $id) {
+        $codigos = explode('/', $codigos);
+        $tipo = request('tipoChicas');
+        $resultado = $this->cargarResultado($codigos,$tipo);
+        /* foreach ($codigos as $id) {
             $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
             if ($trazabilidad !== null) {
-                $resultado[] =$trazabilidad;
+                $pieza = Conjunto::where('CodPieza', $trazabilidad->CodPieza)->first();
+                $resultado[] = [
+                    'trazabilidad' => $trazabilidad,
+                    'pieza' => $pieza,
+                    'tamaño' => "chica",
+                    'titulo' => "Etiquetas Chicas"
+                ];
             }
-        }
+        } */
         return $this->enviarVistaPDF($resultado);
     }
-    
+
     public function etGrandesPDF()
     {
         $codigos = request('etiquetasGrandes');
-        $codigos = explode('/',$codigos);
+        $codigos = explode('/', $codigos);
         $resultado = [];
         foreach ($codigos as $id) {
             $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
@@ -246,21 +253,63 @@ class ListarController extends Controller
 
     public function imprimirTodo()
     {
-        $codigos = request('etGrandes');
-        $codigos = explode('/',$codigos);
+        $codigosG = request('etGrandes');
+        $codigosC = request('etChicas');
+        $codigosG = explode('/', $codigosG);
+        $codigosC = explode('/', $codigosC);
         $resultado = [];
-        foreach ($codigos as $id) {
+        foreach ($codigosG as $id) {
             $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
             if ($trazabilidad !== null) {
-                $resultado[] =$trazabilidad;
+                $pieza = Conjunto::where('CodPieza', $trazabilidad->CodPieza)->first();
+                $resultado[] = [
+                    'trazabilidad' => $trazabilidad,
+                    'pieza' => $pieza,
+                    'tamaño' => "grande",
+                    'titulo' => "Etiquetas Grandes"
+                ];
+            }
+        }
+
+        foreach ($codigosC as $id) {
+            $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
+            if ($trazabilidad !== null) {
+                $pieza = Conjunto::where('CodPieza', $trazabilidad->CodPieza)->first();
+                $resultado[] = [
+                    'trazabilidad' => $trazabilidad,
+                    'pieza' => $pieza,
+                    'tamaño' => "chica",
+                    'titulo' => "Etiquetas Chicas"
+                ];
             }
         }
         return $this->enviarVistaPDF($resultado);
     }
 
+    public function cargarResultado($codigos, $tipo)
+    {
+        $resultado = [];
+        foreach ($codigos as $id) {
+            $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
+            if ($trazabilidad !== null) {
+                if ($tipo == 'conjunto') {
+                    $pieza = Conjunto::where('CodPieza', $trazabilidad->CodPieza)->first();
+                }
+                if ($tipo == 'pieza') {
+                    $pieza = Pieza::where('CodPieza', $trazabilidad->CodPieza)->first();
+                }
+                $resultado[] = [
+                    'trazabilidad' => $trazabilidad,
+                    'pieza' => $pieza,
+                    'tamaño' => "grande",
+                    'titulo' => "Etiquetas Grandes"
+                ];
+            }
+        }
+        return $resultado;
+    }
 
-
-    public function enviarVistaPDF( $arrayDatos)
+    public function enviarVistaPDF($arrayDatos)
     {
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('vistaPDF', compact('arrayDatos'));
