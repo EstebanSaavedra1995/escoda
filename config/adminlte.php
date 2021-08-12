@@ -276,11 +276,11 @@ return [
                         ],
                         [
                             'text' => 'Completar/Cancelar',
-                            'url'  => '#',
+                            'route'  => 'reparacion.completarcancelar',
                         ],
                         [
                             'text' => 'Listar',
-                            'url'  => '#',
+                            'route'  => 'reparacion.listar',
                         ],
                     ],
                 ],

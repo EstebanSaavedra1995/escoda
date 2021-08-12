@@ -20,7 +20,7 @@ function cancelar() {
         .then((willCancel) => {
             if (willCancel) {
                 setTimeout(function () {
-                    window.location.href = "http://escoda.test/admin/construccion";
+                    location.reload(); //ARREGLAR
                 }, 1000)
             }
         });
@@ -29,11 +29,11 @@ function cancelar() {
 function validar() {
     let celdasincorrectas = document.getElementsByClassName('celdasincorrectas').length;
     let filasDeTarea = document.getElementsByClassName('filasDeTarea').length;
-    let cantidadrealizar = document
+    let cantidadrealizar = document.getElementById('cantidad-realizar').value;
     let radios = verificarRadios();
+    console.log(cantidadrealizar);
 
-
-    if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar != 0 && radios == true) {
+    if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar > 0 && radios == true) {
         swal({
             title: "¿Desea agregar una nueva orden de construcción?",
             /* text: "Once deleted, you will not be able to recover this imaginary file!", */
@@ -73,8 +73,8 @@ function enviarDatos() {
                     button: "Aceptar",
                 });
                 setTimeout(function () {
-                    window.location.href = "http://escoda.test/admin/construccion";
-                }, 1500)
+                    location.reload();
+                }, 1000)
             } else {
                 swal({
                     title: "¡Ocurrió un fallo, por favor revise los campos!",
@@ -432,9 +432,9 @@ const agregarMaterial = (codigoMaterial) => {
                 icon: "success",
                 button: "Aceptar",
             });
-          
+
         })
-  
+
 }
 
 

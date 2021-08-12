@@ -7,7 +7,7 @@ document.getElementById('lista').addEventListener('change', function (e) {
     } else if (valor == 1) {
         filtroFecha();
     } else {
-        filtroPieza();
+        filtroHerramienta();
     }
 
 })
@@ -33,52 +33,53 @@ const filtroFecha = () => {
     filtro.innerHTML = inputs;
 
 }
-const filtroPieza = () => {
+const filtroHerramienta = () => {
     let filtro = document.getElementById('filtro');
     filtro.className = "row mb-2";
 
     const datos = new FormData(document.getElementById('formulario'));
-    fetch('/admin/listarcancelar/piezas', {
+    fetch('/admin/reparacion/listarherramientas', {
         method: 'POST',
         body: datos,
     })
         .then(res => res.json())
         .then(data => {
-            let comboPieza = document.createElement("select");
-            comboPieza.className = "col mr-2";
-            comboPieza.name = "pieza";
-            comboPieza.id = "pieza";
+            let comboHerramienta = document.createElement("select");
+            comboHerramienta.className = "col mr-2";
+            comboHerramienta.name = "herramienta";
+            comboHerramienta.id = "herramienta";
 
-            data.forEach(piezas => {
+            data.forEach(herramienta => {
                 let option = document.createElement('option');
-                option.innerHTML = `${piezas.CodPieza} - ${piezas.NombrePieza} - ${piezas.Medida}`;
-                option.value = piezas.CodPieza;
-                comboPieza.appendChild(option);
+                option.innerHTML = `${herramienta.CodPieza} - ${herramienta.NombrePieza} - ${herramienta.Medida}`;
+                option.value = herramienta.CodPieza;
+                comboHerramienta.appendChild(option);
             })
             filtro.innerHTML = `<label class="col mr-2">Pieza:</label>`;
-            filtro.appendChild(comboPieza);
+            filtro.appendChild(comboHerramienta);
         })
 }
 
 const listarOrdenes = () => {
     const datos = new FormData(document.getElementById('formulario'));
-    fetch('/admin/listarcancelar/ordenes', {
+    fetch('/admin/reparacion/listarordenes', {
         method: 'POST',
         body: datos,
     })
         .then(res => res.json())
         .then(data => {
-            divtablatareas = document.getElementById('divtablatareas');
-            divtablatareas.innerHTML = '';
             if (data[0] === 'ordenes') {
                 realizarTablaOrden(data[1]);
-            } else if (data[0] === 'piezas')
-                realizarTablaPieza(data[1]);
-            else {
+            } else if (data[0] === 'fechas') {
                 realizarTablaFecha(data[1]);
+            } else {
+                realizarTablaHerramienta(data[1]);
             }
         })
 }
+
+
+
 const formatDate = () => {
     var d = new Date(),
         month = '' + (d.getMonth() + 1),
@@ -159,8 +160,8 @@ const cancelarTarea = (oc) => {
                                 button: "Aceptar",
                             });
                             setTimeout(function () {
-                                location.reload();
-                            }, 1000)
+                                window.location.href = "http://escoda.test/admin/listarcancelar";
+                            }, 1500)
                         } else {
                             swal({
                                 title: "¡Ocurrió un fallo, no se pudo dar de baja!",
@@ -174,122 +175,67 @@ const cancelarTarea = (oc) => {
 }
 
 const excel = () => {
-    /*   const datos = new FormData(document.getElementById('formulario'));
-      fetch('/admin/listarcancelar/exportExcel', {
-          method: 'GET',
-      })
-          
-          .then(data => {
-              console.log('LLegó');
-          }) */
     console.log('Excel');
 }
 
-const realizarTablaPieza = (array) => {
-    let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
-    tabla += `<thead>`;
-    tabla += `<tr>`;
-    tabla += `<th scope="col">Pieza</th>`;
-    tabla += `<th scope="col">Nro de orden</th>`;
-    tabla += `<th scope="col">Fecha</th>`;
-    tabla += `<th scope="col">Cantidad</th>`;
-    tabla += `<th scope="col">Material</th>`;
-    tabla += `<th scope="col">Longitud corte</th>`;
-    tabla += `<th scope="col">Colada</th>`;
-    tabla += `<th scope="col">Acciónes</th>`;
-    tabla += `</tr>`;
-    tabla += `</thead>`;
-    tabla += `<tbody>`;
-    array.forEach(orden => {
-        tabla += `<tr>`;
-        tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
-        tabla += `<td style="width: 20px">${orden.NroOC} </td>`;
-        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)} </td>`;
-        tabla += `<td style="width: 15px">${orden.Cantidad} </td>`;
-        tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
-        tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
-        tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
-        tabla += `</tr>`;
-
-    });
-
-    tabla += `</tbody>`;
-    tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
-    divtabla.innerHTML = tabla;
-
-}
 const realizarTablaOrden = (array) => {
     let divtabla = document.getElementById('divtabla');
     let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
-    tabla += `<th scope="col">Nro de orden</th>`;
+    tabla += `<th scope="col">Nro reparación</th>`;
     tabla += `<th scope="col">Fecha</th>`;
-    tabla += `<th scope="col">Pieza</th>`;
-    tabla += `<th scope="col">Cantidad</th>`;
-    tabla += `<th scope="col">Material</th>`;
-    tabla += `<th scope="col">Longitud corte</th>`;
-    tabla += `<th scope="col">Colada</th>`;
-    tabla += `<th scope="col">Acciónes</th>`;
+    tabla += `<th scope="col">Conjunto</th>`;
+    tabla += `<th scope="col">Nro</th>`;
+    tabla += `<th scope="col">Operario</th>`;
+    tabla += `<th scope="col">Supervisor</th>`;
+    tabla += `<th scope="col">Acciones</th>`;
     tabla += `</tr>`;
     tabla += `</thead>`;
     tabla += `<tbody>`;
     array.forEach(orden => {
         tabla += `<tr>`;
-        tabla += `<td style="width: 20px">${orden.NroOC} </td>`;
-        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)} </td>`;
+        tabla += `<td style="width: 15px">${orden.NroOR}</td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)}</td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
-        tabla += `<td style="width: 15px">${orden.Cantidad} </td>`;
-        tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
-        tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
-        tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
+        tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
+        tabla += `<td style="width: 20px">Supervisor </td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
+        tabla += ` <button type="button" class="btn btn-secondary">Imprimir</button>`;
         tabla += `</tr>`;
 
     });
-
     tabla += `</tbody>`;
     tabla += `</table>`;
     tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
     divtabla.innerHTML = tabla;
-
 }
 const realizarTablaFecha = (array) => {
     let divtabla = document.getElementById('divtabla');
     let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
-    tabla += `<th scope="col">Fecha</th>`; style = "width: 20px"
-    tabla += `<th scope="col">Nro de orden</th>`;
-
-    tabla += `<th scope="col">Pieza</th>`;
-    tabla += `<th scope="col">Cantidad</th>`;
-    tabla += `<th scope="col">Material</th>`;
-    tabla += `<th scope="col">Longitud corte</th>`;
-    tabla += `<th scope="col">Colada</th>`;
-    tabla += `<th scope="col">Acciónes</th>`;
+    tabla += `<th scope="col">Fecha</th>`;
+    tabla += `<th scope="col">Nro reparación</th>`;
+    tabla += `<th scope="col">Conjunto</th>`;
+    tabla += `<th scope="col">Nro</th>`;
+    tabla += `<th scope="col">Operario</th>`;
+    tabla += `<th scope="col">Supervisor</th>`;
+    tabla += `<th scope="col">Acciones</th>`;
     tabla += `</tr>`;
     tabla += `</thead>`;
     tabla += `<tbody>`;
     array.forEach(orden => {
         tabla += `<tr>`;
-        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)} </td>`;
-        tabla += `<td style="width: 20px">${orden.NroOC} </td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)}</td>`;
+        tabla += `<td style="width: 15px">${orden.NroOR}</td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
-        tabla += `<td style="width: 15px">${orden.Cantidad} </td>`;
-        tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
-        tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
-        tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
+        tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
+        tabla += `<td style="width: 20px">Supervisor </td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR();">Info</button> `;
+        tabla += ` <button type="button" class="btn btn-secondary">Imprimir</button>`;
         tabla += `</tr>`;
 
     });
@@ -297,5 +243,52 @@ const realizarTablaFecha = (array) => {
     tabla += `</table>`;
     tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
     divtabla.innerHTML = tabla;
+}
 
+const realizarTablaHerramienta = (array) => {
+    let divtabla = document.getElementById('divtabla');
+    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
+    tabla += `<thead>`;
+    tabla += `<tr>`;
+    tabla += `<th scope="col">Conjunto</th>`;
+    tabla += `<th scope="col">Fecha</th>`;
+    tabla += `<th scope="col">Nro reparación</th>`;
+    tabla += `<th scope="col">Nro</th>`;
+    tabla += `<th scope="col">Operario</th>`;
+    tabla += `<th scope="col">Supervisor</th>`;
+    tabla += `<th scope="col">Acciones</th>`;
+    tabla += `</tr>`;
+    tabla += `</thead>`;
+    tabla += `<tbody>`;
+    array.forEach(orden => {
+        tabla += `<tr>`;
+        tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)}</td>`;
+        tabla += `<td style="width: 15px">${orden.NroOR}</td>`;
+        tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
+        tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
+        tabla += `<td style="width: 20px">Supervisor </td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR();">Info</button> `;
+        tabla += ` <button type="button" class="btn btn-secondary">Imprimir</button>`;
+        tabla += `</tr>`;
+
+    });
+    tabla += `</tbody>`;
+    tabla += `</table>`;
+    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    divtabla.innerHTML = tabla;
+}
+
+const infoOR = (nro) => {
+  
+    const datos = new FormData(document.getElementById('formulario'));
+    datos.append('nro', nro);
+    fetch('/admin/reparacion/listardetalles', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
 }
