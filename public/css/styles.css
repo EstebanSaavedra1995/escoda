@@ -85,6 +85,10 @@ display: inline-block;
     table-layout: fixed;
     width: 1050px;
 }
+.table-Etiqueta{
+    table-layout: fixed;
+    width: fixed;
+}
 
 .oculto{
 	background-color:transparent; 

@@ -96,7 +96,8 @@
 
                     <div class="row mt-4">
                         <button class="btn btn-primary col-2 mr-2" type="button" id="btnGuardar">Guardar</button>
-                        <button class="btn btn-primary col-2" type="button" id="btnListar">Listar</button>
+                        {{-- <button class="btn btn-primary col-2" type="button" id="btnListar">Listar</button> --}}
+                        <a href="{{ route('listar') }}" class="btn btn-primary col-2" target="_blank" >Listar</a>
                     </div>
 
 
