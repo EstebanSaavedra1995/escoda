@@ -38,12 +38,33 @@
                     </div>
                 </div>
             </div>
+
         </form>
-        {{-- MODAL MATERIALES --}}
 
-        {{-- MODAL TAREAS --}}
-        {{-- MODAL Modificar TAREAS --}}
+        <div style="visibility: hidden" id="divPieza" name="divPieza">
+            <form method="POST" action="{{ route('piezaExcel') }}" target="_blank">
+                @csrf
+                <input type="hidden" id="piezaExcel" name="piezaExcel">
+                <button type="submit" class="btn btn-success">Excel</button>
+            </form>
+        </div>
 
+        <div style="visibility: hidden" id="divFecha" name="divFecha">
+            <form method="POST" action="{{ route('fechaExcel') }}" target="_blank">
+                @csrf
+                <input type="hidden" id="fecha1Excel" name="fecha1Excel">
+                <input type="hidden" id="fecha2Excel" name="fecha2Excel">
+                <button type="submit" class="btn btn-success">Excel</button>
+            </form>
+        </div>
+
+        <div style="visibility: hidden" id="divNumero" name="divNumero">
+            <form method="POST" action="{{ route('numeroExcel') }}" target="_blank">
+                @csrf
+                <input type="hidden" id="numeroExcel" name="numeroExcel">
+                <button type="submit" class="btn btn-success">Excel</button>
+            </form>
+        </div>
     </div>
 @stop
 

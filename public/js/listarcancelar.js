@@ -1,4 +1,7 @@
 document.getElementById('lista').addEventListener('change', function (e) {
+    let divtabla = document.getElementById('divtabla');
+    divtabla.innerHTML = '';
+    ocultarExcels();
     let buscar = document.getElementById('buscar');
     buscar.disabled = false;
     let valor = document.getElementById('lista').value;
@@ -216,10 +219,9 @@ const realizarTablaPieza = (array) => {
         tabla += `</tr>`;
 
     });
-
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    piezaReporteExcel();
     divtabla.innerHTML = tabla;
 
 }
@@ -257,7 +259,7 @@ const realizarTablaOrden = (array) => {
 
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    numeroReporteExcel();
     divtabla.innerHTML = tabla;
 
 }
@@ -295,7 +297,42 @@ const realizarTablaFecha = (array) => {
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    fechaReporteExcel();
     divtabla.innerHTML = tabla;
 
+}
+const piezaReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "visible";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+
+    let piezaExcel = document.getElementById('piezaExcel');
+    let pieza = document.getElementById('pieza');
+    piezaExcel.value = pieza.value;
+}
+const fechaReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "visible";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+
+    let fecha1Excel = document.getElementById('fecha1Excel');
+    let fecha2Excel = document.getElementById('fecha2Excel');
+    fecha1Excel.value = document.getElementById('fecha1').value;
+    fecha2Excel.value = document.getElementById('fecha2').value;
+
+}
+const numeroReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "visible";
+
+    let numeroExcel = document.getElementById('numeroExcel');
+    numeroExcel.value = document.getElementById('nroorden').value;
+    //pasarle el valor del numero de orden
+}
+
+const ocultarExcels = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
 }

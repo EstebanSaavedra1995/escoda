@@ -79,8 +79,10 @@ Route::post('/admin/listarcancelar/piezas', [ConstruccionListarCancelarControlle
 Route::post('/admin/listarcancelar/ordenes', [ConstruccionListarCancelarController::class, 'ordenes']);
 Route::post('/admin/listarcancelar/detalles', [ConstruccionListarCancelarController::class, 'detalles']);
 Route::post('/admin/listarcancelar/cancelar', [ConstruccionListarCancelarController::class, 'cancelar']);
-/* Route::post('/admin/listarcancelar/excel', [ConstruccionListarCancelarController::class, 'excel']);
-Route::get('/admin/listarcancelar/exportExcel', [ConstruccionListarCancelarController::class, 'exportExcel']); */
+
+Route::post('/admin/listarcancelar/exportExcel', [ConstruccionListarCancelarController::class, 'exportExcel'])->name('piezaExcel');
+Route::post('/admin/listarcancelar/exportExcelFechas', [ConstruccionListarCancelarController::class, 'exportExcelFechas'])->name('fechaExcel');
+Route::post('/admin/listarcancelar/exportExcelNumero', [ConstruccionListarCancelarController::class, 'exportExcelNumero'])->name('numeroExcel');
 
 Route::get('/admin/reparacion/confeccionar', [ReparacionController::class, 'index'])->name('reparacion.confeccionar');
 Route::post('/admin/reparacion/conjuntos', [ReparacionController::class, 'conjuntos']);

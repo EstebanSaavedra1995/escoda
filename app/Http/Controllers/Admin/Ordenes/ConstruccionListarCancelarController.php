@@ -14,7 +14,9 @@ use App\Models\TotalStockMateriales;
 use App\Models\TotalStockPiezas;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ConstruccionExport;
+use App\Exports\OCExport;
+use App\Exports\OCFechasExport;
+use App\Exports\OCNumeroExport;
 
 class ConstruccionListarCancelarController extends Controller
 
@@ -127,39 +129,22 @@ class ConstruccionListarCancelarController extends Controller
         return json_encode('ok');
     }
 
-    public function excel()
-    {
-        return Excel::download(new ConstruccionExport, 'oc-lista.xlsx');
-        return json_encode('Correcto');
-        /*         $tipo = request('lista');
 
-        if ($tipo == 0) {
-
-            $nroOrden = request('nroorden');
-            $ordenes = Construccion::where('NroOC', 'LIKE', '%' . $nroOrden . '%')
-                ->where('Estado', 'A')->get();
-            return json_encode($ordenes);
-        } elseif ($tipo == 1) {
-
-            $fecha1 = request('fecha1');
-            $fecha2 = request('fecha2');
-            $fecha1 = str_replace('-', '', $fecha1);
-            $fecha2 = str_replace('-', '', $fecha2);
-            $fecha1 = substr($fecha1, -6);
-            $fecha2 = substr($fecha2, -6);
-
-            $ordenes = Construccion::where('Estado', 'A')
-                ->whereBetween('Fecha', [$fecha1, $fecha2])->get();
-            return json_encode($ordenes);
-        } else {
-            $pieza = request('pieza');
-            $ordenes = Construccion::where('Estado', 'A')
-                ->where('CodigoPieza', $pieza)->get();
-            return json_encode($ordenes);
-        } */
-    }
     public function exportExcel()
     {
-        return Excel::download(new ConstruccionExport, 'oc.xlsx');
+        $piezaExcel = request('piezaExcel');
+        return Excel::download(new OCExport($piezaExcel), 'ocpieza_' . $piezaExcel . '.xlsx');
+    }
+
+    public function exportExcelFechas()
+    {
+        $fecha1 = request('fecha1Excel');
+        $fecha2 = request('fecha2Excel');
+        return Excel::download(new OCFechasExport($fecha1, $fecha2), 'ocfechas_' . $fecha1 . '_' . $fecha2 . '.xlsx');
+    }
+    public function exportExcelNumero()
+    {
+        $numeroExcel = request('numeroExcel');
+        return Excel::download(new OCNumeroExport($numeroExcel), 'ocnumeros_' . $numeroExcel . '.xlsx');
     }
 }
