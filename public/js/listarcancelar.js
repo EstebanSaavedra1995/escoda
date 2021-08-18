@@ -210,9 +210,9 @@ const realizarTablaPieza = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
@@ -248,9 +248,9 @@ const realizarTablaOrden = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
@@ -287,9 +287,9 @@ const realizarTablaFecha = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });

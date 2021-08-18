@@ -4,40 +4,36 @@ const cargarTabla = () => {
     let conjunto = document.getElementById('conjunto').value;
     const datos = new FormData(document.getElementById('formulario'));
 
-    fetch('/admin/reparacion/conjuntos', {
+    fetch('/admin/ensamble/conjuntos', {
         method: 'POST',
         body: datos
     })
         .then(res => res.json())
         .then(data => {
-
-            armarTabla(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas, data.nuevaor);
+            console.log(data);
+            armarTabla(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas, data.nuevaOE, data.numero);
         })
 }
 
 
-const armarTabla = (articulos, piezas, gomas, or) => {
+const armarTabla = (articulos, piezas, gomas, oe, numero) => {
     let divtablatareas = document.getElementById('divtablatareas');
     let conjunto = document.getElementById('conjunto').value;
-    let nor = document.getElementById('nor');
-    nor.value = or;
+    let noe = document.getElementById('noe');
+    noe.value = oe;
     let cadena = '';
-    cadena += `<u>Orden de reparación</u>: ${or} <br>`
-    cadena += `<u>Fecha:</u> ${formatDate()}  <br>`;
+    cadena += `<u>Orden de ensamble</u>: ${oe} <br>`
+    cadena += `<u>Fecha:</u> ${formatDate()} <br>`;
     cadena += `<u>Herramienta</u>: ${conjunto} <br>`;
-    cadena += `<u>Número</u>: ...........<br>`;
+    cadena += `<u>Número</u>: <input type="number" name="numero" id="numero" value="${numero}"><br>`;
     cadena += `<u>Pasos a seguir</u>: <br>`;
-    cadena += `1 - Limpieza <br>`;
-    cadena += `2 - Desarmado<br>`;
-    cadena += `3 - Estado de piezas<br>`;
-
+    cadena += `1 - Listado de piezas<br>`;
     cadena += `<table class="table-striped table table-bordered table-scroll3">`;
     cadena += `<thead>`;
     cadena += `<tr>`;
     cadena += `<th scope="col">Código</th>`;
     cadena += `<th scope="col">Descripción</th>`;
     cadena += `<th scope="col">Nro OC</th>`;
-    cadena += `<th scope="col">Cambiar</th>`;
     cadena += `<th scope="col">Cantidad</th>`;
     cadena += `</tr>`;
     cadena += `</thead>`;
@@ -48,7 +44,6 @@ const armarTabla = (articulos, piezas, gomas, or) => {
             cadena += `<td>${goma.CodigoInterno}</td>`;
             cadena += `<td>${goma.CodigoGoma} - ${goma.DiametroInterior} - ${goma.DiametroExterior}</td>`;
             cadena += `<td></td>`;
-            cadena += `<td>Si No</td>`;
             cadena += `<td>${goma.Cantidad}</td>`;
             cadena += `</tr>`;
         })
@@ -60,7 +55,6 @@ const armarTabla = (articulos, piezas, gomas, or) => {
             cadena += `<td>${articulo.CodArticulo}</td>`;
             cadena += `<td>${articulo.Descripcion}</td>`;
             cadena += `<td></td>`;
-            cadena += `<td>Si No</td>`;
             cadena += `<td>${articulo.Cantidad}</td>`;
             cadena += `</tr>`;
         })
@@ -71,7 +65,6 @@ const armarTabla = (articulos, piezas, gomas, or) => {
             cadena += `<td>${pieza.codigoPieza}</td>`;
             cadena += `<td>${pieza.NombrePieza}</td>`;
             cadena += `<td></td>`;
-            cadena += `<td>Si No</td>`;
             cadena += `<td>${pieza.Cantidad}</td>`;
             cadena += `</tr>`;
         })
@@ -79,17 +72,18 @@ const armarTabla = (articulos, piezas, gomas, or) => {
 
     cadena += `</tbody>`;
     cadena += `</table>`;
-    cadena += `4 - Armado <br>`;
-    cadena += `5 - Prueba de funcionamiento<br>`;
-    cadena += `6 - Pintado<br>`;
-    cadena += `7 - Trazabilidad<br>`;
-    cadena += `<button type="button" class ="btn btn-success" onclick= "agregarOR();">Agregar orden</button> <button type="button" class ="btn btn-info">PDF</button>`;
+    cadena += `2 - Armado <br>`;
+    cadena += `3 - Prueba de funcionamiento<br>`;
+    cadena += `4 - Pintado<br>`;
+    cadena += `5 - Trazabilidad<br>`;
+    cadena += `<button type="button" class ="btn btn-success" onclick= "agregarOE();">Agregar orden</button> `
+    cadena += `<button type="button" class ="btn btn-info">PDF</button>`;
     divtablatareas.innerHTML = cadena;
 }
-const agregarOR = () => {
+const agregarOE = () => {
 
     swal({
-        title: "¿Desea agregar una nueva orden de reparación?",
+        title: "¿Desea agregar una nueva orden de ensamble?",
         icon: "warning",
         buttons: ["Cancelar", "Aceptar"],
         dangerMode: true,
@@ -105,28 +99,29 @@ const enviarDatos = () => {
     const datos = new FormData(document.getElementById('formulario'));
 
 
-    fetch('/admin/reparacion/guardar', {
+    fetch('/admin/ensamble/guardar', {
         method: 'POST',
         body: datos,
     })
         .then(res => res.json())
         .then(data => {
-            if (data === 'ok') {
-                swal({
-                    title: "¡Se ha agregado una nueva orden de reparación pendiente!",
-                    icon: "success",
-                    button: "Aceptar",
-                });
-                setTimeout(function () {
-                    location.reload();
-                }, 1000)
-            } else {
-                swal({
-                    title: "¡Ocurrió un fallo, por favor revise los campos!",
-                    icon: "warning",
-                    button: "Aceptar",
-                });
-            }
+            
+              if (data === 'ok') {
+                  swal({
+                      title: "¡Se ha agregado una nueva orden de ensamble pendiente!",
+                      icon: "success",
+                      button: "Aceptar",
+                  });
+                  setTimeout(function () {
+                      location.reload();
+                  }, 1000)
+              } else {
+                  swal({
+                      title: "¡Ocurrió un fallo, por favor revise los campos!",
+                      icon: "warning",
+                      button: "Aceptar",
+                  });
+              }
         })
 }
 const formatDate = () => {

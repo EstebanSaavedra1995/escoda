@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Admin\Ordenes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Conjunto;
+use App\Models\ConjuntoArticulos;
+use App\Models\ConjuntoGomas;
+use App\Models\DetalleReparacionArticulo;
+use App\Models\DetalleReparacionGoma;
+use App\Models\DetalleReparacionPieza;
 use App\Models\OrdenReparacion;
+use App\Models\PiezaDeConjunto;
 use Illuminate\Http\Request;
 
-class ListarOrdenReparacion extends Controller
+class ReparacionListarOrden extends Controller
 {
     public function __construct()
     {
@@ -70,6 +76,54 @@ class ListarOrdenReparacion extends Controller
     public function listardetalles()
     {
         $nro = request('nro');
-        return json_encode($nro);
+        $detallesArticulos = DetalleReparacionArticulo::select('*')
+            ->join('articulosgenerales', 'detallereparacionarticulos.codArticulo', '=', 'articulosgenerales.CodArticulo')
+            ->where('NroOR', $nro)->get();
+
+        $detalleGomas = DetalleReparacionGoma::select('*')
+            ->join('gomas', 'detallereparaciongomas.CodGoma', '=', 'gomas.CodigoGoma')
+            ->where('NroOR', $nro)->get();
+
+        $detallePiezas = DetalleReparacionPieza::select('*')
+            ->join('piezas', 'detallereparacionpiezas.codPieza', '=', 'piezas.CodPieza')
+            ->where('NroOR', $nro)->get();
+
+        $rta = [];
+        $rta[] = $detallesArticulos;
+        $rta[] = $detalleGomas;
+        $rta[] = $detallePiezas;
+        return json_encode($rta);
+    }
+
+    public function modificarorden()
+    {
+        
+        $nroOrden = request('or');
+        $orden = OrdenReparacion::where('NroOR', $nroOrden)->first();
+
+        $conjunto = $orden->CodConjunto;
+
+        $cjt = Conjunto::where('CodPieza', $conjunto)->first();
+        $conjuntoArticulos = ConjuntoArticulos::select('*')
+            ->join('articulosgenerales', 'conjuntoarticulosgenerales.CodArticulo', '=', 'articulosgenerales.CodArticulo')
+            ->where('CodPieza', $conjunto)
+            ->get();
+
+        $piezasConjunto = PiezaDeConjunto::select('*')
+            ->join('piezas', 'piezadeconjunto.codigoPieza', '=', 'piezas.CodPieza')
+            ->where('CodigoCjto', $conjunto)
+            ->get();
+
+        $conjuntoGomas = ConjuntoGomas::select('*')
+            ->join('gomas', 'conjuntogoma.CodigoGoma', '=', 'gomas.CodigoGoma')
+            ->where('CodPieza', $conjunto)
+            ->get();
+
+        $resultado = [
+            'conjuntoArticulos' => $conjuntoArticulos, 'piezasConjunto' => $piezasConjunto,
+            'conjuntoGomas' => $conjuntoGomas, 'conjunto' => $cjt, 'orden' => $orden
+        ];
+
+        return json_encode($resultado);
     }
 }

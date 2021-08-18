@@ -45,7 +45,7 @@ const filtroHerramienta = () => {
     filtro.className = "row mb-2";
 
     const datos = new FormData(document.getElementById('formulario'));
-    fetch('/admin/reparacion/listarherramientas', {
+    fetch('/admin/reparacion/listarherramientas', { //queda igual ya son el mismo combo
         method: 'POST',
         body: datos,
     })
@@ -69,18 +69,19 @@ const filtroHerramienta = () => {
 
 const listarOrdenes = () => {
     const datos = new FormData(document.getElementById('formulario'));
-    fetch('/admin/reparacion/listarordenes', {
+    fetch('/admin/ensamble/listarordenes', {
         method: 'POST',
         body: datos,
     })
         .then(res => res.json())
         .then(data => {
+            console.log(data);
             if (data[0] === 'ordenes') {
                 realizarTablaOrden(data[1]);
             } else if (data[0] === 'fechas') {
-                realizarTablaFecha(data[1]);
+                realizarTablaOrden(data[1]);
             } else {
-                realizarTablaHerramienta(data[1]);
+                realizarTablaOrden(data[1]);
             }
         })
 }
@@ -190,63 +191,20 @@ const realizarTablaOrden = (array) => {
     let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
-    tabla += `<th scope="col">Nro reparación</th>`;
+    tabla += `<th scope="col">Nro ensamble</th>`;
     tabla += `<th scope="col">Fecha</th>`;
     tabla += `<th scope="col">Conjunto</th>`;
     tabla += `<th scope="col">Nro</th>`;
-    tabla += `<th scope="col">Operario</th>`;
-    tabla += `<th scope="col">Supervisor</th>`;
-    tabla += `<th scope="col">Acciones</th>`;
     tabla += `</tr>`;
     tabla += `</thead>`;
     tabla += `<tbody>`;
     array.forEach(orden => {
         tabla += `<tr>`;
-        tabla += `<td style="width: 15px">${orden.NroOR}</td>`;
-        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)}</td>`;
+        tabla += `<td style="width: 100px">${orden.NroOE}</td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.fecha)}</td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
-        tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
-        tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
-        tabla += `<td style="width: 20px">Supervisor </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `;
-        tabla += ` <button type="button" class="btn btn-secondary">Imp</button>`;
+        tabla += `<td>${orden.NroCjto}</td>`;
         tabla += `</tr>`;
-
-    });
-    tabla += `</tbody>`;
-    tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
-    divtabla.innerHTML = tabla;
-}
-const realizarTablaFecha = (array) => {
-    let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
-    tabla += `<thead>`;
-    tabla += `<tr>`;
-    tabla += `<th scope="col">Fecha</th>`;
-    tabla += `<th scope="col">Nro reparación</th>`;
-    tabla += `<th scope="col">Conjunto</th>`;
-    tabla += `<th scope="col">Nro</th>`;
-    tabla += `<th scope="col">Operario</th>`;
-    tabla += `<th scope="col">Supervisor</th>`;
-    tabla += `<th scope="col">Acciones</th>`;
-    tabla += `</tr>`;
-    tabla += `</thead>`;
-    tabla += `<tbody>`;
-    array.forEach(orden => {
-        tabla += `<tr>`;
-        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)}</td>`;
-        tabla += `<td style="width: 15px">${orden.NroOR}</td>`;
-        tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
-        tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
-        tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
-        tabla += `<td style="width: 20px">Supervisor </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `;
-        tabla += ` <button type="button" class="btn btn-secondary">Imp</button>`;
-        tabla += `</tr>`;
-
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
@@ -254,40 +212,6 @@ const realizarTablaFecha = (array) => {
     divtabla.innerHTML = tabla;
 }
 
-const realizarTablaHerramienta = (array) => {
-    let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
-    tabla += `<thead>`;
-    tabla += `<tr>`;
-    tabla += `<th scope="col">Conjunto</th>`;
-    tabla += `<th scope="col">Fecha</th>`;
-    tabla += `<th scope="col">Nro reparación</th>`;
-    tabla += `<th scope="col">Nro</th>`;
-    tabla += `<th scope="col">Operario</th>`;
-    tabla += `<th scope="col">Supervisor</th>`;
-    tabla += `<th scope="col">Acciones</th>`;
-    tabla += `</tr>`;
-    tabla += `</thead>`;
-    tabla += `<tbody>`;
-    array.forEach(orden => {
-        tabla += `<tr>`;
-        tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
-        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)}</td>`;
-        tabla += `<td style="width: 15px">${orden.NroOR}</td>`;
-        tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
-        tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
-        tabla += `<td style="width: 20px">Supervisor </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `;
-        tabla += ` <button type="button" class="btn btn-secondary">Imp</button>`;
-        tabla += `</tr>`;
-
-    });
-    tabla += `</tbody>`;
-    tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
-    divtabla.innerHTML = tabla;
-}
 
 const infoOR = (nro) => {
 

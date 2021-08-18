@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ConstruccionExport;
 
-class ListarCancelarController extends Controller
+class ConstruccionListarCancelarController extends Controller
 
 {
     public function __construct()

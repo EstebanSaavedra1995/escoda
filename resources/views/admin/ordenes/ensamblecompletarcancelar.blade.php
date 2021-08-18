@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content_header')
-<h1>Completar o cancelar orden de reparación</h1>
+<h1>Completar o cancelar orden de ensamble</h1>
 @stop
 
 @section('content')
@@ -20,7 +20,7 @@
                     <select class="col-2 mr-2" name="ordenes" id="ordenes">
                         <option value="">Ordenes</option>
                         @foreach ($ordenesPendientes as $ordenPendiente)
-                            <option value="{{ $ordenPendiente->codConjunto }}">{{ $ordenPendiente->NroOR }}</option>
+                            <option value="{{ $ordenPendiente->codigoCjto }}">{{ $ordenPendiente->NroOE }}</option>
                         @endforeach
                     </select>
                     <label class="col-2">Fecha:</label>
@@ -36,7 +36,7 @@
             <div class="container">
                 <div class="row mb-2">
                     <label class="col-2">Número:</label>
-                    <input type="number" min="1" max="500" class="col-2"></input>
+                    <input type="number" name="numero" id="numero" class="col-2"></input>
                 </div>
             </div>
             <div class="container">
@@ -90,6 +90,6 @@
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 @stop
 @section('js')
-<script src="{{ asset('js/reparacion-completarcancelar.js') }}"></script>
+<script src="{{ asset('js/ensamble-completarcancelar.js') }}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop

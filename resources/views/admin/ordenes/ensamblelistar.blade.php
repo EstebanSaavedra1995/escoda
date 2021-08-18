@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content_header')
-<h1>Listar o cancelar orden de construcción</h1>
+<h1>Listar o cancelar orden de ensamble</h1>
 @stop
 
 @section('content')
@@ -19,7 +19,7 @@
                 <div class="row mb-2">
                     <label class=" col mr-2">Listar por:</label>
                     <select class=" col mr-2" name="lista" id="lista">
-                        <option value="0">Nro de orden de reparación</option>
+                        <option value="0">Nro de orden de ensamble</option>
                         <option value="1">Fecha</option>
                         <option value="2">Herramienta</option>
                     </select>
@@ -120,6 +120,6 @@
 
 @stop
 @section('js')
-<script src="{{ asset('js/reparacion-listar.js') }}"></script>
+<script src="{{ asset('js/ensamble-listar.js') }}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop

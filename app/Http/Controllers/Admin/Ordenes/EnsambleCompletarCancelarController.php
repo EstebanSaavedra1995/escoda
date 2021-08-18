@@ -6,15 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Conjunto;
 use App\Models\ConjuntoArticulos;
 use App\Models\ConjuntoGomas;
-use App\Models\Construccion;
-use App\Models\OrdenReparacionPendiente;
+use App\Models\OrdenEnsamblePendiente;
 use App\Models\Personal;
 use App\Models\PiezaDeConjunto;
 use Illuminate\Http\Request;
 
-class CompletarCancelarController extends Controller
+class EnsambleCompletarCancelarController extends Controller
 {
-    //
     public function __construct()
     {
         $this->middleware('auth');
@@ -31,18 +29,17 @@ class CompletarCancelarController extends Controller
                 ['Cargo', 'Supervisor de Área']
             ])->get();
 
-        $ordenesPendientes = OrdenReparacionPendiente::orderBy('NroOR', 'desc')
+        $ordenesPendientes = OrdenEnsamblePendiente::orderBy('NroOE', 'desc')
             ->where('Estado', 'A')->get();
-        return view('admin.ordenes.reparacioncompletarcancelar', compact(['ordenesPendientes', 'operarios', 'supervisores']));
+        return view('admin.ordenes.ensamblecompletarcancelar', compact(['ordenesPendientes', 'operarios', 'supervisores']));
     }
-
     public function ordenpendiente()
     {
 
         $conjunto = request('ordenes');
         $nroOrden = request('nroOrden');
 
-        $ordenPendiente = OrdenReparacionPendiente::where('NroOR', $nroOrden)->first();
+        $ordenPendiente = OrdenEnsamblePendiente::where('NroOE', $nroOrden)->first();
 
         $cjt = Conjunto::where('CodPieza', $conjunto)->first();
         $conjuntoArticulos = ConjuntoArticulos::select('*')
@@ -68,19 +65,10 @@ class CompletarCancelarController extends Controller
         return json_encode($resultado);
     }
 
-    public function ordenpieza()
-    {
-        $codigoPieza = request('codigoPieza');
-        $ordenesConstruccion = Construccion::where('CodigoPieza', $codigoPieza)
-            ->orderBy('NroOC', 'DESC')->get();
-
-        return json_encode($ordenesConstruccion);
-    }
-
     public function cancelarorden()
     {
         $orden = request('orden');
-        $ordenPendiente = OrdenReparacionPendiente::where('NroOR', $orden)->first();
+        $ordenPendiente = OrdenEnsamblePendiente::where('NroOE', $orden)->first();
         $ordenPendiente->Estado = 'C';
         $ordenPendiente->save();
         return json_encode('ok');

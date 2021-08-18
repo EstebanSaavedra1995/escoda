@@ -18,18 +18,21 @@ document.getElementById('ordenes').addEventListener('change', function (e) {
     lateral2.innerHTML = '';
     lateral3.innerHTML = '';
     lateral4.innerHTML = '';
-    fetch('/admin/reparacion/ordenpendiente', {
+    fetch('/admin/ensamble/ordenpendiente', {
         method: 'POST',
         body: datos,
     })
 
         .then(res => res.json())
         .then(data => {
-            let herramienta = document.getElementById('herramienta');
-            let fecha = document.getElementById('fecha');
-            fecha.value = formatoFecha(data.ordenPendiente.Fecha);
-            herramienta.value = `${data.conjunto.CodPieza} - ${data.conjunto.NombrePieza}`
-            armarTabla(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas);
+            console.log(data);
+               let herramienta = document.getElementById('herramienta');
+               let fecha = document.getElementById('fecha');
+               let numero = document.getElementById('numero');
+               fecha.value = formatoFecha(data.ordenPendiente.fecha);
+               herramienta.value = `${data.conjunto.CodPieza} - ${data.conjunto.NombrePieza}`
+               numero.value = data.ordenPendiente.NroCjto;
+               armarTabla(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas);
         })
 
 }, true)
@@ -37,8 +40,6 @@ document.getElementById('ordenes').addEventListener('change', function (e) {
 const armarTabla = (articulos, piezas, gomas) => {
     let divtablatareas = document.getElementById('divtablatareas');
     let conjunto = document.getElementById('ordenes').value;
-    /*     let nor = document.getElementById('nor');
-        nor.value = or; */
     let cadena = '';
     cadena += `<table class="table-striped table table-bordered table-scroll4">`;
     cadena += `<thead>`;
@@ -122,7 +123,7 @@ const cancelarOrden = () => {
     let combo = document.getElementById('ordenes');
     let nroOrden = combo.options[combo.selectedIndex].text;
     swal({
-        title: `¿Desea cancelar la orden de reparación N° ${nroOrden}?`,
+        title: `¿Desea cancelar la orden de ensamble N° ${nroOrden}?`,
         icon: "warning",
         buttons: ["Cancelar", "Aceptar"],
         dangerMode: true,
@@ -137,7 +138,7 @@ const cancelarOrden = () => {
 const enviarCancelarOrden = (nroOrden) => {
     const datos = new FormData(document.getElementById('formulario'));
     datos.append('orden', nroOrden);
-    fetch('/admin/reparacion/cancelarorden', {
+    fetch('/admin/ensamble/cancelarorden', {
         method: 'POST',
         body: datos,
     })
@@ -145,7 +146,7 @@ const enviarCancelarOrden = (nroOrden) => {
         .then(data => {
             if (data === 'ok') {
                 swal({
-                    title: `¡Se ha dado de baja la orden de reparación N°${nroOrden}!`,
+                    title: `¡Se ha dado de baja la orden de ensamble N°${nroOrden}!`,
                     icon: "success",
                     button: "Aceptar",
                 });
@@ -275,14 +276,14 @@ const agregarOC = () => {
 
     } else if (comboOrdenes.value == '') {
         swal({
-            title: "¡Esta pieza no tiene orden de construcción!",
+            title: "¡Esta pieza no tiene orden de ensamble!",
             icon: "warning",
             button: "Aceptar",
         });
 
     } else if (existe != null) {
         swal({
-            title: "¡Ya se ha cargado la orden de construcción!",
+            title: "¡Ya se ha cargado la orden de ensamble!",
             icon: "warning",
             button: "Aceptar",
         });
