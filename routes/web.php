@@ -49,6 +49,8 @@ Route::post('/admin/listarmodificar',[ListarController::class,'modificar']);
 Route::post('/admin/listareliminar',[ListarController::class,'eliminar']);
 Route::post('/admin/listartablaEtiqueta',[ListarController::class,'tablaEtiqueta']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->name('control.horarios.maquina');
+Route::get('/admin/controlmaquina',[ControlHorariosMaquinaController::class,'indexControl'])->name('control.maquina');
+Route::get('/admin/tiemposmaquina',[ControlHorariosMaquinaController::class,'indexTiempos'])->name('tiempos.maquina');
 Route::get('/admin/pdf/{id}', [ListarController::class,'PDF'])->name('descargarPDF');
 Route::post('/admin/etchicaspdf', [ListarController::class,'etChicasPDF'])->name('etChicasPDF');
 Route::post('/admin/etgrandespdf', [ListarController::class,'etGrandesPDF'])->name('etGrandesPDF');

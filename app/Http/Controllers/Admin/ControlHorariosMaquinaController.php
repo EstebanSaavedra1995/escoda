@@ -10,4 +10,10 @@ class ControlHorariosMaquinaController extends Controller
     public function index(){
         return view('admin\controlHorariosMaquina');
     }
+    public function indexControl(){
+        return view('admin\ControlTiempos\controlTiempos');
+    }
+    public function indexTiempos(){
+        return view('admin\ControlTiempos\tiempos');
+    }
 }
