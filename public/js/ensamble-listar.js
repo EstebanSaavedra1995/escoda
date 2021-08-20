@@ -188,7 +188,7 @@ const excel = () => {
 
 const realizarTablaOrden = (array) => {
     let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
+    let tabla = `<table class="table-striped table table-bordered table-scroll3" id= "tablaExcel" name = "tablaExcel">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
     tabla += `<th scope="col">Nro ensamble</th>`;
@@ -208,7 +208,7 @@ const realizarTablaOrden = (array) => {
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    tabla += `<tr><td> <button class="btn btn-success" type ="button" onclick="exportTableToExcel('tablaExcel', 'ordenensamble')">Excel</button></td></tr>`;
     divtabla.innerHTML = tabla;
 }
 
@@ -568,4 +568,34 @@ const cancelarOrden = () => {
                 enviarCancelarOrden(nroOrden);
             }
         });
+}
+function exportTableToExcel(tableID, filename = '') {
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+    // Specify file name
+    filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+    // Create download link element
+    downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+
+    if (navigator.msSaveOrOpenBlob) {
+        var blob = new Blob(['ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+        // Setting the file name
+        downloadLink.download = filename;
+/*         `<tr><td> <button class="btn btn-success" type ="button" onclick="exportTableToExcel('tablaExcel', 'ordenensamble')">Excel</button></td></tr>`; */
+        //triggering the function
+        downloadLink.click();
+    }
 }

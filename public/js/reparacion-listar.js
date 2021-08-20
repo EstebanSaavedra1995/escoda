@@ -1,13 +1,14 @@
 let ordenesConstruccion = [];
 
 document.getElementById('lista').addEventListener('change', function (e) {
+
     let divtabla = document.getElementById('divtabla');
     divtabla.innerHTML = '';
     let divtablatareas = document.getElementById('divtablatareas');
     divtablatareas.innerHTML = '';
-
     let buscar = document.getElementById('buscar');
     buscar.disabled = false;
+    /* ocultarExcels(); */
     let valor = document.getElementById('lista').value;
     if (valor == 0) {
         filtroNroOrden();
@@ -26,6 +27,7 @@ const filtroNroOrden = () => {
     input += `<input type="number" name= "nroorden" id="nroorden" class="form-control col mr-2">`
     filtro.innerHTML = input;
 
+
 }
 
 const filtroFecha = () => {
@@ -39,6 +41,7 @@ const filtroFecha = () => {
     inputs += `<input type="date" value="${hoy}" name="fecha2" id="fecha2" class="form-control col mr-2">`
     filtro.innerHTML = inputs;
 
+
 }
 const filtroHerramienta = () => {
     let filtro = document.getElementById('filtro');
@@ -51,6 +54,7 @@ const filtroHerramienta = () => {
     })
         .then(res => res.json())
         .then(data => {
+
             let comboHerramienta = document.createElement("select");
             comboHerramienta.className = "col mr-2";
             comboHerramienta.name = "herramienta";
@@ -187,7 +191,7 @@ const excel = () => {
 
 const realizarTablaOrden = (array) => {
     let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
+    let tabla = `<table class="table-striped table table-bordered table-scroll3" id = "tablaExcel">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
     tabla += `<th scope="col">Nro reparación</th>`;
@@ -216,12 +220,13 @@ const realizarTablaOrden = (array) => {
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    /* numeroReporteExcel(); */
+    tabla += `<tr><td> <button class="btn btn-success" type ="button" onclick="exportTableToExcel('tablaExcel', 'ordenensamble')">Excel</button></td></tr>`;
     divtabla.innerHTML = tabla;
 }
 const realizarTablaFecha = (array) => {
     let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
+    let tabla = `<table class="table-striped table table-bordered table-scroll3" id = "tablaExcel">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
     tabla += `<th scope="col">Fecha</th>`;
@@ -250,13 +255,14 @@ const realizarTablaFecha = (array) => {
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    /* fechaReporteExcel(); */
+    tabla += `<tr><td> <button class="btn btn-success" type ="button" onclick="exportTableToExcel('tablaExcel', 'ordenensamble')">Excel</button></td></tr>`;
     divtabla.innerHTML = tabla;
 }
 
 const realizarTablaHerramienta = (array) => {
     let divtabla = document.getElementById('divtabla');
-    let tabla = `<table class="table-striped table table-bordered table-scroll3">`;
+    let tabla = `<table class="table-striped table table-bordered table-scroll3" id = "tablaExcel">`;
     tabla += `<thead>`;
     tabla += `<tr>`;
     tabla += `<th scope="col">Conjunto</th>`;
@@ -285,7 +291,8 @@ const realizarTablaHerramienta = (array) => {
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    /* piezaReporteExcel(); */
+    tabla += `<tr><td> <button class="btn btn-success" type ="button" onclick="exportTableToExcel('tablaExcel', 'ordenensamble')">Excel</button></td></tr>`;
     divtabla.innerHTML = tabla;
 }
 
@@ -644,4 +651,69 @@ const cancelarOrden = () => {
                 enviarCancelarOrden(nroOrden);
             }
         });
+}
+/* const piezaReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "visible";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+
+    let piezaExcel = document.getElementById('piezaExcel');
+    let pieza = document.getElementById('pieza');
+    piezaExcel.value = pieza.value;
+}
+const fechaReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "visible";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+
+    let fecha1Excel = document.getElementById('fecha1Excel');
+    let fecha2Excel = document.getElementById('fecha2Excel');
+    fecha1Excel.value = document.getElementById('fecha1').value;
+    fecha2Excel.value = document.getElementById('fecha2').value;
+
+}
+const numeroReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "visible";
+
+    let numeroExcel = document.getElementById('numeroExcel');
+    numeroExcel.value = document.getElementById('nroorden').value;
+    //pasarle el valor del numero de orden
+}
+
+const ocultarExcels = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+} */
+function exportTableToExcel(tableID, filename = '') {
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+    // Specify file name
+    filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+    // Create download link element
+    downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+
+    if (navigator.msSaveOrOpenBlob) {
+        var blob = new Blob(['ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob(blob, filename);
+    } else {
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+        // Setting the file name
+        downloadLink.download = filename;
+        /*         tabla +=`<tr><td> <button class="btn btn-success" type ="button" onclick="exportTableToExcel('tablaExcel', 'ordenensamble')">Excel</button></td></tr>`; */
+        //triggering the function
+        downloadLink.click();
+    }
 }

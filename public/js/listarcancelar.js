@@ -1,6 +1,8 @@
 document.getElementById('lista').addEventListener('change', function (e) {
     let divtabla = document.getElementById('divtabla');
     divtabla.innerHTML = '';
+    let divtablatareas = document.getElementById('divtablatareas');
+    divtablatareas.innerHTML = '';
     ocultarExcels();
     let buscar = document.getElementById('buscar');
     buscar.disabled = false;

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Ordenes;
 
+use App\Exports\ORExport;
+use App\Exports\ORFechasExport;
+use App\Exports\ORNumeroExport;
 use App\Http\Controllers\Controller;
 use App\Models\Conjunto;
 use App\Models\ConjuntoArticulos;
@@ -11,6 +14,7 @@ use App\Models\DetalleReparacionGoma;
 use App\Models\DetalleReparacionPieza;
 use App\Models\OrdenReparacion;
 use App\Models\PiezaDeConjunto;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class ReparacionListarOrden extends Controller
@@ -126,4 +130,21 @@ class ReparacionListarOrden extends Controller
 
         return json_encode($resultado);
     }
+  /*   public function exportExcel()
+    {
+        $piezaExcel = request('piezaExcel');
+        return Excel::download(new ORExport($piezaExcel), 'orpieza_' . $piezaExcel . '.xlsx');
+    }
+
+    public function exportExcelFechas()
+    {
+        $fecha1 = request('fecha1Excel');
+        $fecha2 = request('fecha2Excel');
+        return Excel::download(new ORFechasExport($fecha1, $fecha2), 'orfechas_' . $fecha1 . '_' . $fecha2 . '.xlsx');
+    }
+    public function exportExcelNumero()
+    {
+        $numeroExcel = request('numeroExcel');
+        return Excel::download(new ORNumeroExport($numeroExcel), 'ornumeros_' . $numeroExcel . '.xlsx');
+    } */
 }

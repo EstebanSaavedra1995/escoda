@@ -45,7 +45,7 @@
             <form method="POST" action="{{ route('piezaExcel') }}" target="_blank">
                 @csrf
                 <input type="hidden" id="piezaExcel" name="piezaExcel">
-                <button type="submit" class="btn btn-success">Excel</button>
+                <button type="submit" class="btn btn-success ml-2 mb-2">Excel</button>
             </form>
         </div>
 
@@ -54,7 +54,7 @@
                 @csrf
                 <input type="hidden" id="fecha1Excel" name="fecha1Excel">
                 <input type="hidden" id="fecha2Excel" name="fecha2Excel">
-                <button type="submit" class="btn btn-success">Excel</button>
+                <button type="submit" class="btn btn-success ml-2 mb-2">Excel</button>
             </form>
         </div>
 
@@ -62,7 +62,7 @@
             <form method="POST" action="{{ route('numeroExcel') }}" target="_blank">
                 @csrf
                 <input type="hidden" id="numeroExcel" name="numeroExcel">
-                <button type="submit" class="btn btn-success">Excel</button>
+                <button type="submit" class="btn btn-success ml-2 mb-2">Excel</button>
             </form>
         </div>
     </div>

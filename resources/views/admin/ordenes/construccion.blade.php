@@ -91,9 +91,9 @@
             </div>
             <div class="card-footer">
             </div>
-            <button type="button" class="btn btn-primary" id="continuar" name="continuar"
+            <button type="button" class="btn btn-primary ml-2 mb-2" id="continuar" name="continuar"
                 onclick="validar();">Continuar</button>
-            <button type="button" class="btn btn-danger" id="idcancelar" name="idcancelar"  onclick="cancelar();">Cancelar</button>
+            <button type="button" class="btn btn-danger ml-2 mb-2" id="idcancelar" name="idcancelar"  onclick="cancelar();">Cancelar</button>
         </form>
         {{-- MODAL MATERIALES --}}
         <div id="modal" class="modal" tabindex="-1" role="dialog">

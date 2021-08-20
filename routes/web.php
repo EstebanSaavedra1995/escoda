@@ -79,7 +79,6 @@ Route::post('/admin/listarcancelar/piezas', [ConstruccionListarCancelarControlle
 Route::post('/admin/listarcancelar/ordenes', [ConstruccionListarCancelarController::class, 'ordenes']);
 Route::post('/admin/listarcancelar/detalles', [ConstruccionListarCancelarController::class, 'detalles']);
 Route::post('/admin/listarcancelar/cancelar', [ConstruccionListarCancelarController::class, 'cancelar']);
-
 Route::post('/admin/listarcancelar/exportExcel', [ConstruccionListarCancelarController::class, 'exportExcel'])->name('piezaExcel');
 Route::post('/admin/listarcancelar/exportExcelFechas', [ConstruccionListarCancelarController::class, 'exportExcelFechas'])->name('fechaExcel');
 Route::post('/admin/listarcancelar/exportExcelNumero', [ConstruccionListarCancelarController::class, 'exportExcelNumero'])->name('numeroExcel');
@@ -97,6 +96,9 @@ Route::get('/admin/reparacion/listar', [ReparacionListarOrden::class, 'index'])-
 Route::post('/admin/reparacion/listarherramientas', [ReparacionListarOrden::class, 'listarherramientas']);
 Route::post('/admin/reparacion/listarordenes', [ReparacionListarOrden::class, 'listarordenes']);
 Route::post('/admin/reparacion/listardetalles', [ReparacionListarOrden::class, 'listardetalles']);
+/* Route::post('/admin/reparacion/exportExcel', [ReparacionListarOrden::class, 'exportExcel'])->name('reparacionPiezaExcel');
+Route::post('/admin/reparacion/exportExcelFechas', [ReparacionListarOrden::class, 'exportExcelFechas'])->name('reparacionFechaExcel');
+Route::post('/admin/reparacion/exportExcelNumero', [ReparacionListarOrden::class, 'exportExcelNumero'])->name('reparacionNumeroExcel'); */
 Route::post('/admin/reparacion/modificarorden', [ReparacionListarOrden::class, 'modificarorden']);
 
 Route::get('/admin/ensamble/confeccionar', [EnsambleController::class, 'index'])->name('ensamble.confeccionar');
