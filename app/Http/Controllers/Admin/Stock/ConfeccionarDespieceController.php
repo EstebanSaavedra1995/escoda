@@ -17,6 +17,11 @@ use Illuminate\Http\Request;
 
 class ConfeccionarDespieceController extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
+  
   public function index()
   {
     $piezas = Pieza::all();

@@ -259,10 +259,12 @@ return [
                         [
                             'text' => 'Confeccionar',
                             'route'  => 'construccion.confeccionar',
+                            'can'   => 'construccion.confeccionar',
                         ],
                         [
                             'text' => 'Listar/Cancelar',
                             'route'  => 'construccion.listarcancelar',
+                            'can'   => 'construccion.listarcancelar',
                         ],
 
                     ],
@@ -275,6 +277,7 @@ return [
                         [
                             'text' => 'Confeccionar',
                             'route'  => 'reparacion.confeccionar',
+                            'can'   => 'reparacion.confeccionar',
                         ],
                         [
                             'text' => 'Completar/Cancelar',
@@ -324,6 +327,7 @@ return [
                 [
                     'text' => 'Confeccionar Despiece de Herramientas/Predeterminar Materiales',
                     'route'  => 'confeccionar.despiece',
+                    'can'   => 'confeccionar.despiece',
                 ],
             ]
 
@@ -336,10 +340,12 @@ return [
                 [
                     'text' => 'Registrar Egreso',
                     'route'  => 'registrar.egresos',
+                    'can'   => 'registrar.egresos',
                 ],
                 [
                     'text' => 'Listar/Modificar/Eliminar/Imprimir Etiquetas',
                     'route'  => 'listar',
+                    'can'   => 'listar',
                 ],
             ]
         ],
@@ -347,6 +353,7 @@ return [
             'text' => 'Horarios Maquinas',
             'route'  => 'horarios.maquinas',
             'icon' => 'fas fa-fw fa-clock',
+            'can'   => 'horarios.maquinas',
         ],
         [
             'text' => 'Proveedores',
@@ -355,7 +362,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Listar Proveedores',
-                    'url'  => '#',
+                    'route'  => 'listar.proveedores',
                 ],
                 [
                     'text' => 'Listar Artículos',
@@ -410,6 +417,13 @@ return [
             'text' => 'Control Horarios Maquina',
             'route'  => 'control.horarios.maquina',
             'icon' => 'fas fa-fw fa-clock',
+            'can'   => 'control.horarios.maquina',
+        ],
+        [
+            'text' => 'Usuarios',
+            'url'  => '#',
+            'icon' => 'fas fa-fw fa-user',
+            /* 'can'   => '', */
         ],
         /* [
             'text'    => 'multilevel',
