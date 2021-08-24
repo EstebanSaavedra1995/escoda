@@ -16,7 +16,7 @@ class ControlCronometro extends Component
     public function mount(){
         $this->datos = '';
         $this->piezas = [];
-        $this->cantidad = '';
+        $this->cantidad = '0';
         $this->exitosas = 0;
         $this->fallidas = 0;
     }

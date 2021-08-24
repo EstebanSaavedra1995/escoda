@@ -2,6 +2,7 @@
 /* php artisan config:cache */
 window.onload = function () {
   pantalla = document.getElementById("screen");
+
 }
 var isMarch = false;
 var isStart = false;
@@ -14,16 +15,21 @@ var acumularTime = 0;
 
 function start() {
   if (isMarch == false & isStart == false) {
-    this.controlBotones();
+    // this.controlBotones();
     var enviado = document.getElementById('enviado');
-    enviado.value = 'f';
-    terminado = false;
-    isStart = true;
-    timeStart = new Date();
-    console.log("Empieza: " + timeStart);
-    timeInicial = new Date();
-    control = setInterval(cronometro, 10);
-    isMarch = true;
+    if (enviado.value == 'f') {
+      swal("Debe enviar antes de empezar!","si ya se envio espere notificacion de envio exitoso","error");
+    } else {
+
+      enviado.value = 'f';
+      terminado = false;
+      isStart = true;
+      timeStart = new Date();
+      console.log("Empieza: " + timeStart);
+      timeInicial = new Date();
+      control = setInterval(cronometro, 10);
+      isMarch = true;
+    }
 
   }
 }
@@ -81,7 +87,6 @@ function reset() {
       isMarch = false;
     }
     terminado = true;
-    this.controlBotones();
     timeReset = new Date();
     console.log("Termina: " + timeReset);
     isStart = false;
@@ -97,8 +102,11 @@ function reset() {
     //dispara evento para comunicar el livewire con input
     cantidad.dispatchEvent(new Event('input'));
     //cant.value= piezas;
-
+    /* var enviado = document.getElementById("enviado");
+    enviado.value = 'f';
+    enviado.dispatchEvent(new Event('input')); */
     this.estado();
+
     /* contPiezas = document.getElementById('contadorPiezas');
     contPiezas.innerHTML = "Total Piezas = "+ piezas ; */
     //console.log(cantidad.value);
@@ -132,6 +140,7 @@ function estado() {
           var exito = document.getElementById("exitosas");
           exito.value = exitosas;
           exito.dispatchEvent(new Event('input'));
+          this.controlBotones();
           break;
         case "fallo":
           //swal("Pieza No Apta!", "", "success");
@@ -141,10 +150,11 @@ function estado() {
           var fallo = document.getElementById("fallidas");
           fallo.value = fallidas;
           fallo.dispatchEvent(new Event('input'));
+          this.controlBotones();
           break;
 
         default:
-          swal("");
+          this.estado();
       }
     });
 }
@@ -164,12 +174,8 @@ function manejoBotones(bool, bool1) {
 }
 
 function controlBotones() {
-
-  console.log('enviado');
-  if (isMarch || (piezas == 0) || enviado == 'v') {
-    manejoBotones(false, true);
-  }
-  if (terminado) {
-    manejoBotones(true, false);
-  }
+  var enviado = document.getElementById('enviado').value;
+    if (isMarch || (piezas == 0) || enviado == 'v') {
+      manejoBotones(false, true);
+    }
 }

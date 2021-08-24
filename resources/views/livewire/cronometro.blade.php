@@ -14,7 +14,7 @@
             <input type="text" id="estado" wire:model="estado" hidden>
             <input type="text" id="exitosas" wire:model="exitosas" hidden>
             <input type="text" id="fallidas" wire:model="fallidas" hidden>
-            <input type="text" id="enviado" onchange="" value="v">
+            <input type="text" id="enviado" onchange="" value="v" hidden>
 
         </div>
 
@@ -38,9 +38,9 @@
 
         </div>
         {{-- alert de recibido --}}
-        <div style="position:absolute; top:50%; right: 50%;" class="alert alert-success collapse" role="alert"
+        {{-- <div style="position:absolute; top:50%; right: 50%;" class="alert alert-success collapse" role="alert"
             id="aviso">
-            Enviado</div>
+            Enviado</div> --}}
     </div>
     <script>
         controlBotones();
@@ -51,14 +51,16 @@
         //evento "enviado"
         
         window.livewire.on('enviado', function() {
-            controlBotones();
             $("#enviado").val('v');
-            //mostramos el aviso
+            controlBotones();
+            swal("Enviado con exito!", "", "success");
+           /*  //mostramos el aviso
             $("#aviso").fadeIn("slow");
             //oculto aviso en 3 seg
             setTimeout(function() {
                 $("#aviso").fadeOut("slow");
-            }, 3000);
+            }, 3000); */
         });
+        
     </script>
 </div>
