@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PiezaDeConjunto extends Model
+class OrdenReparacionPendiente extends Model
 {
     use HasFactory;
-    
-    // alter table 'coladamaterial' drop primary key;
+      // alter table 'coladamaterial' drop primary key;
     //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
-    protected $table= 'piezadeconjunto';
+    protected $table= 'ordenesreparacionpendientes';
     public $timestamps = false;
-
 }

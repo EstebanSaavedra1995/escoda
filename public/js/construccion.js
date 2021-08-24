@@ -20,7 +20,7 @@ function cancelar() {
         .then((willCancel) => {
             if (willCancel) {
                 setTimeout(function () {
-                    window.location.href = "http://escoda.test/admin/construccion";
+                    location.reload(); //ARREGLAR
                 }, 1000)
             }
         });
@@ -29,11 +29,11 @@ function cancelar() {
 function validar() {
     let celdasincorrectas = document.getElementsByClassName('celdasincorrectas').length;
     let filasDeTarea = document.getElementsByClassName('filasDeTarea').length;
-    let cantidadrealizar = document
+    let cantidadrealizar = document.getElementById('cantidad-realizar').value;
     let radios = verificarRadios();
+    console.log(cantidadrealizar);
 
-
-    if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar != 0 && radios == true) {
+    if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar > 0 && radios == true) {
         swal({
             title: "¿Desea agregar una nueva orden de construcción?",
             /* text: "Once deleted, you will not be able to recover this imaginary file!", */
@@ -73,8 +73,8 @@ function enviarDatos() {
                     button: "Aceptar",
                 });
                 setTimeout(function () {
-                    window.location.href = "http://escoda.test/admin/construccion";
-                }, 1500)
+                    location.reload();
+                }, 1000)
             } else {
                 swal({
                     title: "¡Ocurrió un fallo, por favor revise los campos!",
@@ -388,8 +388,8 @@ function realizarModificacion() {
         fila.appendChild(celda5);
 
         let celda6 = document.createElement('td');
-        let botones = `<button type="button" class="btn btn-info" id= "modificarTarea2" onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');"> Modificar</button>`;
-        botones += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${fila.id}');"> Eliminar </button>`;
+        let botones = ` <button type="button" class="btn btn-info" id= "modificarTarea2" onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');"> Modificar</button>`;
+        botones += ` <button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${fila.id}');"> Eliminar </button>`;
         celda6.innerHTML = botones;
         fila.appendChild(celda6);
         swal({
@@ -432,9 +432,9 @@ const agregarMaterial = (codigoMaterial) => {
                 icon: "success",
                 button: "Aceptar",
             });
-          
+
         })
-  
+
 }
 
 
@@ -510,8 +510,8 @@ const completarTareas = (data) => {
         tablatareas += `<td class="celdasincorrectas">Operario</td>`;
         tablatareas += `<td class="celdasincorrectas">${tarea.Supervisor}</td>`;
         tablatareas += `<td class="celdasincorrectas">${tarea.Horas}</td>`;
-        tablatareas += `<td class="celdasincorrectas"><button type="button" class="btn btn-info" id= "modificarTarea" onclick="modificarTareas('${tarea.Tarea.trim()}','${tarea.Maquina}');"> Modificar</button>`;
-        tablatareas += `<button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${id}');"> Eliminar </button>`;
+        tablatareas += `<td class="celdasincorrectas"><button type="button" class="btn btn-info" id= "modificarTarea" onclick="modificarTareas('${tarea.Tarea.trim()}','${tarea.Maquina}');"> Modificar</button> `;
+        tablatareas += ` <button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${id}');"> Eliminar </button>`;
         tablatareas += `</td></tr>`;
 
     });

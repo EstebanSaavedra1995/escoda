@@ -254,6 +254,7 @@ return [
                 [
                     'text' => 'Construcción',
                     'url'  => '#',
+                    'icon' => 'fas fa-toolbox',
                     'submenu' => [
                         [
                             'text' => 'Confeccionar',
@@ -265,12 +266,13 @@ return [
                             'route'  => 'construccion.listarcancelar',
                             'can'   => 'construccion.listarcancelar',
                         ],
-                      
+
                     ],
                 ],
                 [
                     'text' => 'Reparación',
                     'url'  => '#',
+                    'icon' => 'fas fa-wrench',
                     'submenu' => [
                         [
                             'text' => 'Confeccionar',
@@ -279,34 +281,35 @@ return [
                         ],
                         [
                             'text' => 'Completar/Cancelar',
-                            'url'  => '#',
+                            'route'  => 'reparacion.completarcancelar',
                         ],
                         [
                             'text' => 'Listar',
-                            'url'  => '#',
+                            'route'  => 'reparacion.listar',
                         ],
                     ],
                 ],
-                
+
                 [
                     'text' => 'Ensamble',
                     'url'  => '#',
+                    'icon' => 'fas fa-puzzle-piece',
                     'submenu' => [
                         [
                             'text' => 'Confeccionar',
-                            'url'  => '#',
+                            'route'  => 'ensamble.confeccionar',
                         ],
                         [
                             'text' => 'Completar/Cancelar',
-                            'url'  => '#',
+                            'route'  => 'ensamble.completarcancelar',
                         ],
                         [
                             'text' => 'Listar',
-                            'url'  => '#',
+                            'route'  => 'ensamble.listar',
                         ],
                     ],
                 ],
-                
+
             ]
             /* 'label'       => 4,
             'label_color' => 'success', */

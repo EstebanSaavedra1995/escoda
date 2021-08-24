@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Admin\Ordenes;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Conjunto;
 use App\Models\ConjuntoArticulos;
 use App\Models\ConjuntoGomas;
-use App\Models\OrdenReparacionPendiente;
+use App\Models\OrdenEnsamble;
+use App\Models\OrdenEnsamblePendiente;
 use App\Models\PiezaDeConjunto;
+use Illuminate\Http\Request;
 
-class ReparacionController extends Controller
+class EnsambleController extends Controller
 {
     public function __construct()
     {
@@ -18,9 +19,11 @@ class ReparacionController extends Controller
     }
     public function index()
     {
+
         $conjuntos = Conjunto::all();
-        return view('admin.ordenes.reparacion', compact('conjuntos'));
+        return view('admin.ordenes.ensamble', compact('conjuntos'));
     }
+
     public function conjuntos()
     {
         $conjunto = request('conjunto');
@@ -40,45 +43,48 @@ class ReparacionController extends Controller
             ->where('CodPieza', $conjunto)
             ->get();
 
-        $orpendientes = OrdenReparacionPendiente::orderBy('NroOR', 'desc')->first();
+        $ordenEnsamblePendiente = OrdenEnsamblePendiente::orderBy('NroOE', 'desc')->first();
 
-        $nroOR = $orpendientes->NroOR + 1;
-        $largo = strlen($nroOR);
-        $nuevaOR = str_repeat('0', 8 - $largo);
-        $nuevaOR .= $nroOR;
+        $ordenEnsamblePendiente2 = OrdenEnsamblePendiente::where('codigoCjto', $conjunto)
+            ->orderBy('NroOE', 'desc')->first();
+
+        $nroOE = $ordenEnsamblePendiente->NroOE + 1;
+        $largo = strlen($nroOE);
+        $nuevaOE = str_repeat('0', 8 - $largo);
+        $nuevaOE .= $nroOE;
+
+        $numero = $ordenEnsamblePendiente2->NroCjto + 1;
 
         $resultado = [
             'conjuntoArticulos' => $conjuntoArticulos, 'piezasConjunto' => $piezasConjunto,
-            'conjuntoGomas' => $conjuntoGomas, 'nuevaor' => $nuevaOR
+            'conjuntoGomas' => $conjuntoGomas, 'nuevaOE' => $nuevaOE, 'numero' => $numero
         ];
 
         return json_encode($resultado);
-        /*     if ($conjuntoArticulos && $piezasConjunto && $orpendientes) {
-            $resultado = [
-                'articulosgenerales' => $conjuntoArticulos, 'piezaconjunto' => $piezasConjunto,
-                'nuevaor' => $nuevaOR
-            ];
-
-            return json_encode($resultado);
-        } else {
-            $resultado = [];
-            return json_encode($resultado);
-        } */
     }
 
     public function guardar()
     {
         $conjunto = request('conjunto');
-        $nor = request('nor');
+        $noe = request('noe');
+        $numero = request('numero');
         $fecha = date('y-m-d');
         $fecha = str_replace('-', '', $fecha);
-        $orpendientes = new OrdenReparacionPendiente();
-        $orpendientes->NroOR = $nor;
-        $orpendientes->codConjunto = $conjunto;
-        $orpendientes->Fecha = $fecha;
-        $orpendientes->Estado = 'A';
-        $orpendientes->saveOrFail();
+        $ordenEnsamblePendiente = new OrdenEnsamblePendiente();
+        $ordenEnsamblePendiente->NroOE = $noe;
+        $ordenEnsamblePendiente->fecha = $fecha;
+        $ordenEnsamblePendiente->codigoCjto = $conjunto;
+        $ordenEnsamblePendiente->NroCjto = $numero;
+        $ordenEnsamblePendiente->Estado = 'A';
+        $ordenEnsamblePendiente->saveOrFail();
         return json_encode('ok');
     }
-  
+    
+/* Textos completos
+id	
+NroOE	
+fecha	
+codigoCjto	
+NroCjto	
+Estado */
 }

@@ -1,4 +1,9 @@
 document.getElementById('lista').addEventListener('change', function (e) {
+    let divtabla = document.getElementById('divtabla');
+    divtabla.innerHTML = '';
+    let divtablatareas = document.getElementById('divtablatareas');
+    divtablatareas.innerHTML = '';
+    ocultarExcels();
     let buscar = document.getElementById('buscar');
     buscar.disabled = false;
     let valor = document.getElementById('lista').value;
@@ -159,8 +164,8 @@ const cancelarTarea = (oc) => {
                                 button: "Aceptar",
                             });
                             setTimeout(function () {
-                                window.location.href = "http://escoda.test/admin/listarcancelar";
-                            }, 1500)
+                                location.reload();
+                            }, 1000)
                         } else {
                             swal({
                                 title: "¡Ocurrió un fallo, no se pudo dar de baja!",
@@ -210,16 +215,15 @@ const realizarTablaPieza = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
-
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    piezaReporteExcel();
     divtabla.innerHTML = tabla;
 
 }
@@ -248,16 +252,16 @@ const realizarTablaOrden = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
 
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    numeroReporteExcel();
     divtabla.innerHTML = tabla;
 
 }
@@ -287,15 +291,50 @@ const realizarTablaFecha = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tareas</button>`;
-        tabla += `<button type="button" class="btn btn-secondary">Imprimir</button>`
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Cancelar</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
     tabla += `</tbody>`;
     tabla += `</table>`;
-    tabla += `<tr> <td> <button type ="button" class="btn btn-success" onclick="excel();">Excel</button></td></tr>`
+    fechaReporteExcel();
     divtabla.innerHTML = tabla;
 
+}
+const piezaReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "visible";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+
+    let piezaExcel = document.getElementById('piezaExcel');
+    let pieza = document.getElementById('pieza');
+    piezaExcel.value = pieza.value;
+}
+const fechaReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "visible";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
+
+    let fecha1Excel = document.getElementById('fecha1Excel');
+    let fecha2Excel = document.getElementById('fecha2Excel');
+    fecha1Excel.value = document.getElementById('fecha1').value;
+    fecha2Excel.value = document.getElementById('fecha2').value;
+
+}
+const numeroReporteExcel = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "visible";
+
+    let numeroExcel = document.getElementById('numeroExcel');
+    numeroExcel.value = document.getElementById('nroorden').value;
+    //pasarle el valor del numero de orden
+}
+
+const ocultarExcels = () => {
+    let divPieza = document.getElementById('divPieza').style.visibility = "hidden";
+    let divFecha = document.getElementById('divFecha').style.visibility = "hidden";
+    let divNumero = document.getElementById('divNumero').style.visibility = "hidden";
 }

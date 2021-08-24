@@ -3,7 +3,7 @@
 @section('title', 'Profile')
 
 @section('content_header')
-    <h1>Confeccionar orden de reparación</h1>
+    <h1>Confeccionar orden de ensamble</h1>
 @stop
 
 @section('content')
@@ -13,7 +13,7 @@
         </div>
         <form id="formulario" method="POST" action="">
             @csrf
-            <input type="hidden" name="nor" id="nor">
+            <input type="hidden" name="noe" id="noe">
             <div class="card-body">
                 <div class="container">
                     <div class="row mb-2">
@@ -23,6 +23,7 @@
                                 <option value="{{ $conjunto->CodPieza }}">
                                     {{ $conjunto->CodPieza }} - {{ $conjunto->NombrePieza }} - {{ $conjunto->Medida }}
                                 </option>
+                                
                             @endforeach
                         </select>
                     </div>
@@ -47,6 +48,7 @@
 
 @stop
 @section('js')
-    <script src="{{ asset('js/reparacion.js') }}"></script>
+    <script src="{{ asset('js/ensamble.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @stop
+
