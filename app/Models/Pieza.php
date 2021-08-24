@@ -11,4 +11,9 @@ class Pieza extends Model
     //CAMBIAR FECHAS A TIPO DATE
     use HasFactory;
     protected $table= 'piezas';
+    public $timestamps = false;
+     // alter table 'coladamaterial' drop primary key;
+    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
+    
+    
 }

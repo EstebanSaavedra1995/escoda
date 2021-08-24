@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conjunto extends Model
 {
+     // alter table 'coladamaterial' drop primary key;
+    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
     use HasFactory;
     protected $table= 'conjuntos';
+    public $timestamps = false;
+    
 }

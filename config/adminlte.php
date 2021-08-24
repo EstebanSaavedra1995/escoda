@@ -375,6 +375,36 @@ return [
             'text' => 'Datos',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-database',
+            'submenu' => [
+                [
+                    'text' => 'Piezas | Conjuntos',
+                    'route'  => 'datos.piezasconjuntos',
+                ],
+                [
+                    'text' => 'Tareas',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Cargos',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Maquinas',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Personal',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Proveedores',
+                    'url'  => '#',
+                ],
+                [
+                    'text' => 'Materiales | Articulos | Gomas',
+                    'url'  => '#',
+                ],
+            ]
         ],
         [
             'text' => 'Control Horarios Maquina',
