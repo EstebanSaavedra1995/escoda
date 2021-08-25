@@ -116,6 +116,6 @@ const enviar = () =>{
     .then(res => res.json())
     .then(data =>{
         console.log(data);
-        /* $('#modalAgregarPC').modal('hide'); */
+        $('#modalAgregarPC').modal('hide');
     })
 }

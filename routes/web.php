@@ -68,7 +68,6 @@ Route::post('/admin/registraregresopiezas',[RegistrarEgresosController::class,'p
 Route::post('/admin/registraregresotabla',[RegistrarEgresosController::class,'tabla']);
 Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
 Route::get('/admin/listar',[ListarController::class,'index'])->middleware('can:listar')->name('listar');
-Route::post('/admin/listartabla',[ListarController::class,'tabla']);
 Route::post('/admin/listarpiezas',[ListarController::class,'piezas']);
 Route::post('/admin/listarmodificar',[ListarController::class,'modificar']);
 Route::post('/admin/listareliminar',[ListarController::class,'eliminar']);

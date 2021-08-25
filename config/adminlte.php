@@ -387,6 +387,13 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-database',
             'can'   => 'construccion.confeccionar',
+            'submenu' => [
+                [
+                    'text' => 'Conjutos | Piezas',
+                    'route'  => 'datos.piezasconjuntos',
+                ],
+
+            ]
         ],
         [
             'text' => 'Control Horarios Maquina',
