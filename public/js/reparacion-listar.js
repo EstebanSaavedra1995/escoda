@@ -171,8 +171,8 @@ const cancelarTarea = (oc) => {
                                 button: "Aceptar",
                             });
                             setTimeout(function () {
-                                window.location.href = "http://escoda.test/admin/listarcancelar";
-                            }, 1500)
+                                location.reload();
+                            }, 1000)
                         } else {
                             swal({
                                 title: "¡Ocurrió un fallo, no se pudo dar de baja!",
