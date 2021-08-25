@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Ordenes\EnsambleListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
 use App\Http\Controllers\Admin\Proveedores\ListarProveedoresController;
+use App\Http\Controllers\Admin\Usuarios\UsuariosController as UsuariosUsuariosController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
@@ -133,7 +134,9 @@ Route::post('/admin/confeccionardespiecepredeterminar', [ConfeccionarDespieceCon
 Route::post('/admin/registraregresopiezas', [RegistrarEgresosController::class, 'piezas']);
 Route::post('/admin/registraregresotabla', [RegistrarEgresosController::class, 'tabla']);
 
-Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios')->name('usuarios');
+Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios');
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
 Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::class, 'listarArticulos']);
+
+Route::resource('usuarios', UsuariosUsuariosController::class)->names('usuarios');
