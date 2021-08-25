@@ -250,6 +250,7 @@ return [
             'text'        => 'Ordenes de Trabajo',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
+            'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
                     'text' => 'Construcción',
@@ -319,6 +320,7 @@ return [
             'text' => 'Stock',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-box-open',
+            'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
                     'text' => 'Control de stock',
@@ -336,6 +338,7 @@ return [
             'text' => 'Egresos y Etiquetas',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-tags',
+            'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
                     'text' => 'Registrar Egreso',
@@ -359,6 +362,7 @@ return [
             'text' => 'Proveedores',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-money-check-alt',
+            'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
                     'text' => 'Listar Proveedores',
@@ -382,36 +386,7 @@ return [
             'text' => 'Datos',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-database',
-            'submenu' => [
-                [
-                    'text' => 'Piezas | Conjuntos',
-                    'route'  => 'datos.piezasconjuntos',
-                ],
-                [
-                    'text' => 'Tareas',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Cargos',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Maquinas',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Personal',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Proveedores',
-                    'url'  => '#',
-                ],
-                [
-                    'text' => 'Materiales | Articulos | Gomas',
-                    'url'  => '#',
-                ],
-            ]
+            'can'   => 'construccion.confeccionar',
         ],
         [
             'text' => 'Control Horarios Maquina',
@@ -421,8 +396,9 @@ return [
         ],
         [
             'text' => 'Usuarios',
-            'url'  => '#',
-            'icon' => 'fas fa-fw fa-user',
+            'route'  => 'usuarios.index',
+            'icon' => 'fas fa-fw fa-users',
+            'can'   => 'construccion.confeccionar',
             /* 'can'   => '', */
         ],
         /* [

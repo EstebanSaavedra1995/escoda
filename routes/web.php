@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Ordenes\EnsambleListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
 use App\Http\Controllers\Admin\Proveedores\ListarProveedoresController;
+use App\Http\Controllers\Admin\Usuarios\UsuariosController as UsuariosUsuariosController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
@@ -139,7 +140,8 @@ Route::get('/admin/datos/piezasconjuntos', [PiezaArticuloController::class, 'ind
 Route::post('/admin/datos/buscarpiezas', [PiezaArticuloController::class, 'buscarpiezas']);
 Route::post('/admin/datos/enviardatos', [PiezaArticuloController::class, 'enviardatos']);
 
-Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios')->name('usuarios');
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
 Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::class, 'listarArticulos']);
+
+Route::resource('usuarios', UsuariosUsuariosController::class)->names('usuarios');
