@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-{{-- @livewire('usuarioIndex') --}}
+@livewire('usuarios-index')
 @stop
 
 @section('css')

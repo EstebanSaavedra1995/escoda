@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-class UsuarioIndex extends Component
+class UsuariosIndex extends Component
 {
     public function render()
     {
-        return view('livewire.usuario-index');
+        return view('livewire.usuarios-index');
     }
 }
