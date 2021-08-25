@@ -140,7 +140,6 @@ Route::get('/admin/datos/piezasconjuntos', [PiezaArticuloController::class, 'ind
 Route::post('/admin/datos/buscarpiezas', [PiezaArticuloController::class, 'buscarpiezas']);
 Route::post('/admin/datos/enviardatos', [PiezaArticuloController::class, 'enviardatos']);
 
-Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('usuarios');
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
 Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::class, 'listarArticulos']);
