@@ -108,7 +108,7 @@ class ListarController extends Controller
                 $fecha = date_format($fecha, "d/m/Y");
                 $value->Fecha = $fecha;
 
-                if ($value->FechaIntervencion != "0000-00-00") {
+                if ($value->FechaIntervencion != "__/__/__") {
                     $fecha = date_create($value->FechaIntervencion);
                     $fecha = date_format($fecha, "d/m/Y");
                     $value->FechaIntervencion = $fecha;
