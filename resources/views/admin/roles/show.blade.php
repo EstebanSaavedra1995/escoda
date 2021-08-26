@@ -3,7 +3,7 @@
 @section('title', 'Escoda')
 
 @section('content_header')
-
+<h1>Mostrar roles</h1>
 @stop
 
 @section('content')
