@@ -18,15 +18,24 @@ class RoleSeeder extends Seeder
        $rol1= Role::create(['name' => 'admin']);
        $rol2= Role::create(['name' => 'usuario']);
 
-       Permission::create(['name' => 'construccion.confeccionar'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'horarios.maquinas'])->syncRoles([$rol2]);
-       Permission::create(['name' => 'confeccionar.despiece'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'registrar.egresos'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'listar'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'construccion.listarcancelar'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'control.maquina'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'reparacion.confeccionar'])->syncRoles([$rol1]);
-       Permission::create(['name' => 'control.horarios.maquina'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'construccion.confeccionar',
+                            'description' => 'Construccion Confeccionar'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'horarios.maquinas',
+                            'description' => 'Horarios Maquinas'])->syncRoles([$rol2]);
+       Permission::create(['name' => 'confeccionar.despiece',
+                            'description' => 'Stock Confeccionar Despiece'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'registrar.egresos',
+                            'description' => 'Egresos y Etiquetas Registrar Egresos'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'listar',
+                            'description' => 'Egresos y Etiquetas Listar'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'construccion.listarcancelar',
+                            'description' => 'Construccion Listar/Cancelar'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'control.maquina',
+                            'description' => 'Control Maquina'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'reparacion.confeccionar',
+                            'description' => 'Reparacion Confeccionar'])->syncRoles([$rol1]);
+       Permission::create(['name' => 'control.horarios.maquina',
+                            'description' => 'Control Horarios Maquina'])->syncRoles([$rol1]);
 
     }
 }

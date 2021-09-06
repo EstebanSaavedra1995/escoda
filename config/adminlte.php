@@ -412,6 +412,12 @@ return [
             'can'   => 'construccion.confeccionar',
             /* 'can'   => '', */
         ],
+        [
+            'text' => 'Lista de roles',
+            'route'  => 'roles.index',
+            'icon' => 'fas fa-fw fa-users-cog',
+            'can'   => 'construccion.confeccionar',
+        ],
         /* [
             'text'    => 'multilevel',
             'icon'    => 'fas fa-fw fa-share',

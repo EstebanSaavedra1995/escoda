@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Ordenes\EnsambleListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
 use App\Http\Controllers\Admin\Proveedores\ListarProveedoresController;
+use App\Http\Controllers\Admin\Roles\RoleController;
 use App\Http\Controllers\Admin\Usuarios\UsuariosController as UsuariosUsuariosController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
@@ -149,3 +150,4 @@ Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::clas
 Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::class, 'listarArticulos']);
 
 Route::resource('usuarios', UsuariosUsuariosController::class)->names('usuarios');
+Route::resource('roles', RoleController::class)->names('roles');

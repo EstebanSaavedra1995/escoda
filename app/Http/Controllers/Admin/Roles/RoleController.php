@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Usuarios;
+namespace App\Http\Controllers\Admin\Roles;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Spatie\Permission\Models\Role;
-
-class UsuariosController extends Controller
+use Spatie\Permission\Models\Permission;
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,8 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        return view('admin/usuarios/index');
+        $roles = Role::all();
+        return view('admin.roles.index',compact('roles'));
     }
 
     /**
@@ -26,8 +26,8 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        return view('admin.usuarios.create', compact('roles'));
+        $permissions = Permission::all();
+        return view('admin.roles.create', compact('permissions'));
     }
 
     /**
@@ -42,9 +42,9 @@ class UsuariosController extends Controller
             'name' => 'required'
         ]);
 
-       $user = User::create($request->all());
-       $user->roles()->sync($request->roles);
-       return redirect()->route('usuarios.index')->with('info','El usuario se creo con exito');
+       $role = Role::create($request->all());
+       $role ->permissions()->sync($request->permissions);
+       return redirect()->route('roles.edit',$role)->with('info','El rol se creo con exito');
     }
 
     /**
@@ -53,9 +53,9 @@ class UsuariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Role $role)
     {
-        //
+        return view('admin.roles.show',compact('role'));
     }
 
     /**
@@ -64,12 +64,11 @@ class UsuariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user)
+    public function edit($role)
     {
-        $user = User::find($user);
-        $roles = Role::all();
-        return view('admin.usuarios.edit', compact('user','roles'));
-        //return $user;
+        $rol = Role::find($role);
+        $permissions = Permission::all();
+        return view('admin.roles.edit',compact('rol','permissions'));
     }
 
     /**
@@ -79,13 +78,16 @@ class UsuariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user)
+    public function update(Request $request, $role)
     {
-        $user = User::find($user);
-        $user->roles()->sync($request->roles);
+        $rol = Role::find($role);
+        $request->validate([
+            'name' => 'required'
+        ]);
 
-        return redirect()->route('usuarios.edit',$user)->with('info','se asigó los roles correctamente');
-        //return $user;
+        $rol->update($request->all());
+        $rol ->permissions()->sync($request->permissions);
+       return redirect()->route('roles.edit',$role)->with('info','El rol se actualizo con exito');
     }
 
     /**
@@ -94,10 +96,10 @@ class UsuariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user)
+    public function destroy($role)
     {
-        $user = User::find($user);
-        $user->delete();
-        return redirect()->route('usuarios.index')->with('info','El usuario se elimino con exito');
+        $rol = Role::find($role);
+        $rol->delete();
+        return redirect()->route('roles.index',$role)->with('info','El rol se elimino con exito');
     }
 }
