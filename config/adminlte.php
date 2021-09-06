@@ -392,6 +392,10 @@ return [
                     'text' => 'Conjutos | Piezas',
                     'route'  => 'datos.piezasconjuntos',
                 ],
+                [
+                    'text' => 'Tareas',
+                    'route'  => 'datos.tareas',
+                ],
 
             ]
         ],
