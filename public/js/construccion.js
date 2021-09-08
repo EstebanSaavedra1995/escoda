@@ -1,3 +1,4 @@
+
 function verificarRadios() {
     let nameradio = document.getElementsByName('nameradio');
     let flag = false;
@@ -104,7 +105,7 @@ function pasarFilas() {
 
 
 //Cada vez que selecciona una pieza en el selector
-document.getElementById('piezas').addEventListener('change', function (e) {
+/* document.getElementById('piezas').addEventListener('click', function (e) {
     e.preventDefault();
 
     const datos = new FormData(document.getElementById('formulario'));
@@ -131,7 +132,34 @@ document.getElementById('piezas').addEventListener('change', function (e) {
                 completarTareas(data.piezaTarea);
             }
         })
-}, true)
+}, true) */
+$('#piezas').on('select2:select', function () {
+
+    const datos = new FormData(document.getElementById('formulario'));
+    fetch('/admin/construccion', {
+        method: 'POST',
+        body: datos,
+    })
+
+        .then(res => res.json())
+        .then(data => {
+            if (data.length == 0) {
+                limpiarDatos();
+            } else {
+                let material = document.getElementById('material');
+                material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
+                let idmaterial = document.getElementById('idmaterial');
+                idmaterial.value = data.material.CodigoMaterial;
+                let longcorte = document.getElementById('longcorte');
+                longcorte.value = data.materialPieza.longitudCorte;
+                let cantidadNecesaria = document.getElementById('cantidad-necesaria');
+                let cantidadRealizar = document.getElementById('cantidad-realizar');
+                cantidadNecesaria.value = (cantidadRealizar.value * longcorte.value) / (1000);
+                completarColadas(data.coladaMaterial);
+                completarTareas(data.piezaTarea);
+            }
+        })
+});
 
 const vaciarSelector = () => {
 
@@ -618,6 +646,7 @@ const agregarTareaModal = () => {
         });
         /* onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');" */
     }
+}
 
     function verificarTareaExistente(filas, id) {
         let flag = false;
@@ -629,6 +658,8 @@ const agregarTareaModal = () => {
         return flag;
 
     }
+   /*  $(document).ready(function() {
+        $('#piezas').select2();
+    });  */
+    
 
-
-}
