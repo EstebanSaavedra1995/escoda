@@ -3,6 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Events\Enviar;
+use App\Models\DetalleOC;
+use App\Models\Maquina;
+use App\Models\OrdenesConstruccion;
+use App\Models\TiemposOC;
+use Request;
 use Livewire\Component;
 
 class Cronometro extends Component
@@ -14,6 +19,19 @@ class Cronometro extends Component
     public $exitosas;
     public $fallidas;
     public $enviado;
+    public $maquina;
+    public $detalleOC;
+    public $ordenC;
+
+
+    protected $listeners = ['reset' => 'contar'];
+
+    public function contar($estadoPieza)
+    {
+        $this->estado = $estadoPieza;
+        $this->guardarTiempoOC();
+        $this->cargarDatos();
+    }
 
     public function mount()
     {
@@ -24,22 +42,73 @@ class Cronometro extends Component
         $this->exitosas = '0';
         $this->fallidas = '0';
     }
-
-
+    
+    
     public function render()
     {
+        //$this->guardarTiempoOC();
+        $this->cargarDatos();
+        
         return view('livewire.cronometro');
     }
 
     public function enviarDatos()
     {
-        $this->pieza = [
+        //$this->guardarTiempoOC(); 
+/*         $this->pieza = [
             'estado' => $this->estado,
             'tiempo' => $this->tiempo,
             'numero' => $this->cantidad
-        ];
+        ]; */
+
         //$this->emit("recibido",$this->cantidad);
         $this->emit("enviado");
-        event(new Enviar($this->cantidad, $this->pieza));
+        event(new Enviar($this->maquina->CodMaquina));
+
     }
+
+    public function guardarTiempoOC(){
+        $id = Request::cookie('maquina');
+        $this->maquina = Maquina::where('CodMaquina',$id)->first();
+        $this->detalleOC = DetalleOC::where('Maquina','like','%'. $this->maquina->CodMaquina .'%')
+                                        ->where('Estado','pendiente')
+                                        ->orderBy('Tarea','ASC')->first();
+        $this->ordenC = OrdenesConstruccion::where('NroOC',$this->detalleOC->NroOC)->first();
+
+        $numero = TiemposOC::where('NroOC', $this->detalleOC->NroOC)
+        ->where('CodMaquina', $this->maquina->CodMaquina)->get();
+        $tiempo = new TiemposOC();
+        $tiempo->NroOC = $this->ordenC->NroOC;
+        $tiempo->Tiempo = $this->tiempo;
+        $tiempo->Estado = $this->estado;
+        $tiempo->CodMaquina = $this->maquina->CodMaquina;
+        $tiempo->Fecha = date("y-m-d H:i:s");
+        if (count($numero)) {
+            $tiempo->Numero = count($numero) + 1;
+        }else{
+            $tiempo->Numero = 1;
+        }
+        $tiempo->save();
+    }
+
+    public function cargarDatos(){
+        $id = Request::cookie('maquina');
+        $this->maquina = Maquina::where('CodMaquina',$id)->first();
+        $this->detalleOC = DetalleOC::where('Maquina','like','%'. $this->maquina->CodMaquina .'%')
+                                        ->where('Estado','pendiente')
+                                        ->orderBy('Tarea','ASC')->first();
+        $this->ordenC = OrdenesConstruccion::where('NroOC',$this->detalleOC->NroOC)->first();
+
+        $fallas = TiemposOC::where('NroOC',$this->detalleOC->NroOC)
+                            ->where('Estado','fallida')->get();
+        $exitos = TiemposOC::where('NroOC',$this->detalleOC->NroOC)
+                            ->where('Estado','exitosa')->get();
+
+        $this->fallidas = count($fallas);
+        $this->exitosas = count($exitos);
+
+        $this->cantidad = $this->fallidas + $this->exitosas;
+    }
+
+
 }

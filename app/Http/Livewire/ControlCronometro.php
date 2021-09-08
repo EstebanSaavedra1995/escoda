@@ -2,39 +2,98 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\DetalleOC;
+use App\Models\Maquina;
+use App\Models\OrdenesConstruccion;
+use App\Models\TiemposOC;
+use Request;
 use Livewire\Component;
 
 class ControlCronometro extends Component
 {
-    public $datos;
+    public $codMaquinas;
     public $cantidad;
-    public $piezas;
+    public $maquinas;
     public $exitosas;
     public $fallidas;
+    public $maquina;
+    public $detalleOC;
+    public $ordenC;
     protected $listeners = ["recibido"];
 
-    public function mount(){
-        $this->datos = '';
-        $this->piezas = [];
+    public function mount()
+    {
+        $this->maquinas = [];
+        $this->codMaquinas = [];
+        /* 
         $this->cantidad = '0';
         $this->exitosas = 0;
         $this->fallidas = 0;
+        */
     }
 
     public function recibido($datos)
     {
-        $this->cantidad = $datos['cantidad'];
-        $this->piezas[] = $datos['pieza'];
-        if ($datos['pieza']['estado'] == 'fallida') {
-            $this->fallidas++;
-        } else {
-            $this->exitosas++;
+        $this->cargarDatos();
+        /*  if (!in_array($datos, $this->codMaquinas)) {
+            $this->codMaquinas[] = $datos;
         }
-        
+        foreach ($this->codMaquinas as $cod) {
+            $this->cargarDatos($cod);
+        } */
     }
 
     public function render()
     {
+        $this->cargarDatos();
+        /* foreach ($this->codMaquinas as $cod) {
+            $this->cargarDatos($cod);
+        } */
         return view('livewire.control-cronometro');
+    }
+
+    public function cargarDatos()
+    {
+        unset($this->maquinas);
+        $this->maquinas = [];
+        $codigos = Maquina::all();
+        foreach ($codigos as $value) {
+            $cod = $value->CodMaquina;
+            $maquina = Maquina::where('CodMaquina', $cod)->first();
+            $detalleOC = DetalleOC::where('Maquina', 'like', '%' . $maquina->CodMaquina . '%')
+                ->where('Estado', 'pendiente')
+                ->orderBy('Tarea', 'ASC')->first();
+            if ($detalleOC != null) {
+
+                $ordenC = OrdenesConstruccion::where('NroOC', $detalleOC->NroOC)->first();
+
+                $fallas = TiemposOC::where('NroOC', $detalleOC->NroOC)
+                    ->where('CodMaquina', $maquina->CodMaquina)
+                    ->where('Estado', 'fallida')->get();
+                $exitos = TiemposOC::where('NroOC', $detalleOC->NroOC)
+                    ->where('CodMaquina', $maquina->CodMaquina)
+                    ->where('Estado', 'exitosa')->get();
+
+                $total = TiemposOC::where('NroOC', $detalleOC->NroOC)
+                    ->where('CodMaquina', $maquina->CodMaquina)->get();
+
+                $fallidas = count($fallas);
+                $exitosas = count($exitos);
+
+                $totales = count($total);
+
+                $zona = [
+                    'maquina' => $maquina,
+                    'detalleOC' => $detalleOC,
+                    'ordenC' => $ordenC,
+                    'fallidas' => $fallidas,
+                    'exitosas' => $exitosas,
+                    'total' => $totales,
+                    'piezas' => $total,
+                ];
+
+                $this->maquinas[] = $zona;
+            }
+        }
     }
 }

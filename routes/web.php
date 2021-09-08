@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\RegistrarEgresosController;
+use App\Http\Controllers\Admin\Maquinas\MaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ReparacionCompletarCancelarController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionListarCancelarController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
 use App\Http\Controllers\Admin\Proveedores\ListarProveedoresController;
 use App\Http\Controllers\Admin\Roles\RoleController;
+use App\Http\Controllers\Admin\Stock\ControlStockController;
 use App\Http\Controllers\Admin\Usuarios\UsuariosController as UsuariosUsuariosController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
@@ -146,3 +148,7 @@ Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::c
 
 Route::resource('usuarios', UsuariosUsuariosController::class)->names('usuarios');
 Route::resource('roles', RoleController::class)->names('roles');
+Route::resource('maquinas',MaquinasController::class)->names('maquinas');
+/* Route::post('maquina.asignar',MaquinaController::class,'asignar')->names('maquina.asignar'); */
+
+Route::get('/admin/controlstock', [ControlStockController::class, 'index'])->name('stock');

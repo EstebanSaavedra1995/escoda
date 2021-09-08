@@ -3,8 +3,8 @@
 
         <div class="card-header bg-primary">
             <div class="row">
-                <h2 class="card-title col">Maquina : </h2>
-                <h2 class="card-title col">Usuario : </h2>
+                <h2 class="card-title col">Maquina : {{$maquina->NombreMaquina}} </h2>
+                <h2 class="card-title col">Usuario : {{auth()->user()->name}} </h2>
             </div>
             <h2 class="card-title col" id="contadorPiezas">Piezas Aptas= {{ $exitosas }}</h2>
             <h2 class="card-title col" id="contadorPiezas">Piezas no Aptas= {{ $fallidas }}</h2>
@@ -32,8 +32,8 @@
                 <button onclick="reset()" class=" btn btn-primary  col " id="reset">Terminar</button>
 
             </div>
-            <div class="row mb-2" align="center">
-                <button class="btn btn-primary col-3" wire:click="enviarDatos" id="enviar">Enviar</button>
+            <div class="mt-5" align="center">
+                <button class="btn btn-success col-3" wire:click="enviarDatos" id="enviar">Enviar</button>
             </div>
 
         </div>
