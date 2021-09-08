@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
+use App\Http\Controllers\Admin\Datos\TareaController;
 use App\Http\Controllers\Admin\Datos\PiezaArticuloController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
@@ -140,7 +141,11 @@ Route::get('/admin/controlhorariosmaquina', [ControlHorariosMaquinaController::c
 
 Route::get('/admin/datos/piezasconjuntos', [PiezaArticuloController::class, 'index'])->name('datos.piezasconjuntos');
 Route::post('/admin/datos/buscarpiezas', [PiezaArticuloController::class, 'buscarpiezas']);
-Route::post('/admin/datos/enviardatos', [PiezaArticuloController::class, 'enviardatos']);
+Route::post('/admin/datos/store', [PiezaArticuloController::class, 'store']);
+Route::post('/admin/datos/show', [PiezaArticuloController::class, 'show']);
+Route::post('/admin/datos/update', [PiezaArticuloController::class, 'update']);
+
+Route::get('/admin/datos/tareas', [TareaController::class, 'index'])->name('datos.tareas');
 
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
