@@ -26,6 +26,7 @@ class ControlStock extends Component
         $this->tipo = 'materiales';
         $this->buscar = '';
         $this->datos = Material::all();
+        unset($this->detalles);
         $this->detalles = [];
     }
 
@@ -47,6 +48,8 @@ class ControlStock extends Component
 
     public function cambiarDatos()
     {
+        /* unset($this->detalles);
+        $this->detalles = []; */
         switch ($this->tipo) {
             case 'materiales':
                 $this->datos = Material::where('CodigoMaterial', 'LIKE', '%' . $this->buscar . '%')
@@ -78,13 +81,28 @@ class ControlStock extends Component
                 break;
 
             case 'piezas':
-                $ordenes = OrdenesConstruccion::where('CodigoPieza', $cod)->get();
-                foreach ($ordenes as $orden) {
+                /* $ordenes = OrdenReparacion::select('*')
+                ->join('conjuntos', 'ordenesreparacion.CodConjunto', '=', 'conjuntos.CodPieza')
+                ->join('personal', 'ordenesreparacion.NroLegajoOperario', '=', 'personal.NroLegajo')
+                ->where('NroOR', 'LIKE', '%' . $nroOrden . '%')->get(); */
+
+                $ordenes = OrdenesConstruccion::select('*')
+                ->join('piezaocstock', 'ordenesconstruccion.NroOC', '=', 'piezaocstock.NroOC')
+                ->where('CodigoPieza', $cod)->get();
+
+                if (!$ordenes == null) {
+                    $this->detalles = $ordenes;
+                }
+                /* foreach ($ordenes as $orden) {
                     $stock = PiezaOCStock::where('NroOC', $orden->NroOC)->first();
                     if (!$stock == null) {
                         $this->detalles[] = $stock;
                     }
-                }
+                } */
+                break;
+            default:
+            unset($this->detalles);
+            $this->detalles = [];
                 break;
         }
     }

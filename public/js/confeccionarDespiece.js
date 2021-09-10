@@ -72,8 +72,7 @@ document.getElementById('predeterminarbtn').addEventListener('click', function (
         swal("Aviso!", "No puede predeterminar la tabla vacia!");
 
     }
-    else
-    {
+    else {
         var val = [];
         for (i = 0; i < codigos.length; i++) {
             let e = {
@@ -88,31 +87,29 @@ document.getElementById('predeterminarbtn').addEventListener('click', function (
         const datos = new FormData(document.getElementById('formulario'));
         datos.append('valores', val);
         datos.append('conjunto', conjunto);
-        
+
         fetch('/admin/confeccionardespiecepredeterminar', {
             method: 'POST',
             body: datos,
         })
             .then(res => res.json())
             .then(data => {
-    
-    
+
+
                 //console.log(data);
                 swal("Predeterminado con Exito!", {
                     icon: "success",
                 });
-    
-    
+
+
             })
     }
-    
+
 }, true)
 
 
 //llenar la tabla
-document.getElementById('piezas').addEventListener('change', function (e) {
-    e.preventDefault(); //para evitar que se recargue la pagina
-
+$('#piezas').on('select2:select', function () {
     const datos = new FormData(document.getElementById('formulario'));
     fetch('/admin/confeccionardespiecetabla', {
         method: 'POST',
@@ -194,7 +191,12 @@ document.getElementById('piezas').addEventListener('change', function (e) {
             //tabla.insertAdjacentHTML("beforeEnd",datos);
 
         })
-}, true)
+
+});
+/* document.getElementById('piezas').addEventListener('change', function (e) {
+    e.preventDefault(); //para evitar que se recargue la pagina
+
+}, true) */
 
 //Activar el modal
 $(document).ready(function () {
@@ -334,10 +336,10 @@ function habilitarAgregar(tipo, i) {
 }
 //HABILITA LOS BOTONES DE AGREGAR ELEMENTOS
 function habilitarBotones(tipo) {
-    var material= document.getElementById(`materialbtn`);
-    var pieza= document.getElementById(`piezabtn`);
-    var articulo= document.getElementById(`articulobtn`);
-    var goma= document.getElementById(`gomabtn`);
+    var material = document.getElementById(`materialbtn`);
+    var pieza = document.getElementById(`piezabtn`);
+    var articulo = document.getElementById(`articulobtn`);
+    var goma = document.getElementById(`gomabtn`);
     switch (tipo) {
         case 'vacio':
             material.disabled = true;

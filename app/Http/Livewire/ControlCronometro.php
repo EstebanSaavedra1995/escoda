@@ -56,15 +56,16 @@ class ControlCronometro extends Component
     {
         unset($this->maquinas);
         $this->maquinas = [];
-        $codigos = Maquina::all();
-        foreach ($codigos as $value) {
-            $cod = $value->CodMaquina;
-            $maquina = Maquina::where('CodMaquina', $cod)->first();
-            $detalleOC = DetalleOC::where('Maquina', 'like', '%' . $maquina->CodMaquina . '%')
-                ->where('Estado', 'pendiente')
-                ->orderBy('Tarea', 'ASC')->first();
+        //$codigos = Maquina::all();
+        $detalles = DetalleOC::where('Estado', 'pendiente')
+        ->orderBy('Tarea', 'ASC')->get();
+        foreach ($detalles as $detalleOC) {
+            //$cod = $value->CodMaquina;
+            //$maquina = Maquina::where('CodMaquina', $cod)->first();
+            //where('Maquina', 'like', '%' . $maquina->CodMaquina . '%')
             if ($detalleOC != null) {
-
+                $cod = substr($detalleOC->Maquina, 0, 3);
+                $maquina = Maquina::where('CodMaquina', $cod)->first();
                 $ordenC = OrdenesConstruccion::where('NroOC', $detalleOC->NroOC)->first();
 
                 $fallas = TiemposOC::where('NroOC', $detalleOC->NroOC)

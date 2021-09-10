@@ -144,7 +144,7 @@
                         </tbody>
                     </table>
 
-                    <small>{{json_encode($detalles)}} </small>
+
                     <table class="table table-striped table-scroll1 mt-2">
                         <thead>
                             <tr>
@@ -154,12 +154,18 @@
                         </thead>
 
                         <tbody>
+
+
                             @foreach ($detalles as $detalle)
-                                <tr>
-                                    <td>{{ $detalle->NroOC }} </td>
-                                    <td>{{ $detalle->Stock }} </td>
-                                </tr>
+                                @if ($detalle->Stock > '0')
+                                    <tr>
+                                        <td>{{ $detalle->NroOC }} </td>
+                                        <td>{{ $detalle->Stock }} </td>
+                                    </tr>
+
+                                @endif
                             @endforeach
+
                         </tbody>
                     </table>
 

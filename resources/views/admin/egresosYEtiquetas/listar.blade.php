@@ -71,7 +71,7 @@
                             </div>
                         </div>
 
-                        <select class="form-select col-2 mr-1" name="piezasMod" id="piezasMod">
+                        <select class="col-2 select2" name="piezasMod" id="piezasMod">
                         </select>
 
                         <label class=" col ">Nro.</label>
@@ -141,7 +141,8 @@
                         <table class="table table-bordered table-striped">
                             <tbody id="tablamodalmodificartareas">
                                 <tr>
-                                    <input id="idMod" name="idMod" type="text" value="" class="oculto" readonly hidden>
+                                    <input id="idMod" name="idMod" type="text" value="" class="oculto" readonly
+                                        hidden>
                                     <td><label for="FechaEgreso">Fecha de Egreso: </label></td>
                                     <td> <input type="date" id="FechaEMod" name="FechaEMod" class="form-control" value=""
                                             max="{{ $date = date('Y-m-d') }}"></td>
@@ -162,7 +163,8 @@
                                 </tr>
                                 <tr>
                                     <td><label for="nroEgreso">Nro. de Egreso: </label></td>
-                                    <td> <input type="text" class="form-control" id="nroEMod" name="nroEMod" value=""></td>
+                                    <td> <input type="text" class="form-control" id="nroEMod" name="nroEMod" value="">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><label for="FechaI">Fecha de Intervención: </label></td>
@@ -245,6 +247,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @stop
 
 @section('js')
@@ -253,4 +256,10 @@
         $("#cargandoDiv").hide();
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#piezasMod').select2({ width: '20%'});
+        });
+    </script>
 @stop

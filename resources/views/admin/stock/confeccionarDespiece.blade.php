@@ -25,15 +25,8 @@
                 <div class="container">
                     <div class="row mb-2">
                         <label class=" col mr-2">Pieza</label>
-                        <select class="form-select col mr-2" name="piezas" id="piezas">
+                        <select class="form-select col mr-2 select2" name="piezas" id="piezas">
 
-                            {{-- @foreach ($piezas as $pieza)
-                            <option value="{{ $pieza->CodPieza }}">
-                                {{ $pieza->CodPieza }} -
-                                {{ $pieza->NombrePieza }} -
-                                {{ $pieza->Medida }}
-                            </option>
-                        @endforeach --}}
                         </select>
                         <div class="form-group col  ">
                             <div class="form-check">
@@ -392,6 +385,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @stop
 
 @section('js')
@@ -400,4 +394,10 @@
         habilitarBotones('vacio');
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#piezas').select2({ width: '40%'});
+        });
+    </script>
 @stop
