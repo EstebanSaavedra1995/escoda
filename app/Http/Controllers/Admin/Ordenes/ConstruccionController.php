@@ -97,19 +97,22 @@ class ConstruccionController extends Controller
 
       $tareas = Tarea::all();
       $maquinas = Maquina::all();
-      $supervisores = Personal::where('Cargo', 'Supervisor de Área')
+
+      $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea') //MODIFICAR CUANDO SE CAMBIE DE BASE
         ->where('Estado', 'A')->get();
+
       $operarios = Personal::Where('Estado', 'A')
         ->orwhere([
           ['Cargo', 'Operario Ayudante'],
           ['Cargo', 'Operario c/ Especializacion'],
           ['Cargo', 'Supervisor de Área']
         ])->get();
-      $operarios = [
+
+      $tarea = [
         'tareas' => $tareas, 'maquinas' => $maquinas,
         'supervisores' => $supervisores, 'operarios' => $operarios
       ];
-      return json_encode($operarios);
+      return json_encode($tarea);
     }
   }
 
@@ -151,6 +154,7 @@ class ConstruccionController extends Controller
       $detalleOC->Supervisor = $tarea[3];
       $detalleOC->Horas = $tarea[4];
       $detalleOC->Renglon = $key + 1;
+      $detalleOC->Estado = "";
       $detalleOC->saveOrFail();
     }
 
