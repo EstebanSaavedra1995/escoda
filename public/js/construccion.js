@@ -32,7 +32,7 @@ function validar() {
     let filasDeTarea = document.getElementsByClassName('filasDeTarea').length;
     let cantidadrealizar = document.getElementById('cantidad-realizar').value;
     let radios = verificarRadios();
-    console.log(cantidadrealizar);
+    /* console.log(cantidadrealizar); */
 
     if (filasDeTarea > 0 && celdasincorrectas == 0 && cantidadrealizar > 0 && radios == true) {
         swal({
@@ -245,6 +245,7 @@ function modificarTareas(tarea, maquina) {
                 option.innerHTML = `${operarios.NroLegajo} - ${operarios.ApellidoNombre}`;
                 comboOperario.appendChild(option);
             })
+
             data.supervisores.forEach(supervisores => {
                 let option = document.createElement('option');
                 str = JSON.stringify(supervisores);
@@ -308,6 +309,7 @@ function modificarTareas2(tarea, maquina, operario, supervisor, horas) {
                 comboMaquinas.appendChild(option);
             })
             data.operarios.forEach(operarios => {
+                
                 let option = document.createElement('option');
                 str = JSON.stringify(operarios);
                 option.innerHTML = `${operarios.NroLegajo} - ${operarios.ApellidoNombre}`;
@@ -318,6 +320,7 @@ function modificarTareas2(tarea, maquina, operario, supervisor, horas) {
                 comboOperario.appendChild(option);
             })
             data.supervisores.forEach(supervisores => {
+                
                 let option = document.createElement('option');
                 str = JSON.stringify(supervisores);
                 option.innerHTML = `${supervisores.NroLegajo} - ${supervisores.ApellidoNombre}`;
@@ -648,18 +651,18 @@ const agregarTareaModal = () => {
     }
 }
 
-    function verificarTareaExistente(filas, id) {
-        let flag = false;
-        for (let i = 0; i < filas.length; i++) {
-            if (filas[i].id === id) {
-                flag = true;
-            }
+function verificarTareaExistente(filas, id) {
+    let flag = false;
+    for (let i = 0; i < filas.length; i++) {
+        if (filas[i].id === id) {
+            flag = true;
         }
-        return flag;
-
     }
+    return flag;
+
+}
    /*  $(document).ready(function() {
-        $('#piezas').select2();
-    });  */
-    
+$('#piezas').select2();
+});  */
+
 
