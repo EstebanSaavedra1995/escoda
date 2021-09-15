@@ -75,9 +75,10 @@ class Cronometro extends Component
                                         ->orderBy('Tarea','ASC')->first();
         $this->ordenC = OrdenesConstruccion::where('NroOC',$this->detalleOC->NroOC)->first();
 
-        $numero = TiemposOC::where('NroOC', $this->detalleOC->NroOC)
-        ->where('CodMaquina', $this->maquina->CodMaquina)->get();
+        $numero = TiemposOC::where('idDetalleOC', $this->detalleOC->id)->get();
+        //->where('CodMaquina', $this->maquina->CodMaquina)
         $tiempo = new TiemposOC();
+        $tiempo->idDetalleOC = $this->detalleOC->id;
         $tiempo->NroOC = $this->ordenC->NroOC;
         $tiempo->Tiempo = $this->tiempo;
         $tiempo->Estado = $this->estado;
@@ -99,9 +100,9 @@ class Cronometro extends Component
                                         ->orderBy('Tarea','ASC')->first();
         $this->ordenC = OrdenesConstruccion::where('NroOC',$this->detalleOC->NroOC)->first();
 
-        $fallas = TiemposOC::where('NroOC',$this->detalleOC->NroOC)
+        $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
                             ->where('Estado','fallida')->get();
-        $exitos = TiemposOC::where('NroOC',$this->detalleOC->NroOC)
+        $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
                             ->where('Estado','exitosa')->get();
 
         $this->fallidas = count($fallas);

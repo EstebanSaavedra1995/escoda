@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class OrdenEnsamble extends Model
 {
     use HasFactory;
-     // alter table 'coladamaterial' drop primary key;
-    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
+/*     alter table `ordenesensamble` drop primary key
+    ALTER TABLE `ordenesensamble` ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
     protected $table= 'ordenesensamble';
     public $timestamps = false;
 }

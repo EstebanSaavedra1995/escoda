@@ -8,19 +8,34 @@
         <div class="card border-primary mb-3 mt-2 ml-2" style="max-width: 100%;" align="left">
             <div class="card-header text-black bg-primary">
                 <div class="row">
-                    <h3 class="col">Maquina: {{ $item['maquina']->CodMaquina }} - {{ $item['maquina']->NombreMaquina }}</h3>
-                    <h3 class="col">Operario: {{ $item['detalleOC']->Operario }} </h3>
-                    <h3 class="col">Orden C.: {{ $item['detalleOC']->NroOC }} </h3>
+                    <h4 class="col-4">Maquina: {{ $item['maquina']->CodMaquina }} - {{ $item['maquina']->NombreMaquina }}</h4>
+                    <h4 class="col-4">Operario: {{ $item['detalleOC']->Operario }} </h4>
+                    <h4 class="col"></h4>
                 </div>
                 <div class="row">
-                    <h3 class="col">Cantidad = {{ $item['ordenC']->Cantidad }}</h3>
-                    <h3 class="col">Piezas Exitosas = {{ $item['exitosas'] }}</h3>
-                    <h3 class="col">Piezas Fallidas = {{ $item['fallidas'] }}</h3>
-                    <h3 class="col">Total Piezas = {{ $item['total'] }}</h3>
+                    <h4 class="col-4">Tarea: {{ $item['detalleOC']->Tarea }} </h4>
+                    <h4 class="col-4">Orden C.: {{ $item['detalleOC']->NroOC }} </h4>
+                    {{-- <h4 class="col">Cantidad = {{ $item['ordenC']->Cantidad }}</h4>
+                    <h4 class="col">Piezas Exitosas = {{ $item['exitosas'] }}</h4>
+                    <h4 class="col">Piezas Fallidas = {{ $item['fallidas'] }}</h4>
+                    <h4 class="col">Total Piezas = {{ $item['total'] }}</h4> --}}
                     <button class="btn btn-light col-2" onclick="$('#{{$item['detalleOC']->id}}').toggle();">Detalle</button>
                 </div>
             </div>
             <div class="card-body container" id="{{$item['detalleOC']->id}}" style="display:none">
+                <div class="row">
+
+                    <h4 class="col">Piezas Exitosas = {{ $item['exitosas'] }}</h4>
+                    <h4 class="col">Cantidad a realizar = {{ $item['ordenC']->Cantidad }}</h4>
+                </div>
+                
+                <div class="row">
+                    <h4 class="col">Piezas Fallidas = {{ $item['fallidas'] }}</h4>
+                </div>
+                
+                <div class="row">
+                    <h4 class="col">Total Piezas = {{ $item['total'] }}</h4>
+                </div>
 
                 <table class="table table-striped border-dark">
 

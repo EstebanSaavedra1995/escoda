@@ -68,15 +68,12 @@ class ControlCronometro extends Component
                 $maquina = Maquina::where('CodMaquina', $cod)->first();
                 $ordenC = OrdenesConstruccion::where('NroOC', $detalleOC->NroOC)->first();
 
-                $fallas = TiemposOC::where('NroOC', $detalleOC->NroOC)
-                    ->where('CodMaquina', $maquina->CodMaquina)
+                $fallas = TiemposOC::where('idDetalleOC', $detalleOC->id)
                     ->where('Estado', 'fallida')->get();
-                $exitos = TiemposOC::where('NroOC', $detalleOC->NroOC)
-                    ->where('CodMaquina', $maquina->CodMaquina)
+                $exitos = TiemposOC::where('idDetalleOC', $detalleOC->id)
                     ->where('Estado', 'exitosa')->get();
 
-                $total = TiemposOC::where('NroOC', $detalleOC->NroOC)
-                    ->where('CodMaquina', $maquina->CodMaquina)->get();
+                $total = TiemposOC::where('idDetalleOC', $detalleOC->id)->get();
 
                 $fallidas = count($fallas);
                 $exitosas = count($exitos);

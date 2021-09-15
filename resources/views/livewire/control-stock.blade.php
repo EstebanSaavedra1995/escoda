@@ -135,7 +135,8 @@
                                     <td>
                                         <button class="btn btn-success mr-1"
                                             wire:click="cargarDetalles('{{ $pieza->CodPieza }}')">Info</button>
-                                        <button class="btn btn-primary">Egreso</button>
+                                        {{-- <button class="btn btn-primary">Egreso</button> --}}
+                                        <a href="{{ route('stockEgreso', [$pieza->id,'4']) }}" class="btn btn-primary">Egreso</a> 
                                         <button class="btn btn-primary">Ingreso</button>
                                         <button class="btn btn-primary">Movimientos</button>
                                     </td>

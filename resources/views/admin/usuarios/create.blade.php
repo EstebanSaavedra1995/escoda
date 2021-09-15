@@ -10,21 +10,22 @@
     {!! Form::open(['route' => 'usuarios.store']) !!}
     <div class="form-group">
 
-        {!! Form::label('name', 'Nombre') !!}
-        {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del usuario']) !!}
-        @error('name')
+        {{-- {!! Form::label('legajo', 'Nombre') !!}
+        {!! Form::text('legajo', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del usuario']) !!}
+        @error('legajo')
+        
             <small class="text-danger">
                 {{$message}}
             </small>
-        @enderror
+        @enderror --}}
 
-        {!! Form::label('email', 'Email') !!}
+        {{-- {!! Form::label('email', 'Email') !!}
         {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'Ingrese el email del usuario']) !!}
         @error('email')
             <small class="text-danger">
                 {{$message}}
             </small>
-        @enderror
+        @enderror --}}
 
         @livewire('usuarios-password')
     </div>

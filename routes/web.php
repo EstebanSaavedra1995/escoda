@@ -155,3 +155,4 @@ Route::resource('maquinas',MaquinasController::class)->names('maquinas');
 /* Route::post('maquina.asignar',MaquinaController::class,'asignar')->names('maquina.asignar'); */
 
 Route::get('/admin/controlstock', [ControlStockController::class, 'index'])->name('stock');
+Route::get('/admin/controlstockegreso/{id}/{tipo}', [ControlStockController::class, 'egreso'])->name('stockEgreso');
