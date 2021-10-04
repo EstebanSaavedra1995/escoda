@@ -1,6 +1,20 @@
 //PARA LIMPIAR CACHE Y FUNCIONE BIEN PUSHER
 /* php artisan config:cache */
 window.onload = function () {
+  if (localStorage.getItem('idTiempo')) {
+    var id = document.getElementById('idTiempo');
+    id.value = localStorage.getItem('idTiempo');
+    id.dispatchEvent(new Event('input'));
+  }
+  if (localStorage.getItem("estado") == 'f') {
+    var tiempo = document.getElementById("tiempo");
+    tiempo.value = localStorage.getItem("tiempoFinal");
+    tiempo.dispatchEvent(new Event('input'));
+    /* var id = document.getElementById('idTiempo');
+    id.value = localStorage.getItem('idTiempo');
+    id.dispatchEvent(new Event('input')); */
+    this.estado();
+  }
   pantalla = document.getElementById("screen");
   //localStorage.removeItem("inicio");
   if (localStorage.getItem("inicio") != null) {
@@ -17,6 +31,7 @@ window.onload = function () {
 var isMarch = false;
 var isStart = false;
 var terminado = false;
+var setEstado = false;
 var piezas = 0;
 var exitosas = 0;
 var fallidas = 0;
@@ -30,7 +45,7 @@ function start() {
     if (enviado.value == 'f') {
       swal("Debe enviar antes de empezar!", "si ya se envio espere notificacion de envio exitoso", "error");
     } else {
-
+      window.livewire.emit('start');
       enviado.value = 'f';
       terminado = false;
       isStart = true;
@@ -41,11 +56,13 @@ function start() {
       localStorage.setItem("inicio", timeInicial);
       control = setInterval(cronometro, 10);
       isMarch = true;
+      localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
     }
 
   }
 }
 function cronometro() {
+
   timeActual = new Date();
   if (localStorage.getItem("inicio") != null) {
     timeInicial = new Date(localStorage.getItem("inicio"));
@@ -99,6 +116,9 @@ function resume() {
 }
 
 function reset() {
+  localStorage.setItem("estado", 'f');
+  localStorage.setItem("tiempoFinal", tiempoPieza);
+  //localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
   var tiempo = document.getElementById("tiempo");
   tiempo.value = tiempoPieza;
   tiempo.dispatchEvent(new Event('input'));
@@ -114,26 +134,26 @@ function reset() {
     isStart = false;
     acumularTime = 0;
     pantalla.innerHTML = "00 : 00 : 00";
-    var cantidad = document.getElementById("cantidad");
-    
+
+    //var cantidad = document.getElementById("cantidad");
     terminado = true;
     //cant = document.getElementById("cant");
     /* piezas++;
     cantidad.value = piezas;
     cantidad.dispatchEvent(new Event('input')); */
     //dispara evento para comunicar el livewire con input
-    
+
     //cant.value= piezas;
     /* var enviado = document.getElementById("enviado");
     enviado.value = 'f';
     enviado.dispatchEvent(new Event('input')); */
     this.estado();
-    
-    
+
+
     /* contPiezas = document.getElementById('contadorPiezas');
     contPiezas.innerHTML = "Total Piezas = "+ piezas ; */
     //console.log(cantidad.value);
-    
+
   }
 
 }
@@ -159,25 +179,31 @@ function estado() {
           //swal("Pieza Apta!", "", "success");
           estado.value = 'exitosa';
           //estado.dispatchEvent(new Event('input'));
-          window.livewire.emit('reset',estado.value);
+          window.livewire.emit('reset', estado.value);
           /* exitosas++;
           var exito = document.getElementById("exitosas");
           exito.value = exitosas;
           exito.dispatchEvent(new Event('input')); */
           //terminado = true;
           this.controlBotones();
+          setEstado = true;
+          localStorage.setItem("estado", 'v');
+          localStorage.removeItem("idTiempo");
           break;
         case "fallo":
           //swal("Pieza No Apta!", "", "success");
           estado.value = 'fallida';
           //estado.dispatchEvent(new Event('input'));
-          window.livewire.emit('reset',estado.value);
+          window.livewire.emit('reset', estado.value);
           /* fallidas++;
           var fallo = document.getElementById("fallidas");
           fallo.value = fallidas;
           fallo.dispatchEvent(new Event('input')); */
           //terminado = true;
           this.controlBotones();
+          setEstado = true;
+          localStorage.setItem("estado", 'v');
+          localStorage.removeItem("idTiempo");
           //window.livewire.emit('reset');
           break;
 

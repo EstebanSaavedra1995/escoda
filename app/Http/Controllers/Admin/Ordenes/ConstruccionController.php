@@ -154,7 +154,7 @@ class ConstruccionController extends Controller
       $detalleOC->Supervisor = $tarea[3];
       $detalleOC->Horas = $tarea[4];
       $detalleOC->Renglon = $key + 1;
-      $detalleOC->Estado = "";
+      $detalleOC->Estado = "pendiente";
       $detalleOC->saveOrFail();
     }
 

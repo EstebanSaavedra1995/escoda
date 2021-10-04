@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Proveedores;
 
 use App\Http\Controllers\Controller;
 use App\Models\ArticulosGenerales;
+use App\Models\Goma;
+use App\Models\Material;
 use App\Models\ProveedorArticulos;
 use App\Models\Proveedores;
 use App\Models\ProveedorFactura;
@@ -29,7 +31,7 @@ class ListarProveedoresController extends Controller
             $resultado[] = [
                 'p' => $value,
                 'pf' => $provFac
-            ];
+            ]; 
         }
         return json_encode($resultado);
     }
@@ -37,11 +39,28 @@ class ListarProveedoresController extends Controller
     public function listarArticulos()
     {
         $id = request('id');
-        /* $codArticulos = ProveedorArticulos::where('CodigoProv',$id)->get();
-        $articulos=[];
-        foreach ($codArticulos as $value) {
-            $articulos[] = ArticulosGenerales::where('CodArticulo',$value->CodArticulo)->first();
-        } */
-        return json_encode($id);
+        $articulos = ProveedorArticulos::where('CodigoProv',$id)->get();
+        $resultado = [];
+        foreach ($articulos as $value) {
+            $a = ArticulosGenerales::where('CodArticulo',$value->CodArticulo)->first();
+            if ($a != null) {
+                $articulosG[] = $a;
+            }
+            $g = Goma::where('CodigoGoma',$value->CodArticulo)->first();
+            if ($g != null) {
+                $gomas[] = $g;
+            }
+            $m = Material::where('CodigoMaterial',$value->CodArticulo)->first();
+            if ($m != null) {
+                $materiales[] = $m;
+            }
+            
+        }
+        $resultado[]= [
+            'articulos' => $articulosG,
+            'gomas' => $gomas,
+            'materiales' => $materiales,
+        ];
+        return json_encode($resultado);
     }
 }

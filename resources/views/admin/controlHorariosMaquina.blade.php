@@ -22,5 +22,5 @@
 @stop
 
 @section('js')
-
+<script src="{{ asset('js/controlCronometro.js') }}"></script>
 @stop

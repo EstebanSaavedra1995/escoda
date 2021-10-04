@@ -19,12 +19,14 @@ class ControlCronometro extends Component
     public $maquina;
     public $detalleOC;
     public $ordenC;
+    public $evento;
     protected $listeners = ["recibido"];
 
     public function mount()
     {
         $this->maquinas = [];
         $this->codMaquinas = [];
+        $this->evento = '';
         /* 
         $this->cantidad = '0';
         $this->exitosas = 0;
@@ -34,6 +36,7 @@ class ControlCronometro extends Component
 
     public function recibido($datos)
     {
+        $this->evento = $datos;
         $this->cargarDatos();
         /*  if (!in_array($datos, $this->codMaquinas)) {
             $this->codMaquinas[] = $datos;
@@ -91,6 +94,12 @@ class ControlCronometro extends Component
                 ];
 
                 $this->maquinas[] = $zona;
+
+                $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                                    ->where('Estado','inicio')->get();
+                //if ($inicios != null) {
+                    $this->emit("inicios",json_encode($inicios));
+                //}
             }
         }
     }
