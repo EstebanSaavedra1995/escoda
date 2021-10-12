@@ -95,10 +95,10 @@ class ControlCronometro extends Component
 
                 $this->maquinas[] = $zona;
 
-                $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                                    ->where('Estado','inicio')->get();
+                /* $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                                    ->where('Estado','inicio')->get(); */
                 //if ($inicios != null) {
-                    $this->emit("inicios",json_encode($inicios));
+                    //$this->emit("inicios",json_encode($inicios));
                 //}
             }
         }

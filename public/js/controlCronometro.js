@@ -51,14 +51,15 @@ function cronometro(fecha,pantalla) {
   cc = Math.round(acumularTime2.getMilliseconds() / 10);
   ss = acumularTime2.getSeconds();
   mm = acumularTime2.getMinutes();
+  hh = acumularTime2.getHours()-21;
 
-  /* hh = acumularTime2.getHours()-21; */
   if (cc < 10) { cc = "0" + cc; }
   if (ss < 10) { ss = "0" + ss; }
   if (mm < 10) { mm = "0" + mm; }
-  /* if (hh < 10) {hh = "0"+hh;} */
-  /* hh+" : "+ */
-  tiempoPieza = mm + " : " + ss + " : " + cc;
+  if (hh < 10) {hh = "0"+hh;}
+  
+  tiempoPieza = hh+" : "+ mm + " : " + ss ;
+  //+ " : " + cc
   localStorage.setItem("tiempo", tiempoPieza);
   //localStorage.removeItem("inicio");
   // if(localStorage.getItem("inicio")!=null)

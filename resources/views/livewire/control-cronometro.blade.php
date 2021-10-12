@@ -134,7 +134,7 @@
     <script>
         window.livewire.on('inicios', function(data) {
             //localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
-            console.log(data);
+            //console.log(data);
         });
     </script>
 </div>

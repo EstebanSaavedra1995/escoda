@@ -7,7 +7,9 @@ use App\Models\DetalleOC;
 use App\Models\Maquina;
 use App\Models\Material;
 use App\Models\OrdenesConstruccion;
+use App\Models\PausasOC;
 use App\Models\TiemposOC;
+use DateTime;
 use Request;
 use Livewire\Component;
 
@@ -26,11 +28,14 @@ class Cronometro extends Component
     public $material;
     public $tiempoOC;
     public $idTiempoOC;
+    public $pausa;
 
 
     protected $listeners = [
         'reset' => 'fin',
-        'start' => 'inicio'
+        'start' => 'inicio',
+        'guardarPausa' => 'guardarPausa',
+        'actualizarPausa' => 'actualizarPausa'
     ];
 
     public function fin($estadoPieza)
@@ -91,10 +96,26 @@ class Cronometro extends Component
 
     public function continuar()
     {
-        $this->estado = 'continua';
+        $this->estado = 'inicio';
         $this->actualizarTiempoOC();
         $this->emit("continuar");
-        event(new Enviar('continuar'));
+        event(new Enviar('inicio'));
+    }
+
+    public function guardarPausa($tipo){
+        $pausa = new PausasOC();
+        $pausa->Tipo = $tipo;
+        $pausa->inicio = date("y-m-d H:i:s");
+        $pausa->IdDetalleOC = $this->detalleOC->id;
+        $pausa->saveOrFail();
+        $this->pausa = $pausa;
+    }
+
+    public function actualizarPausa(){
+        $pausa = PausasOC::where('IdDetalleOC',$this->detalleOC->id)
+                        ->orderBy('id', 'DESC')->first();;
+        $pausa->Fin = date("y-m-d H:i:s");
+        $pausa->saveOrFail();
     }
 
     public function guardarTiempoOC()

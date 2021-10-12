@@ -54,7 +54,7 @@ function start() {
       timeInicial = new Date();
       console.log(timeInicial);
       localStorage.setItem("inicio", timeInicial);
-      control = setInterval(cronometro, 10);
+      control = setInterval(cronometro, 1000);
       isMarch = true;
       localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
     }
@@ -74,14 +74,15 @@ function cronometro() {
   cc = Math.round(acumularTime2.getMilliseconds() / 10);
   ss = acumularTime2.getSeconds();
   mm = acumularTime2.getMinutes();
+  hh = acumularTime2.getHours()-21;
 
-  /* hh = acumularTime2.getHours()-21; */
   if (cc < 10) { cc = "0" + cc; }
   if (ss < 10) { ss = "0" + ss; }
   if (mm < 10) { mm = "0" + mm; }
-  /* if (hh < 10) {hh = "0"+hh;} */
-  /* hh+" : "+ */
-  tiempoPieza = mm + " : " + ss + " : " + cc;
+  if (hh < 10) {hh = "0"+hh;}
+  
+  tiempoPieza = hh+" : "+ mm + " : " + ss ;
+  //+ " : " + cc
   localStorage.setItem("tiempo", tiempoPieza);
   //localStorage.removeItem("inicio");
   // if(localStorage.getItem("inicio")!=null)
@@ -110,7 +111,7 @@ function resume() {
     acumularResume = timeActu2 - acumularTime;
 
     timeInicial.setTime(acumularResume);
-    control = setInterval(cronometro, 10);
+    control = setInterval(cronometro, 1000);
     isMarch = true;
   }
 }
@@ -179,6 +180,7 @@ function estado() {
           //swal("Pieza Apta!", "", "success");
           estado.value = 'exitosa';
           //estado.dispatchEvent(new Event('input'));
+          
           window.livewire.emit('reset', estado.value);
           /* exitosas++;
           var exito = document.getElementById("exitosas");
@@ -232,4 +234,52 @@ function controlBotones() {
   if (isMarch || (piezas == 0) || enviado == 'v') {
     manejoBotones(false, true);
   }
+}
+
+function motivoPausa() {
+  swal("Cual es el motivo de la pausa?", {
+    buttons: {
+      
+      catch1: {
+      text: "Maquina",
+      value:"Maquina",
+      },
+      catch2: {
+      text: "Refrigerio/Baño",
+      value:"Refrigerio/Baño",
+      },
+      catch3: {
+      text: "Herramienta/Inserto",
+      value:"Herramienta/Inserto",
+      },
+      catch4: {
+      text: "Material",
+      value:"Material",
+      },
+    },
+  })
+    .then((value) => {
+      switch (value) {
+        case "Maquina":
+          //console.log('Maquina');
+         //var tiempo = document.getElementById("tiempo").value;
+          window.livewire.emit('guardarPausa',value);
+          break;
+        case "Refrigerio/Baño":
+          //console.log('Refrigerio/Baño');
+          window.livewire.emit('guardarPausa',value);
+          break;
+        case "Herramienta/Inserto":
+          //console.log('Herramienta/Inserto');
+          window.livewire.emit('guardarPausa',value);
+          break;
+        case "Material":
+          //console.log('Material');
+          window.livewire.emit('guardarPausa',value);
+          break;
+
+        default:
+          this.motivoPausa();
+      }
+    });
 }
