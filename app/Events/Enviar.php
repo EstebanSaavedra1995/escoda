@@ -16,12 +16,9 @@ class Enviar implements ShouldBroadcast
 
     public $datos;
 
-    public function __construct($cantidad,$pieza)
+    public function __construct($codMaquina)
     {
-        $this->datos = [
-            "cantidad" => $cantidad,
-            "pieza" => $pieza
-        ];
+        $this->datos = $codMaquina;
     }
 
     public function broadcastOn()

@@ -10,7 +10,7 @@ document.getElementById('listar').addEventListener('click', function (e) {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             var tabla = document.getElementById('tabla');
             let datos = `<thead>
         <tr>
@@ -44,7 +44,7 @@ document.getElementById('listar').addEventListener('click', function (e) {
                     datos += `<td></td>`;
                     datos += `<td></td>`;
                 }
-                datos += `<td><button class="btn btn-primary" onclick="listarArticulos('000');">Listar</button></td>`;
+                datos += `<td><button type="button" class="btn btn-primary" onclick="listarArticulos('${e['p'].CodigoProv}');">Listar</button></td>`;
                 datos += `</tr>`;
             });
             tabla.innerHTML = datos;

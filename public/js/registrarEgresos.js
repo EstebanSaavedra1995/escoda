@@ -255,3 +255,5 @@ function collapse() {
 
 
 }
+
+//$('#piezas').on('select2:select', function () {});

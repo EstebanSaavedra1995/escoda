@@ -29,7 +29,7 @@
                             </div>
                         </div>
 
-                        <select class="form-select col mr-2" name="piezas" id="piezas">
+                        <select class="form-select col mr-2 select2" name="piezas" id="piezas">
                         </select>
 
                         <input type="number" class="form-control col-2 mr-2" name="cantidad" id="cantidad" min="1"
@@ -245,7 +245,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @stop
 
 @section('js')
@@ -254,4 +254,10 @@
         $("#cargandoDiv").hide();
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#piezas').select2();
+        });
+    </script>
 @stop

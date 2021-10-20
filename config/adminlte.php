@@ -324,7 +324,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Control de stock',
-                    'url'  => '#',
+                    'route'  => 'stock',
                 ],
                 [
                     'text' => 'Confeccionar Despiece de Herramientas/Predeterminar Materiales',
@@ -413,8 +413,14 @@ return [
             /* 'can'   => '', */
         ],
         [
-            'text' => 'Lista de roles',
+            'text' => 'Roles',
             'route'  => 'roles.index',
+            'icon' => 'fas fa-fw fa-users-cog',
+            'can'   => 'construccion.confeccionar',
+        ],
+        [
+            'text' => 'Maquinas',
+            'route'  => 'maquinas.index',
             'icon' => 'fas fa-fw fa-users-cog',
             'can'   => 'construccion.confeccionar',
         ],

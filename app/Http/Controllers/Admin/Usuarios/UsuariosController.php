@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Models\Personal;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -14,6 +15,12 @@ class UsuariosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         return view('admin/usuarios/index');
@@ -27,7 +34,8 @@ class UsuariosController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.usuarios.create', compact('roles'));
+        $personal = Personal::pluck('ApellidoNombre', 'NroLegajo');
+        return view('admin.usuarios.create', compact('roles','personal'));
     }
 
     /**
@@ -39,7 +47,9 @@ class UsuariosController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'NroLegajo' => 'required',
+            'password' => 'required',
         ]);
 
        $user = User::create($request->all());

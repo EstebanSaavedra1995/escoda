@@ -23,5 +23,53 @@
 @stop
 
 @section('js')
+<script>
+    //recibe en js cuando emite el componente lw
+    //evento "enviado"
 
+    window.livewire.on('enviado', function() {
+        $("#enviado").val('v');
+        controlBotones();
+        swal("Enviado con exito!", "", "success");
+        /*  //mostramos el aviso
+         $("#aviso").fadeIn("slow");
+         //oculto aviso en 3 seg
+         setTimeout(function() {
+             $("#aviso").fadeOut("slow");
+         }, 3000); */
+    });
+
+    window.livewire.on('pausa', function() {
+        //swal("Pausa iniciada", "", );
+        console.log('pausa');
+        localStorage.setItem("pausa", 'v');
+        $("#avisoPausa").show();
+        motivoPausa();
+    });
+
+    window.livewire.on('continuar', function() {
+        localStorage.setItem("pausa", 'f');
+        $("#avisoPausa").hide();
+        swal("Pusa terminada", "", );
+        window.livewire.emit('actualizarPausa');
+    });
+    window.livewire.on('refresh', function() {
+        if (localStorage.getItem("pausa") != null & localStorage.getItem("pausa") == 'v') {
+        console.log(localStorage.getItem("pausa"));
+        $("#avisoPausa").show();
+    }
+    });
+
+    window.livewire.on('guardado', function(data) {
+        localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
+        console.log(data);
+    });
+</script>
+
+<script>
+    if (localStorage.getItem("pausa") != null & localStorage.getItem("pausa") == 'v') {
+        console.log(localStorage.getItem("pausa"));
+        $("#avisoPausa").show();
+    }
+</script>
 @stop

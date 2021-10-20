@@ -1,0 +1,17 @@
+composer require "laravelcollective/html"
+
+bootstrap/cache/config.php
+
+composer require maatwebsite/excel
+
+composer require phpoffice/phpspreadsheet
+
+composer require spatie/laravel-permission
+
+composer require pusher/pusher-php-server
+
+composer require barryvdh/laravel-dompdf
+
+composer require livewire/livewire
+
+composer require doctrine/dbal

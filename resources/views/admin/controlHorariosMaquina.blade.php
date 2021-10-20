@@ -11,16 +11,16 @@
 
 @section('content')
 
+{{-- @livewire('orden-construccion') --}}
     @livewire('control-cronometro')
-    {{-- <a href="{{ route('control.maquina') }}" class="btn btn-primary col-2" target="_blank">Control</a> --}}
+    
 
 @stop
 
 @section('css')
     @livewireStyles
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 @stop
 
 @section('js')
-
+<script src="{{ asset('js/controlCronometro.js') }}"></script>
 @stop

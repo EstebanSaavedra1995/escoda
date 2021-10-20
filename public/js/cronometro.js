@@ -1,12 +1,37 @@
 //PARA LIMPIAR CACHE Y FUNCIONE BIEN PUSHER
 /* php artisan config:cache */
 window.onload = function () {
+  if (localStorage.getItem('idTiempo')) {
+    var id = document.getElementById('idTiempo');
+    id.value = localStorage.getItem('idTiempo');
+    id.dispatchEvent(new Event('input'));
+  }
+  if (localStorage.getItem("estado") == 'f') {
+    var tiempo = document.getElementById("tiempo");
+    tiempo.value = localStorage.getItem("tiempoFinal");
+    tiempo.dispatchEvent(new Event('input'));
+    /* var id = document.getElementById('idTiempo');
+    id.value = localStorage.getItem('idTiempo');
+    id.dispatchEvent(new Event('input')); */
+    this.estado();
+  }
   pantalla = document.getElementById("screen");
+  //localStorage.removeItem("inicio");
+  if (localStorage.getItem("inicio") != null) {
+    enviado.value = 'f';
+    terminado = false;
+    isMarch = true;
+    isStart = true;
+    //timeInicial = localStorage.getItem("inicio");
+    control = setInterval(cronometro, 10);
+
+  }
 
 }
 var isMarch = false;
 var isStart = false;
 var terminado = false;
+var setEstado = false;
 var piezas = 0;
 var exitosas = 0;
 var fallidas = 0;
@@ -18,36 +43,50 @@ function start() {
     // this.controlBotones();
     var enviado = document.getElementById('enviado');
     if (enviado.value == 'f') {
-      swal("Debe enviar antes de empezar!","si ya se envio espere notificacion de envio exitoso","error");
+      swal("Debe enviar antes de empezar!", "si ya se envio espere notificacion de envio exitoso", "error");
     } else {
-
+      window.livewire.emit('start');
       enviado.value = 'f';
       terminado = false;
       isStart = true;
       timeStart = new Date();
       console.log("Empieza: " + timeStart);
       timeInicial = new Date();
-      control = setInterval(cronometro, 10);
+      console.log(timeInicial);
+      localStorage.setItem("inicio", timeInicial);
+      control = setInterval(cronometro, 1000);
       isMarch = true;
+      localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
     }
 
   }
 }
 function cronometro() {
+
   timeActual = new Date();
+  if (localStorage.getItem("inicio") != null) {
+    timeInicial = new Date(localStorage.getItem("inicio"));
+    //console.log(timeInicial);
+  }
   acumularTime = timeActual - timeInicial;
   acumularTime2 = new Date();
   acumularTime2.setTime(acumularTime);
   cc = Math.round(acumularTime2.getMilliseconds() / 10);
   ss = acumularTime2.getSeconds();
   mm = acumularTime2.getMinutes();
-  /* hh = acumularTime2.getHours()-21; */
+  hh = acumularTime2.getHours()-21;
+
   if (cc < 10) { cc = "0" + cc; }
   if (ss < 10) { ss = "0" + ss; }
   if (mm < 10) { mm = "0" + mm; }
-  /* if (hh < 10) {hh = "0"+hh;} */
-  /* hh+" : "+ */
-  tiempoPieza = mm + " : " + ss + " : " + cc;
+  if (hh < 10) {hh = "0"+hh;}
+  
+  tiempoPieza = hh+" : "+ mm + " : " + ss ;
+  //+ " : " + cc
+  localStorage.setItem("tiempo", tiempoPieza);
+  //localStorage.removeItem("inicio");
+  // if(localStorage.getItem("inicio")!=null)
+  //inicio=localStorage.getItem("inicio");
   pantalla.innerHTML = tiempoPieza;
 }
 
@@ -58,6 +97,7 @@ function stop() {
     console.log("Pausa: " + timeStop);
     clearInterval(control);
     isMarch = false;
+    console.log(localStorage.getItem("inicio"));
   }
 }
 
@@ -71,12 +111,15 @@ function resume() {
     acumularResume = timeActu2 - acumularTime;
 
     timeInicial.setTime(acumularResume);
-    control = setInterval(cronometro, 10);
+    control = setInterval(cronometro, 1000);
     isMarch = true;
   }
 }
 
 function reset() {
+  localStorage.setItem("estado", 'f');
+  localStorage.setItem("tiempoFinal", tiempoPieza);
+  //localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
   var tiempo = document.getElementById("tiempo");
   tiempo.value = tiempoPieza;
   tiempo.dispatchEvent(new Event('input'));
@@ -86,26 +129,27 @@ function reset() {
       clearInterval(control);
       isMarch = false;
     }
-    terminado = true;
+    localStorage.removeItem("inicio");
     timeReset = new Date();
     console.log("Termina: " + timeReset);
     isStart = false;
     acumularTime = 0;
     pantalla.innerHTML = "00 : 00 : 00";
-    piezas++;
-    var cantidad = document.getElementById("cantidad");
 
-
+    //var cantidad = document.getElementById("cantidad");
+    terminado = true;
     //cant = document.getElementById("cant");
+    /* piezas++;
     cantidad.value = piezas;
-
+    cantidad.dispatchEvent(new Event('input')); */
     //dispara evento para comunicar el livewire con input
-    cantidad.dispatchEvent(new Event('input'));
+
     //cant.value= piezas;
     /* var enviado = document.getElementById("enviado");
     enviado.value = 'f';
     enviado.dispatchEvent(new Event('input')); */
     this.estado();
+
 
     /* contPiezas = document.getElementById('contadorPiezas');
     contPiezas.innerHTML = "Total Piezas = "+ piezas ; */
@@ -135,22 +179,34 @@ function estado() {
         case "exito":
           //swal("Pieza Apta!", "", "success");
           estado.value = 'exitosa';
-          estado.dispatchEvent(new Event('input'));
-          exitosas++;
+          //estado.dispatchEvent(new Event('input'));
+          
+          window.livewire.emit('reset', estado.value);
+          /* exitosas++;
           var exito = document.getElementById("exitosas");
           exito.value = exitosas;
-          exito.dispatchEvent(new Event('input'));
+          exito.dispatchEvent(new Event('input')); */
+          //terminado = true;
           this.controlBotones();
+          setEstado = true;
+          localStorage.setItem("estado", 'v');
+          localStorage.removeItem("idTiempo");
           break;
         case "fallo":
           //swal("Pieza No Apta!", "", "success");
           estado.value = 'fallida';
-          estado.dispatchEvent(new Event('input'));
-          fallidas++;
+          //estado.dispatchEvent(new Event('input'));
+          window.livewire.emit('reset', estado.value);
+          /* fallidas++;
           var fallo = document.getElementById("fallidas");
           fallo.value = fallidas;
-          fallo.dispatchEvent(new Event('input'));
+          fallo.dispatchEvent(new Event('input')); */
+          //terminado = true;
           this.controlBotones();
+          setEstado = true;
+          localStorage.setItem("estado", 'v');
+          localStorage.removeItem("idTiempo");
+          //window.livewire.emit('reset');
           break;
 
         default:
@@ -175,7 +231,55 @@ function manejoBotones(bool, bool1) {
 
 function controlBotones() {
   var enviado = document.getElementById('enviado').value;
-    if (isMarch || (piezas == 0) || enviado == 'v') {
-      manejoBotones(false, true);
-    }
+  if (isMarch || (piezas == 0) || enviado == 'v') {
+    manejoBotones(false, true);
+  }
+}
+
+function motivoPausa() {
+  swal("Cual es el motivo de la pausa?", {
+    buttons: {
+      
+      catch1: {
+      text: "Maquina",
+      value:"Maquina",
+      },
+      catch2: {
+      text: "Refrigerio/Baño",
+      value:"Refrigerio/Baño",
+      },
+      catch3: {
+      text: "Herramienta/Inserto",
+      value:"Herramienta/Inserto",
+      },
+      catch4: {
+      text: "Material",
+      value:"Material",
+      },
+    },
+  })
+    .then((value) => {
+      switch (value) {
+        case "Maquina":
+          //console.log('Maquina');
+         //var tiempo = document.getElementById("tiempo").value;
+          window.livewire.emit('guardarPausa',value);
+          break;
+        case "Refrigerio/Baño":
+          //console.log('Refrigerio/Baño');
+          window.livewire.emit('guardarPausa',value);
+          break;
+        case "Herramienta/Inserto":
+          //console.log('Herramienta/Inserto');
+          window.livewire.emit('guardarPausa',value);
+          break;
+        case "Material":
+          //console.log('Material');
+          window.livewire.emit('guardarPausa',value);
+          break;
+
+        default:
+          this.motivoPausa();
+      }
+    });
 }

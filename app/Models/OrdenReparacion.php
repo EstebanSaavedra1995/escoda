@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class OrdenReparacion extends Model
 {
     use HasFactory;
-      // alter table 'coladamaterial' drop primary key;
-    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
-    //PASAR FECHA DATE
+/*     alter table `ordenesreparacion` drop primary key
+    ALTER TABLE `ordenesreparacion` ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
     protected $table= 'ordenesreparacion';
     public $timestamps = false;
 }
