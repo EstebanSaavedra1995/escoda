@@ -29,8 +29,8 @@
                 </div>
                 <div class="container">
                     <div class="row mb-2">
-                        <button type="button" onclick="cargarTabla();" class="btn btn-primary col ">Continuar</button>
-                        <button type="button" class="btn btn-danger col ">Cancelar</button>
+                        <button type="button" onclick="cargarTabla();" class="btn btn-primary col-12 ">Continuar</button>
+
                     </div>
                 </div>
                 <div class="container">
@@ -44,9 +44,15 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @stop
 @section('js')
     <script src="{{ asset('js/reparacion.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#conjunto').select2();
+        });
+    </script>
 @stop

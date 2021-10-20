@@ -31,7 +31,7 @@
                 <div class="container">
                     <div class="row mb-2">
                         <button type="button" onclick="cargarTabla();" class="btn btn-primary col ">Continuar</button>
-                        <button type="button" class="btn btn-danger col ">Cancelar</button>
+                      
                     </div>
                 </div>
                 <div class="container">

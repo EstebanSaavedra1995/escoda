@@ -1,13 +1,8 @@
 let ordenesConstruccion = [];
-let arregloArticulos = [];
-let  arregloGomas = [];
 
 
 
-$('#ordenes').on('select2:select', function () {
-    ordenesConstruccion = [];
-    arregloGomas = [];
-    arregloArticulos = [];
+document.getElementById('ordenes').addEventListener('change', function (e) {
     let divtablatareas = document.getElementById('divtablatareas');
     divtablatareas.innerHTML = '';
     const datos = new FormData(document.getElementById('formulario'));
@@ -23,25 +18,26 @@ $('#ordenes').on('select2:select', function () {
     lateral2.innerHTML = '';
     lateral3.innerHTML = '';
     lateral4.innerHTML = '';
-    fetch('/admin/reparacion/ordenpendiente', {
+    fetch('/admin/ensamble/ordenpendiente', {
         method: 'POST',
         body: datos,
     })
 
         .then(res => res.json())
         .then(data => {
-            let herramienta = document.getElementById('herramienta');
-            let fecha = document.getElementById('fecha');
-            fecha.value = formatoFecha(data.ordenPendiente.Fecha);
-            herramienta.value = `${data.conjunto.CodPieza} - ${data.conjunto.NombrePieza}`
-            armarTabla(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas);
+            console.log(data);
+               let herramienta = document.getElementById('herramienta');
+               let fecha = document.getElementById('fecha');
+               let numero = document.getElementById('numero');
+               fecha.value = formatoFecha(data.ordenPendiente.fecha);
+               herramienta.value = `${data.conjunto.CodPieza} - ${data.conjunto.NombrePieza}`
+               numero.value = data.ordenPendiente.NroCjto;
+               armarTabla(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas);
         })
 
-});
+}, true)
 
 const armarTabla = (articulos, piezas, gomas) => {
-
-
     let divtablatareas = document.getElementById('divtablatareas');
     let conjunto = document.getElementById('ordenes').value;
     let cadena = '';
@@ -53,7 +49,7 @@ const armarTabla = (articulos, piezas, gomas) => {
     cadena += `<th scope="col">Descripción</th>`;
     cadena += `<th scope="col">Cambiar</th>`;
     cadena += `<th scope="col">Cantidad</th>`;
-    cadena += `<th scope="col">OC</th>`;
+    cadena += `<th scope="col">Orden</th>`;
     cadena += `</tr>`;
     cadena += `</thead>`;
     cadena += `<tbody>`;
@@ -61,13 +57,13 @@ const armarTabla = (articulos, piezas, gomas) => {
         gomas.forEach(goma => {
             cadena += `<tr>`;
             cadena += `<td>Goma</td>`;
-            cadena += `<td class = "gomaCodigo">${goma.CodigoInterno}</td>`;
+            cadena += `<td>${goma.CodigoInterno}</td>`;
             cadena += `<td>${goma.CodigoGoma} - ${goma.DiametroInterior} - ${goma.DiametroExterior}</td>`;
-            cadena += `<td><select class = "gomaOpcion" name = "combo${goma.CodigoGoma}" onchange = "addGoma('${goma.CodigoGoma}')";>`;
-            cadena += `<option value = "1"> Si </option>`;
-            cadena += `<option value = "0" selected> No </option>`;
+            cadena += `<td><select name = "combo${goma.CodigoGoma}">`;
+            cadena += `<option value = "1" selected> Si </option>`;
+            cadena += `<option value = "0"> No </option>`;
             cadena += `</select></td>`;
-            cadena += `<td style="width: 50px"> <input class="gomaCantidad" disabled id= "cant${goma.CodigoGoma}" style="width: 50px" type ="number" value = "${goma.Cantidad}"></td>`;
+            cadena += `<td style="width: 50px"> <input style="width: 50px" type ="number" value = "${goma.Cantidad}" ></td>`;
             cadena += `<td></td>`
             cadena += `</tr>`;
         })
@@ -76,15 +72,15 @@ const armarTabla = (articulos, piezas, gomas) => {
 
     if (articulos.length > 0) {
         articulos.forEach(articulo => {
-            cadena += `<tr class = "claseArticulo">`;
+            cadena += `<tr>`;
             cadena += `<td>Artículos grales</td>`;
-            cadena += `<td class ="articuloCodigo">${articulo.CodArticulo}</td>`;
+            cadena += `<td>${articulo.CodArticulo}</td>`;
             cadena += `<td>${articulo.Descripcion}</td>`;
-            cadena += `<td><select class ="articuloOpcion" name = "combo${articulo.CodArticulo}" onchange ="addArticulo('${articulo.CodArticulo}')"; >`;
-            cadena += `<option value = "1" > Si </option>`;
-            cadena += `<option value = "0" selected> No </option>`;
+            cadena += `<td><select> name = "combo${articulo.CodArticulo}"`;
+            cadena += `<option value = "1" selected> Si </option>`;
+            cadena += `<option value = "0"> No </option>`;
             cadena += `</select></td>`;
-            cadena += `<td style="width: 50px"> <input class= "articuloCantidad" disabled id= "cant${articulo.CodArticulo}" style="width: 50px" type ="number" value = "${articulo.Cantidad}"></td>`;
+            cadena += `<td style="width: 50px"> <input style="width: 50px" type ="number" value = "${articulo.Cantidad}"></td>`;
             cadena += `<td></td>`
             cadena += `</tr>`;
         })
@@ -95,14 +91,12 @@ const armarTabla = (articulos, piezas, gomas) => {
             cadena += `<td>Pieza</td>`;
             cadena += `<td>${pieza.codigoPieza}</td>`;
             cadena += `<td>${pieza.NombrePieza}</td>`;
-            cadena += `<td><select name = "combo${pieza.codigoPieza}" id = "combo${pieza.codigoPieza}" onchange = "habilitar('${pieza.codigoPieza}')";>`;
-            cadena += `<option value = "1"> Si </option>`;
-            cadena += `<option value = "0" selected> No </option>`;
+            cadena += `<td><select> name = "combo${pieza.codigoPieza}"`;
+            cadena += `<option value = "1" selected> Si </option>`;
+            cadena += `<option value = "0"> No </option>`;
             cadena += `</select></td>`;
-
-            cadena += `<td style="width: 50px"> <input disabled min = "1" style="width: 50px" type ="number" id= "cant${pieza.codigoPieza}" value = "${pieza.Cantidad}"></td>`;
-
-            cadena += `<td><button disabled type="button" id= "btn${pieza.codigoPieza}" class ="btn btn-info" onclick = "mostrarOC('${pieza.codigoPieza}');">Orden</button></td>`
+            cadena += `<td style="width: 50px"> <input style="width: 50px" type ="number" value = "${pieza.Cantidad}"></td>`;
+            cadena += `<td><button type="button" class ="btn btn-info" onclick = "mostrarOC('${pieza.codigoPieza}');">Orden</button></td>`
             cadena += `</tr>`;
         })
     }
@@ -115,128 +109,21 @@ const armarTabla = (articulos, piezas, gomas) => {
 }
 const formatoFecha = (fecha) => {
 
-    day = fecha[8] + fecha[9];
-    month = fecha[5] + fecha[6];
-    year = fecha[0] + fecha[1] + fecha[2] + fecha[3];
+    day = fecha[4] + fecha[5];
+    month = fecha[2] + fecha[3];
+    year = fecha[0] + fecha[1];
     return [day, month, year].join('/');
 }
 const agregarOrden = () => {
-    /* console.log(typeof JSON.parse(ordenesConstruccion)); */
-    let combo = document.getElementById('ordenes');
-    let nroOrden = combo.options[combo.selectedIndex].text;
-    let comboOperario = document.getElementById('op').value;
-    let comboSupervisor = document.getElementById('sup').value;
-
-    if (comboOperario == "000" || comboOperario == "" || comboSupervisor == "000" || comboSupervisor == "") {
-        swal({
-            title: `¡Tiene que seleccionar operario y supervisor!`,
-            icon: "warning",
-            buttons: "Aceptar",
-            dangerMode: true,
-        })
-    }
-    else if (ordenesConstruccion.length != 0 || arregloGomas.length != 0 || arregloArticulos != 0) {
-        swal({
-            title: `¿Desea agregar la orden de reparación N° ${nroOrden}?`,
-            icon: "warning",
-            buttons: ["Cancelar", "Aceptar"],
-            dangerMode: true,
-        })
-            .then((willAdd) => {
-                if (willAdd) {
-                    enviarAgregarOrden();
-                }
-            });
-    } else {
-        swal({
-            title: `¡No se está agregando ningun/a pieza/articulo/goma para reparar!`,
-            icon: "warning",
-            buttons: "Aceptar",
-            dangerMode: true,
-        })
-    }
-
-
-
-}
-const enviarAgregarOrden = () => {
-
-    let arreglo = JSON.stringify(ordenesConstruccion);
-   
-  
-    let comboOperario = document.getElementById('op').value;
-    let comboSupervisor = document.getElementById('sup').value;
-    let numero = document.getElementById('numero').value;
-    let combo = document.getElementById('ordenes');
-    let nroOrden = combo.options[combo.selectedIndex].text;
-
-    const datos = new FormData(document.getElementById('formulario2'));
-
-    let codigoGomas =  document.getElementsByClassName('gomaCodigo');
-    let opcionesGomas = document.getElementsByClassName('gomaOpcion');
-    let cantidadesGomas = document.getElementsByClassName('gomaCantidad');
-
-    let codigoArticulos = document.getElementsByClassName('articuloCodigo');
-    let opcionesArticulos = document.getElementsByClassName('articuloOpcion');
-    let cantidadesArticulos = document.getElementsByClassName('articuloCantidad');
-
-    gomasObj = [];
-    articulosObj = [];
-    if(codigoGomas.length > 0){
-        for (let i = 0; i < codigoGomas.length; i++) {
-            let e = {
-                id: codigoGomas[i].innerHTML,
-                opcion: opcionesGomas[i].value,
-                cantidad: cantidadesGomas[i].value
-            };
-            gomasObj.push(e);
-        }
-    }
-    if(codigoArticulos.length > 0){
-        for (let i = 0; i < codigoArticulos.length; i++) {
-            let e = {
-                id: codigoArticulos[i].innerHTML,
-                opcion: opcionesArticulos[i].value,
-                cantidad: cantidadesArticulos[i].value
-            };
-            articulosObj.push(e);
-        }
-    }
-    gomasObj = JSON.stringify(gomasObj);
-    articulosObj = JSON.stringify(articulosObj);
-    datos.append('oc', arreglo);
-    datos.append('op', comboOperario);
-    datos.append('sup', comboSupervisor);
-    datos.append('numero', numero);
-    datos.append('nro', nroOrden);
-    datos.append('gomasObj', gomasObj);
-    datos.append('articulosObj', articulosObj);
-    fetch('/admin/reparacion/agregarorden', {
-        method: 'POST',
-        body: datos,
-    })
-        .then(res => res.json())
-        .then(data => {
-            
-                if (data === 'ok') {
-                    swal({
-                        title: `¡Se ha dado de alta la orden de reparación N°${nroOrden}!`,
-                        icon: "success",
-                        button: "Aceptar",
-                    });
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000)
-                }
-        })
-
+    console.log('guardando');
+    console.log(ordenesConstruccion);
 }
 
 const cancelarOrden = () => {
     let combo = document.getElementById('ordenes');
     let nroOrden = combo.options[combo.selectedIndex].text;
     swal({
-        title: `¿Desea cancelar la orden de reparación N° ${nroOrden}?`,
+        title: `¿Desea cancelar la orden de ensamble N° ${nroOrden}?`,
         icon: "warning",
         buttons: ["Cancelar", "Aceptar"],
         dangerMode: true,
@@ -249,10 +136,9 @@ const cancelarOrden = () => {
 }
 
 const enviarCancelarOrden = (nroOrden) => {
-
     const datos = new FormData(document.getElementById('formulario'));
     datos.append('orden', nroOrden);
-    fetch('/admin/reparacion/cancelarorden', {
+    fetch('/admin/ensamble/cancelarorden', {
         method: 'POST',
         body: datos,
     })
@@ -260,7 +146,7 @@ const enviarCancelarOrden = (nroOrden) => {
         .then(data => {
             if (data === 'ok') {
                 swal({
-                    title: `¡Se ha dado de baja la orden de reparación N°${nroOrden}!`,
+                    title: `¡Se ha dado de baja la orden de ensamble N°${nroOrden}!`,
                     icon: "success",
                     button: "Aceptar",
                 });
@@ -295,14 +181,11 @@ const mostrarOC = (codigoPieza) => {
 
         .then(res => res.json())
         .then(data => {
-
             data.forEach(oc => {
-
                 select += `<option value = "${oc.NroOC}">${oc.NroOC}</option>`;
             })
             select += `</select>`;
-            let cantidadPieza = document.getElementById(`cant${codigoPieza}`).value;
-            let cantidad = `<label class="col" for= "cantidad">Cantidad por OC: </label> <input class = "col" type = "number" value ="${cantidadPieza}" name= "cantidad" id= "cantidad">`;
+            let cantidad = `<label class="col" for= "cantidad">Cantidad por OC: </label> <input min="1" class = "col" type = "number" value ="1" name= "cantidad" id= "cantidad">`;
             let botones = `<button type="button" class ="btn btn-success" onclick = "agregarOC();">Agregar</button> `;
 
             let arregloOrdenes = devuelvoArreglo(codigoPieza);
@@ -393,14 +276,14 @@ const agregarOC = () => {
 
     } else if (comboOrdenes.value == '') {
         swal({
-            title: "¡Esta pieza no tiene orden de construcción!",
+            title: "¡Esta pieza no tiene orden de ensamble!",
             icon: "warning",
             button: "Aceptar",
         });
 
     } else if (existe != null) {
         swal({
-            title: "¡Ya se ha cargado la orden de construcción!",
+            title: "¡Ya se ha cargado la orden de ensamble!",
             icon: "warning",
             button: "Aceptar",
         });
@@ -415,7 +298,7 @@ const sacarOC = (oc) => {
     let body = document.getElementById('idbody');
     let tr = document.getElementById(oc);
     body.removeChild(tr)
-
+    console.log('sacando', oc)
 }
 
 const guardarOC = (pieza) => {
@@ -445,18 +328,12 @@ const guardarOC = (pieza) => {
         ordenesConstruccion.push(obj);
     } else {
         ordenesConstruccion[index].ordenes = ordenesCantidad;
-
+        console.log('Reemplazando ordenes y cantidades');
     }
 
-    let suma = 0;
-    for (let i = 0; i < cantidades.length; i++) {
-        
-        suma = suma + parseInt(cantidades[i].innerHTML);
-    }
-    let cant = document.getElementById(`cant${pieza}`);
-    
-    cant.value = suma;
 
+
+    console.log(ordenesConstruccion, index);
 }
 
 const devuelvoArreglo = (pieza) => {
@@ -471,51 +348,4 @@ const devuelvoArreglo = (pieza) => {
     } else {
         return [];
     }
-}
-const addGoma = (id) => {
-    if (arregloGomas.includes(id)) {
-        let pos = arregloGomas.indexOf(id);
-        arregloGomas.splice(pos, 1);
-    } else {
-        arregloGomas.push(id);
-    }
-    let cant = document.getElementById(`cant${id}`);
-    cant.disabled = !cant.disabled;
-    
-
-}
-const addArticulo = (id) => {
-     if (arregloArticulos.includes(id)) {
-         let pos = arregloArticulos.indexOf(id);
-         arregloArticulos.splice(pos, 1);
-     } else {
-         arregloArticulos.push(id);
-     }
-     let cant = document.getElementById(`cant${id}`);
-     cant.disabled = !cant.disabled;
-     
-}
-
-const habilitar = (cod) => {
-    let btn = document.getElementById(`btn${cod}`);
-    btn.disabled = !btn.disabled;
-    let cant = document.getElementById(`cant${cod}`);
-    cant.disabled = !cant.disabled;
-   
-    let combo = document.getElementById(`combo${cod}`);
-    let indice = -1;
-    if (combo.value == 0 ){
-        
-        for (let i = 0; i < ordenesConstruccion.length; i++) {
-            if (ordenesConstruccion[i].id === cod){
-                indice = i;
-            }
-        }
-
-        if (indice!=-1){
-            ordenesConstruccion.splice(indice, 1);
-        }
-        //console.log(ordenesConstruccion);
-    }
-  
 }

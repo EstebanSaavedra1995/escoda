@@ -10,6 +10,7 @@ class Construccion extends Model
     use HasFactory;
        /* alter table detalleoc drop primary key
     ALTER TABLE detalleoc ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
+    //CAMBIAR FECHA A DATE
     public $timestamps = false;
     protected $table= 'ordenesconstruccion';
     

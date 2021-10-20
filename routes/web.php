@@ -58,7 +58,6 @@ Route::get('/admin/listar', [ListarController::class, 'index'])->name('listar');
 Route::post('/admin/listartabla', [ListarController::class, 'tabla']);
 Route::post('/admin/listarpiezas', [ListarController::class, 'piezas']);
 Route::get('/admin/controlhorariosmaquina', [ControlHorariosMaquinaController::class, 'index'])->name('control.horarios.maquina');
-Route::get('/admin/horariosmaquinas',[HorariosMaquinasController::class,'index'])->name('horarios.maquinas');
 Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
 Route::post('/admin/confeccionardespiecepiezas',[ConfeccionarDespieceController::class,'piezas']);
 Route::post('/admin/confeccionardespiecetabla',[ConfeccionarDespieceController::class,'tabla']);
@@ -89,7 +88,7 @@ Route::post('/admin/listarcancelar/cancelar', [ListarCancelarController::class, 
 Route::post('/admin/listarcancelar/excel', [ListarCancelarController::class, 'excel']);
 Route::get('/admin/listarcancelar/exportExcel', [ListarCancelarController::class, 'exportExcel']);
 
-Route::get('/admin/reparacion/confeccionar', [ReparacionController::class, 'index'])->middleware('can:reparacion.confeccionar')->name('reparacion.confeccionar');
+
 Route::get('/admin/listarcancelar', [ConstruccionListarCancelarController::class, 'index'])->name('construccion.listarcancelar');
 Route::post('/admin/listarcancelar/piezas', [ConstruccionListarCancelarController::class, 'piezas']);
 Route::post('/admin/listarcancelar/ordenes', [ConstruccionListarCancelarController::class, 'ordenes']);
@@ -107,6 +106,7 @@ Route::get('/admin/reparacion/completarcancelar', [ReparacionCompletarCancelarCo
 Route::post('/admin/reparacion/ordenpendiente', [ReparacionCompletarCancelarController::class, 'ordenpendiente']);
 Route::post('/admin/reparacion/ordenpieza', [ReparacionCompletarCancelarController::class, 'ordenpieza']);
 Route::post('/admin/reparacion/cancelarorden', [ReparacionCompletarCancelarController::class, 'cancelarorden']);
+Route::post('/admin/reparacion/agregarorden', [ReparacionCompletarCancelarController::class, 'agregarorden']);
 
 Route::get('/admin/reparacion/listar', [ReparacionListarOrden::class, 'index'])->name('reparacion.listar');
 Route::post('/admin/reparacion/listarherramientas', [ReparacionListarOrden::class, 'listarherramientas']);
@@ -117,6 +117,7 @@ Route::post('/admin/reparacion/exportExcelFechas', [ReparacionListarOrden::class
 Route::post('/admin/reparacion/exportExcelNumero', [ReparacionListarOrden::class, 'exportExcelNumero'])->name('reparacionNumeroExcel'); */
 Route::post('/admin/reparacion/modificarorden', [ReparacionListarOrden::class, 'modificarorden']);
 
+
 Route::get('/admin/ensamble/confeccionar', [EnsambleController::class, 'index'])->name('ensamble.confeccionar');
 Route::post('/admin/ensamble/conjuntos', [EnsambleController::class, 'conjuntos']);
 Route::post('/admin/ensamble/guardar', [EnsambleController::class, 'guardar']);
@@ -124,6 +125,8 @@ Route::post('/admin/ensamble/guardar', [EnsambleController::class, 'guardar']);
 Route::get('/admin/ensamble/completarcancelar', [EnsambleCompletarCancelarController::class, 'index'])->name('ensamble.completarcancelar');
 Route::post('/admin/ensamble/ordenpendiente', [EnsambleCompletarCancelarController::class, 'ordenpendiente']);
 Route::post('/admin/ensamble/cancelarorden', [EnsambleCompletarCancelarController::class, 'cancelarorden']);
+Route::post('/admin/ensamble/ordenpieza', [EnsambleCompletarCancelarController::class, 'ordenpieza']); 
+Route::post('/admin/ensamble/agregarorden', [EnsambleCompletarCancelarController::class, 'agregarorden']);
 
 Route::get('/admin/ensamble/listar', [EnsambleListarOrden::class, 'index'])->name('ensamble.listar');
 Route::post('/admin/ensamble/listarordenes', [EnsambleListarOrden::class, 'listarordenes']);

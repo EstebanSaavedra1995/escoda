@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class TotalStockPiezas extends Model
 {
     use HasFactory;
+
+     // alter table 'coladamaterial' drop primary key;
+    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
     public $timestamps = false;
-    public $incrementing = false;
-    protected $primaryKey = 'CodigoPieza'; //poner primary key en la base
     protected $table = 'totalstockpiezas';
 }

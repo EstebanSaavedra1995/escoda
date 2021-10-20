@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrdenEnsamble extends Model
+class DetalleOE extends Model
 {
-    use HasFactory;
-     // alter table 'coladamaterial' drop primary key;
+    // alter table 'coladamaterial' drop primary key;
     //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
-    // CAMBIAR FECHA DE STRING A DATE EN BASE DE DATOS
-    protected $table= 'ordenesensamble';
+    use HasFactory;
+    protected $table = 'detalleoe';
     public $timestamps = false;
 }

@@ -127,6 +127,7 @@ class ConstruccionListarCancelarController extends Controller
         $ordenConstruccion->Estado = 'C';
         $ordenConstruccion->save();
         return json_encode('ok');
+        //EN TABLA PIEZAS ACTUALIZAR EL STOCK CON LA CANTIDAD QUE SE PUSO EN LA ORDEN DE CONSTRUCCION 
     }
 
 

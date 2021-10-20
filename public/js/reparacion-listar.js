@@ -104,9 +104,9 @@ const formatDate = () => {
 }
 const formatoFecha = (fecha) => {
 
-    day = fecha[4] + fecha[5];
-    month = fecha[2] + fecha[3];
-    year = fecha[0] + fecha[1];
+    day = fecha[8] + fecha[9];
+    month = fecha[5] + fecha[6];
+    year = fecha[0] + fecha[1] + fecha[2] + fecha[3];
     return [day, month, year].join('/');
 }
 
@@ -213,8 +213,8 @@ const realizarTablaOrden = (array) => {
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
         tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `;
-        tabla += ` <button type="button" class="btn btn-secondary">Imp</button>`;
+/*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
+        tabla += ` <button type="button" class="btn btn-secondary">PDF</button>`;
         tabla += `</tr>`;
 
     });
@@ -248,8 +248,8 @@ const realizarTablaFecha = (array) => {
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
         tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `;
-        tabla += ` <button type="button" class="btn btn-secondary">Imp</button>`;
+/*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
+        tabla += ` <button type="button" class="btn btn-secondary">PDF</button>`;
         tabla += `</tr>`;
 
     });
@@ -284,8 +284,8 @@ const realizarTablaHerramienta = (array) => {
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
         tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `;
-        tabla += ` <button type="button" class="btn btn-secondary">Imp</button>`;
+/*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
+        tabla += ` <button type="button" class="btn btn-secondary">PDF</button>`;
         tabla += `</tr>`;
 
     });

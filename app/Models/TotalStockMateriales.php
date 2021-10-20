@@ -9,9 +9,7 @@ class TotalStockMateriales extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    public $incrementing = false;
-    protected $primaryKey = 'CodigoMaterial';
     protected $table = 'totalstockmateriales';
-
+    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
     //poner primary key en la base
 }

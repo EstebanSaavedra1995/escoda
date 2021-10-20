@@ -31,7 +31,7 @@ class ConstruccionController extends Controller
     $construccion = Construccion::orderBy('NroOC', 'desc')->first();
     $tareas = Tarea::all();
     $maquinas = Maquina::all();
-    $supervisores = Personal::where('Cargo', 'Supervisor de Área')
+    $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea')
       ->where('Estado', 'A')->get();
 
 
@@ -40,7 +40,7 @@ class ConstruccionController extends Controller
       ->orwhere([
         ['Cargo', 'Operario Ayudante'],
         ['Cargo', 'Operario c/ Especializacion'],
-        ['Cargo', 'Supervisor de Área']
+        ['Cargo', 'Supervisor de ├ürea']
       ])->get();
     $nroOC = $construccion->NroOC + 1;
     $largo = strlen($nroOC);
@@ -158,6 +158,7 @@ class ConstruccionController extends Controller
       $detalleOC->saveOrFail();
     }
 
+    //comentar desde aca
     $piezaOCStock = new PiezaOCStock();
     $piezaOCStock->NroOC = strval($nroOC);
     $piezaOCStock->Stock = intval($cantidadRealizar);
@@ -179,6 +180,7 @@ class ConstruccionController extends Controller
     $totalStockMateriales = TotalStockMateriales::where('CodigoMaterial', $idMaterial)->first();
     $totalStockMateriales->Stock = $totalStockMateriales->Stock - $cantidadMaterial;
     $totalStockMateriales->saveOrFail();
+    //EN TABLA PIEZAS ACTUALIZAR EL STOCK CON LA CANTIDAD QUE SE PUSO EN LA ORDEN DE CONSTRUCCION 
 
     return json_encode('ok');
   }

@@ -97,9 +97,9 @@ const formatDate = () => {
 }
 const formatoFecha = (fecha) => {
 
-    day = fecha[4] + fecha[5];
-    month = fecha[2] + fecha[3];
-    year = fecha[0] + fecha[1];
+    day = fecha[8] + fecha[9];
+    month = fecha[5] + fecha[6];
+    year = fecha[0] + fecha[1] + fecha[2] + fecha[3];
     return [day, month, year].join('/');
 }
 
@@ -210,7 +210,7 @@ const realizarTablaPieza = (array) => {
         tabla += `<tr>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
         tabla += `<td style="width: 20px">${orden.NroOC} </td>`;
-        tabla += `<td style="width: 15px">${orden.Fecha} </td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)} </td>`;
         tabla += `<td style="width: 15px">${orden.Cantidad} </td>`;
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
@@ -246,7 +246,7 @@ const realizarTablaOrden = (array) => {
     array.forEach(orden => {
         tabla += `<tr>`;
         tabla += `<td style="width: 20px">${orden.NroOC} </td>`;
-        tabla += `<td style="width: 15px">${orden.Fecha} </td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)} </td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
         tabla += `<td style="width: 15px">${orden.Cantidad} </td>`;
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
@@ -284,7 +284,7 @@ const realizarTablaFecha = (array) => {
     tabla += `<tbody>`;
     array.forEach(orden => {
         tabla += `<tr>`;
-        tabla += `<td style="width: 15px">${orden.Fecha} </td>`;
+        tabla += `<td style="width: 15px">${formatoFecha(orden.Fecha)} </td>`;
         tabla += `<td style="width: 20px">${orden.NroOC} </td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
         tabla += `<td style="width: 15px">${orden.Cantidad} </td>`;

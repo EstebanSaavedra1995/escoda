@@ -42,7 +42,7 @@
             <div class="container">
                 <div class="row mb-2">
                     <label class="col-2">Supervisor de trabajo:</label>
-                    <select class="col-2 mr-2" name="" id="">
+                    <select class="col-2 mr-2" name="" id="sup">
                         <option value="">Supervisor</option>
                         @foreach ($supervisores as $supervisor)
                             <option value="{{ $supervisor->NroLegajo }}">{{ $supervisor->NroLegajo }} -
@@ -54,7 +54,7 @@
             <div class="container">
                 <div class="row mb-2">
                     <label class="col-2">Operario:</label>
-                    <select class="col-2 mr-2" name="" id="">
+                    <select class="col-2 mr-2" name="" id="op">
                         <option value="">Operario</option>
                         @foreach ($operarios as $operario)
                             <option value="{{ $operario->NroLegajo }}">{{ $operario->NroLegajo }} -
@@ -83,13 +83,26 @@
             </section>
         </div>
     </form>
+    <form id="formulario2">
+        @csrf
+    </form>
 </div>
 @stop
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @stop
 @section('js')
 <script src="{{ asset('js/ensamble-completarcancelar.js') }}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#ordenes').select2();
+            $('#sup').select2();
+            $('#op').select2();
+
+        });
+    </script>
 @stop
