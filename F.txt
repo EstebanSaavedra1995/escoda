@@ -1,0 +1,7 @@
+detalleoe
+detallereparacionarticulos
+detallereparaciongomas
+detallereparacionpiezas
+piezaocstock
+totalstockmateriales
+totalstockpiezas
