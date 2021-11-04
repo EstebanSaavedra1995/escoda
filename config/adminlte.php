@@ -250,6 +250,7 @@ return [
             'text'        => 'Ordenes de Trabajo',
             'url'         => 'admin/pages',
             'icon'        => 'far fa-fw fa-file',
+            //'can'   => 'ordenes.trabajo',
             'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
@@ -260,11 +261,13 @@ return [
                         [
                             'text' => 'Confeccionar',
                             'route'  => 'construccion.confeccionar',
+                            //'can'   => 'ordenes.trabajo',
                             'can'   => 'construccion.confeccionar',
                         ],
                         [
                             'text' => 'Listar/Cancelar',
                             'route'  => 'construccion.listarcancelar',
+                            //'can'   => 'ordenes.trabajo',
                             'can'   => 'construccion.listarcancelar',
                         ],
 
@@ -279,14 +282,17 @@ return [
                             'text' => 'Confeccionar',
                             'route'  => 'reparacion.confeccionar',
                             'can'   => 'reparacion.confeccionar',
+                            //'can'   => 'ordenes.trabajo',
                         ],
                         [
                             'text' => 'Completar/Cancelar',
                             'route'  => 'reparacion.completarcancelar',
+                            //'can'   => 'ordenes.trabajo',
                         ],
                         [
                             'text' => 'Listar',
                             'route'  => 'reparacion.listar',
+                            //'can'   => 'ordenes.trabajo',
                         ],
                     ],
                 ],
@@ -299,14 +305,17 @@ return [
                         [
                             'text' => 'Confeccionar',
                             'route'  => 'ensamble.confeccionar',
+                            //'can'   => 'ordenes.trabajo',
                         ],
                         [
                             'text' => 'Completar/Cancelar',
                             'route'  => 'ensamble.completarcancelar',
+                            //'can'   => 'ordenes.trabajo',
                         ],
                         [
                             'text' => 'Listar',
                             'route'  => 'ensamble.listar',
+                            //'can'   => 'ordenes.trabajo',
                         ],
                     ],
                 ],
@@ -320,6 +329,7 @@ return [
             'text' => 'Stock',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-box-open',
+            //'can'   => 'stock',
             'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
@@ -339,6 +349,7 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-tags',
             'can'   => 'construccion.confeccionar',
+            //'can'   => 'egresos.etiquetas',
             'submenu' => [
                 [
                     'text' => 'Registrar Egreso',
@@ -362,6 +373,7 @@ return [
             'text' => 'Proveedores',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-money-check-alt',
+            //'can'   => 'proveedores',
             'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
@@ -386,6 +398,7 @@ return [
             'text' => 'Datos',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-database',
+            //'can'   => 'datos',
             'can'   => 'construccion.confeccionar',
             'submenu' => [
                 [
@@ -410,19 +423,21 @@ return [
             'route'  => 'usuarios.index',
             'icon' => 'fas fa-fw fa-users',
             'can'   => 'construccion.confeccionar',
-            /* 'can'   => '', */
+            //'can'   => 'usuarios',
         ],
         [
             'text' => 'Roles',
             'route'  => 'roles.index',
             'icon' => 'fas fa-fw fa-users-cog',
             'can'   => 'construccion.confeccionar',
+            //'can'   => 'roles',
         ],
         [
             'text' => 'Maquinas',
             'route'  => 'maquinas.index',
             'icon' => 'fas fa-fw fa-users-cog',
             'can'   => 'construccion.confeccionar',
+            //'can'   => 'maquinas',
         ],
         /* [
             'text'    => 'multilevel',
