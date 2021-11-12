@@ -14,6 +14,6 @@ class HorariosMaquinasController extends Controller
     }
 
     public function index() {
-        return view('Admin/horariosMaquinas');
+        return view('admin.horariosMaquinas');
     }
 }

@@ -46,7 +46,7 @@ Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,
 
 
 
-Route::get('/admin/horariosmaquinas', [HorariosMaquinasController::class, 'index'])->name('horarios.maquinas');
+//Route::get('/admin/horariosmaquinas', [HorariosMaquinasController::class, 'index'])->name('horarios.maquinas');
 Route::get('/admin/confeccionardespiece', [ConfeccionarDespieceController::class, 'index'])->name('confeccionar.despiece');
 Route::post('/admin/confeccionardespiecepiezas', [ConfeccionarDespieceController::class, 'piezas']);
 Route::post('/admin/confeccionardespiecetabla', [ConfeccionarDespieceController::class, 'tabla']);
@@ -59,7 +59,7 @@ Route::post('/admin/registraregresoguardar', [RegistrarEgresosController::class,
 Route::get('/admin/listar', [ListarController::class, 'index'])->name('listar');
 Route::post('/admin/listartabla', [ListarController::class, 'tabla']);
 Route::post('/admin/listarpiezas', [ListarController::class, 'piezas']);
-Route::get('/admin/controlhorariosmaquina', [ControlHorariosMaquinaController::class, 'index'])->name('control.horarios.maquina');
+//Route::get('/admin/controlhorariosmaquina', [ControlHorariosMaquinaController::class, 'index'])->name('control.horarios.maquina');
 Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
 Route::post('/admin/confeccionardespiecepiezas',[ConfeccionarDespieceController::class,'piezas']);
 Route::post('/admin/confeccionardespiecetabla',[ConfeccionarDespieceController::class,'tabla']);
@@ -74,8 +74,8 @@ Route::post('/admin/listarmodificar',[ListarController::class,'modificar']);
 Route::post('/admin/listareliminar',[ListarController::class,'eliminar']);
 Route::post('/admin/listartablaEtiqueta',[ListarController::class,'tablaEtiqueta']);
 Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::class,'index'])->middleware('can:control.horarios.maquina')->name('control.horarios.maquina');
-Route::get('/admin/controlmaquina',[ControlHorariosMaquinaController::class,'indexControl'])->name('control.maquina');
-Route::get('/admin/tiemposmaquina',[ControlHorariosMaquinaController::class,'indexTiempos'])->name('tiempos.maquina');
+//Route::get('/admin/controlmaquina',[ControlHorariosMaquinaController::class,'indexControl'])->name('control.maquina');
+//Route::get('/admin/tiemposmaquina',[ControlHorariosMaquinaController::class,'indexTiempos'])->name('tiempos.maquina');
 Route::get('/admin/pdf/{id}', [ListarController::class,'PDF'])->name('descargarPDF');
 Route::post('/admin/etchicaspdf', [ListarController::class,'etChicasPDF'])->name('etChicasPDF');
 Route::post('/admin/etgrandespdf', [ListarController::class,'etGrandesPDF'])->name('etGrandesPDF');
@@ -138,7 +138,7 @@ Route::post('/admin/confeccionardespiecetabla', [ConfeccionarDespieceController:
 Route::post('/admin/confeccionardespiecepredeterminar', [ConfeccionarDespieceController::class, 'predeterminar']);
 Route::post('/admin/registraregresopiezas', [RegistrarEgresosController::class, 'piezas']);
 Route::post('/admin/registraregresotabla', [RegistrarEgresosController::class, 'tabla']);
-Route::get('/admin/controlhorariosmaquina', [ControlHorariosMaquinaController::class, 'index'])->name('control.horarios.maquina');
+//Route::get('/admin/controlhorariosmaquina', [ControlHorariosMaquinaController::class, 'index'])->name('control.horarios.maquina');
 
 Route::get('/admin/datos/piezasconjuntos', [PiezaArticuloController::class, 'index'])->name('datos.piezasconjuntos');
 Route::post('/admin/datos/buscarpiezas', [PiezaArticuloController::class, 'buscarpiezas']);
