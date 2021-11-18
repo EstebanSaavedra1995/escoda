@@ -90,7 +90,6 @@ function listarArticulos(id) {
         <th>Código</th>
         <th>Descripción</th>
         <th>Sinónimo</th>
-        <th>Acción</th>
         
         </tr>
         </thead>`;
@@ -103,7 +102,7 @@ function listarArticulos(id) {
                       datos += `<td>${e['CodArticulo']}</td>`;
                       datos += `<td>${e['Descripcion']}</td>`;
                       datos += `<td>Artículos Generales</td>`;
-                      datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
+                      //datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
                       datos += `</tr>`;  
                     });
                 }
@@ -115,7 +114,7 @@ function listarArticulos(id) {
                       datos += `<td>${e['CodigoGoma']}</td>`;
                       datos += `<td>${e['Codigo Interno']} - øI${e['CodigoInterno']} - øE${e['CodigoExterno']} -a${e['Altura']}</td>`;
                       datos += `<td>Gomas</td>`;
-                      datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
+                      //datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
                       datos += `</tr>`;  
                     });
                 }
@@ -127,7 +126,7 @@ function listarArticulos(id) {
                       datos += `<td>${e['CodigoMaterial']}</td>`;
                       datos += `<td>${e['Material']} - ${e['Dimension']} - ${e['Calidad']}</td>`;
                       datos += `<td>Materiales</td>`;
-                      datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
+                      //datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
                       datos += `</tr>`;
                     });
                 }
