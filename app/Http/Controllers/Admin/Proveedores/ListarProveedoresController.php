@@ -41,15 +41,20 @@ class ListarProveedoresController extends Controller
         $id = request('id');
         $articulos = ProveedorArticulos::where('CodigoProv',$id)->get();
         $resultado = [];
+        $articulosG = null;
+        $gomas = null;
+        $materiales = null;
         foreach ($articulos as $value) {
             $a = ArticulosGenerales::where('CodArticulo',$value->CodArticulo)->first();
             if ($a != null) {
                 $articulosG[] = $a;
             }
+
             $g = Goma::where('CodigoGoma',$value->CodArticulo)->first();
             if ($g != null) {
                 $gomas[] = $g;
             }
+
             $m = Material::where('CodigoMaterial',$value->CodArticulo)->first();
             if ($m != null) {
                 $materiales[] = $m;

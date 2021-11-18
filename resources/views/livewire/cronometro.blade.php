@@ -1,6 +1,10 @@
 {{-- <small>{{substr($detalleOC->Operario, 0, 3)}} -ses {{ auth()->user()->NroLegajo }} </small> --}}
-@if (substr($detalleOC->Operario, 0, 3) == auth()->user()->NroLegajo)
+@if ( $maquina == null)
+<h2>No hay maquina Asignada </h2>    
+@else
     
+@if (substr($detalleOC->Operario, 0, 3) == auth()->user()->NroLegajo)
+
 <div class="" align=" center">
     <div class="alert alert-danger" role="alert" id="avisoPausa" style="display: none;">Pausa Iniciada</div>
     <div class="card border-dark" style="max-width: 95%;" align="left">
@@ -60,14 +64,15 @@
         id="aviso">
         Enviado</div> --}}
     </div>
-@else
-<div align="center">
-    <h2>Usuario incorrecto, esperando a {{substr($detalleOC->Operario, 6)}} </h2>    
-</div>
-@endif
+    @else
+    <div align="center">
+        <h2>Usuario incorrecto, esperando a {{substr($detalleOC->Operario, 6)}} </h2>    
+    </div>
+    @endif
+    @endif
     <script>
-    controlBotones();
-</script>
+        controlBotones();
+    </script>
 
 {{-- script que recibe evento para alert --}}
 

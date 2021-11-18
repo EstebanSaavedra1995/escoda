@@ -163,25 +163,27 @@ class Cronometro extends Component
     {
         $id = Request::cookie('maquina');
         $this->maquina = Maquina::where('CodMaquina', $id)->first();
-        $this->detalleOC = DetalleOC::where('Maquina', 'like', '%' . $this->maquina->CodMaquina . '%')
+        if ($this->maquina != null) {
+            $this->detalleOC = DetalleOC::where('Maquina', 'like', '%' . $this->maquina->CodMaquina . '%')
             ->where('Estado', 'pendiente')
             ->orderBy('Tarea', 'ASC')->first();
-        $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
-
-        $this->material = Material::where('CodigoMaterial', $this->ordenC->CodigoMaterial)->first();
-
-        $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+            $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
+            
+            $this->material = Material::where('CodigoMaterial', $this->ordenC->CodigoMaterial)->first();
+            
+            $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
             ->where('Estado', 'fallida')->get();
-        $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+            $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
             ->where('Estado', 'exitosa')->get();
-
-        $this->fallidas = count($fallas);
-        $this->exitosas = count($exitos);
-
-        $this->cantidad = $this->fallidas + $this->exitosas;
-        if ($this->idTiempoOC != '0') {
-            $tiempo = TiemposOC::find($this->idTiempoOC);
+            
+            $this->fallidas = count($fallas);
+            $this->exitosas = count($exitos);
+            
+            $this->cantidad = $this->fallidas + $this->exitosas;
+            if ($this->idTiempoOC != '0') {
+                $tiempo = TiemposOC::find($this->idTiempoOC);
+            }
+            $this->emit("refresh");
         }
-        $this->emit("refresh");
     }
 }

@@ -74,7 +74,7 @@
 
                                 <div class="container">
                                     <label class="">Artículos,Materiales,Gomas</label>
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" id="tablaArticulos">
                                         <thead>
                                             <tr>
                                                 <th>Código</th>
