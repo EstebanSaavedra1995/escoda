@@ -130,25 +130,6 @@ function listarArticulos(id) {
                       datos += `</tr>`;
                     });
                 }
-                /* datos += `<tr>`;
-                datos += `<td>${e['p'].CodigoProv}</td>`;
-                datos += `<td>${e['p'].NombreProv}</td>`;
-                datos += `<td>${e['p'].Categoria}</td>`;
-                datos += `<td>${'-'}</td>`;
-                if (e['pf'] != null) {
-
-                    datos += `<td>${calificar(e['pf'].CalifValor)}</td>`;
-                    datos += `<td>${calificar(e['pf'].CalifFinanzacion)}</td>`;
-                    datos += `<td>${calificar(e['pf'].CalifEntrega)}</td>`;
-                    datos += `<td>${calificar(e['pf'].CalifCalidad)}</td>`;
-                } else {
-                    datos += `<td></td>`;
-                    datos += `<td></td>`;
-                    datos += `<td></td>`;
-                    datos += `<td></td>`;
-                }
-                datos += `<td><button type="button" class="btn btn-primary" onclick="listarArticulos('${e['p'].CodigoProv}');">Listar</button></td>`;
-                datos += `</tr>`; */
             });
             tabla.innerHTML = datos;
         })

@@ -382,7 +382,7 @@ return [
                 ],
                 [
                     'text' => 'Listar Artículos',
-                    'url'  => '#',
+                    'route'  => 'listar.articulos',
                 ],
                 [
                     'text' => 'Listar Facturas',

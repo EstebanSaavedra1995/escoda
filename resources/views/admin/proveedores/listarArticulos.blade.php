@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Listar Proveedores')
+@section('title', 'Listar Articulos')
 
 @section('content_header')
 
@@ -23,8 +23,8 @@
                         <input type="text" name="buscar" id="buscar" class="col-2 mr-2">
                         <select name="buscarPor" id="buscarPor" class="form-select">
                             <option value="codigo">Código</option>
-                            <option value="denominacion">Denominación</option>
-                            <option value="categoria">Categoría</option>
+                            <option value="descripcion">Descripción</option>
+                            <option value="sinonimo">Sinonimo</option>
                         </select>
 
                         <label class=" col-2 mr-2">Calificar por:</label>
@@ -47,22 +47,18 @@
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
+                            
+                            <section class="col-lg-4 connectedSortable ui-sortable">
 
-                            <section class="col-lg-8 connectedSortable ui-sortable">
-
-                                <div class="container-flex">
-                                    <label class="">Proveedores</label>
-                                    <table class="table table-bordered table-striped" id="tabla">
+                                <div class="container">
+                                    <label class="">Artículos,Materiales,Gomas</label>
+                                    <table class="table table-bordered  table-striped" id="tablaArticulos">
                                         <thead>
                                             <tr>
                                                 <th>Código</th>
-                                                <th>Denominación</th>
-                                                <th>Categoría</th>
-                                                <th>Gral.</th>
-                                                <th>Valor</th>
-                                                <th>Finanzación</th>
-                                                <th>Entrega</th>
-                                                <th>Calidad</th>
+                                                <th>Descripción</th>
+                                                <th>Sinónimo</th>
+                                                <th>Acción</th>
                                             </tr>
                                         </thead>
 
@@ -70,16 +66,23 @@
                                 </div>
 
                             </section>
-                            <section class="col-lg-4 connectedSortable ui-sortable">
 
-                                <div class="container">
-                                    <label class="">Artículos,Materiales,Gomas</label>
-                                    <table class="table table-bordered" id="tablaArticulos">
+                            <section class="col-lg-8 connectedSortable ui-sortable">
+
+                                <div class="container-flex">
+                                    <label class="">Proveedores</label>
+                                    <table class="table table-bordered" id="tablaProveedores">
                                         <thead>
                                             <tr>
                                                 <th>Código</th>
-                                                <th>Descripción</th>
-                                                <th>Sinónimo</th>
+                                                <th>Denominación</th>
+                                                <th>Precio Unitario</th>
+                                                <th>Categoría</th>
+                                                <th>Gral.</th>
+                                                <th>Valor</th>
+                                                <th>Finanzación</th>
+                                                <th>Entrega</th>
+                                                <th>Calidad</th>
                                             </tr>
                                         </thead>
 
@@ -109,5 +112,5 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('js/listarProveedores.js') }}"></script>
+    <script src="{{ asset('js/listarArticulos.js') }}"></script>
 @stop

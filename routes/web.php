@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Ordenes\EnsambleController;
 use App\Http\Controllers\Admin\Ordenes\EnsambleListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
+use App\Http\Controllers\Admin\Proveedores\ListarArticulosController;
 use App\Http\Controllers\Admin\Proveedores\ListarProveedoresController;
 use App\Http\Controllers\Admin\Roles\RoleController;
 use App\Http\Controllers\Admin\Stock\ControlStockController;
@@ -150,7 +151,10 @@ Route::get('/admin/datos/tareas', [TareaController::class, 'index'])->name('dato
 
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
-Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::class, 'listarArticulos']);
+
+Route::get('/admin/listararticulos', [ListarArticulosController::class, 'index'])->name('listar.articulos');
+Route::post('/admin/listararticuloslistar', [ListarArticulosController::class, 'listarArticulos']);
+Route::post('/admin/listararticuloslistarproveedores', [ListarArticulosController::class, 'listarProveedores']);
 
 Route::resource('usuarios', UsuariosUsuariosController::class)->names('usuarios');
 Route::resource('roles', RoleController::class)->names('roles');
