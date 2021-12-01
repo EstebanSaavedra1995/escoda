@@ -22,11 +22,13 @@
                     <h4 class="col">Piezas Exitosas = {{ $item['exitosas'] }}</h4>
                     <h4 class="col">Piezas Fallidas = {{ $item['fallidas'] }}</h4>
                     <h4 class="col">Total Piezas = {{ $item['total'] }}</h4> --}}
-                    <button class="btn btn-light col-2"
-                        onclick="$('#{{ $item['detalleOC']->id }}').toggle();">Detalle</button>
+                    {{-- <button class="btn btn-light col-2"
+                        onclick="$('#{{ $item['detalleOC']->id }}').toggle();">Detalle</button> --}}
+                        <button class="btn btn-light col-2"
+                        onclick="">Detalle</button>
                 </div>
             </div>
-            <div class="card-body container" id="{{ $item['detalleOC']->id }}" style="display:none">
+            <div class="card-body container" id="{{ $item['detalleOC']->id }}" {{-- style="display:none" --}}>
                 <div class="row">
 
                     <h4 class="col">Piezas Exitosas = {{ $item['exitosas'] }}</h4>
@@ -53,7 +55,8 @@
                             <th>Fecha/Hora</th>
                         </head>
                     </tr>
-                    @foreach ($item['piezas'] as $pieza)
+                    {{-- @foreach ($item['piezas'] as $pieza) --}}
+                    <p hidden>{{$pieza = $item['piezas']}}</p>
                         @switch($pieza->Estado)
                             @case('fallida')
                                 <tr class="bg-danger text-light">
@@ -105,7 +108,7 @@
                         <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
                         </tr>
 
-                    @endforeach
+                   {{--  @endforeach --}}
 
                 </table>
             </div>
