@@ -41,7 +41,13 @@ class Cronometro extends Component
     public function fin($estadoPieza)
     {
         $this->estado = $estadoPieza;
-        $this->actualizarTiempoOC();
+        if ($this->exitosas >= $this->ordenC->Cantidad) {
+            $detalle = DetalleOC::find($this->detalleOC->id);
+            $detalle->Estado = 'finalizado';
+            $detalle->save();
+        } else {
+            $this->actualizarTiempoOC();
+        }
         $this->cargarDatos();
     }
 
@@ -102,7 +108,8 @@ class Cronometro extends Component
         event(new Enviar('inicio'));
     }
 
-    public function guardarPausa($tipo){
+    public function guardarPausa($tipo)
+    {
         $pausa = new PausasOC();
         $pausa->Tipo = $tipo;
         $pausa->inicio = date("y-m-d H:i:s");
@@ -111,9 +118,10 @@ class Cronometro extends Component
         $this->pausa = $pausa;
     }
 
-    public function actualizarPausa(){
-        $pausa = PausasOC::where('IdDetalleOC',$this->detalleOC->id)
-                        ->orderBy('id', 'DESC')->first();;
+    public function actualizarPausa()
+    {
+        $pausa = PausasOC::where('IdDetalleOC', $this->detalleOC->id)
+            ->orderBy('id', 'DESC')->first();;
         $pausa->Fin = date("y-m-d H:i:s");
         $pausa->saveOrFail();
     }
@@ -145,7 +153,7 @@ class Cronometro extends Component
         $this->tiempoOC = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
             ->where('Numero', $tiempo->Numero)->first();
         $this->idTiempoOC = $this->tiempoOC->id;
-        $this->emit("guardado",$this->idTiempoOC);
+        $this->emit("guardado", $this->idTiempoOC);
     }
 
     public function actualizarTiempoOC()
@@ -165,24 +173,27 @@ class Cronometro extends Component
         $this->maquina = Maquina::where('CodMaquina', $id)->first();
         if ($this->maquina != null) {
             $this->detalleOC = DetalleOC::where('Maquina', 'like', '%' . $this->maquina->CodMaquina . '%')
-            ->where('Estado', 'pendiente')
-            ->orderBy('Tarea', 'ASC')->first();
-            $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
-            
-            $this->material = Material::where('CodigoMaterial', $this->ordenC->CodigoMaterial)->first();
-            
-            $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-            ->where('Estado', 'fallida')->get();
-            $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-            ->where('Estado', 'exitosa')->get();
-            
-            $this->fallidas = count($fallas);
-            $this->exitosas = count($exitos);
-            
-            $this->cantidad = $this->fallidas + $this->exitosas;
-            if ($this->idTiempoOC != '0') {
-                $tiempo = TiemposOC::find($this->idTiempoOC);
+                ->where('Estado', 'pendiente')
+                ->orderBy('Tarea', 'ASC')->first();
+            if ($this->detalleOC != null) {
+
+                $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
+
+                $this->material = Material::where('CodigoMaterial', $this->ordenC->CodigoMaterial)->first();
+
+                $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+                    ->where('Estado', 'fallida')->get();
+                $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+                    ->where('Estado', 'exitosa')->get();
+
+                $this->fallidas = count($fallas);
+                $this->exitosas = count($exitos);
+
+                $this->cantidad = $this->fallidas + $this->exitosas;
             }
+            /* if ($this->idTiempoOC != '0') {
+                $tiempo = TiemposOC::find($this->idTiempoOC);
+            } */
             $this->emit("refresh");
         }
     }
