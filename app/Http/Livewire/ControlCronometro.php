@@ -83,7 +83,7 @@ class ControlCronometro extends Component
 
                 $totales = count($total);
                 $ultima = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                                    ->orderBy('Numero', 'DESC')->first();
+                                    ->orderBy('id', 'DESC')->first();
                 $zona = [
                     'maquina' => $maquina,
                     'detalleOC' => $detalleOC,

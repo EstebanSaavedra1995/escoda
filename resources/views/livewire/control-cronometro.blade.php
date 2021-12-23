@@ -24,8 +24,9 @@
                     <h4 class="col">Total Piezas = {{ $item['total'] }}</h4> --}}
                     {{-- <button class="btn btn-light col-2"
                         onclick="$('#{{ $item['detalleOC']->id }}').toggle();">Detalle</button> --}}
-                        <button class="btn btn-light col-2"
-                        onclick="">Detalle</button>
+                        {{-- <button class="btn btn-light col-2"
+                        onclick="">Detalle</button> --}}
+                        <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary" target="blank">Detalle</a> 
                 </div>
             </div>
             <div class="card-body container" id="{{ $item['detalleOC']->id }}" {{-- style="display:none" --}}>

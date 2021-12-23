@@ -135,7 +135,11 @@ class Cronometro extends Component
             ->orderBy('Tarea', 'ASC')->first();
         $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
 
-        $numero = TiemposOC::where('idDetalleOC', $this->detalleOC->id)->get();
+        $numero = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+                    ->orderBy('Numero', 'DESC')->first();
+/*         if ($numero != null) {
+            $numero = $numero->Numero;
+        } */
         //->where('CodMaquina', $this->maquina->CodMaquina)
         $tiempo = new TiemposOC();
         $tiempo->idDetalleOC = $this->detalleOC->id;
@@ -144,8 +148,8 @@ class Cronometro extends Component
         $tiempo->Estado = $this->estado;
         $tiempo->CodMaquina = $this->maquina->CodMaquina;
         $tiempo->Fecha = date("y-m-d H:i:s");
-        if (count($numero)) {
-            $tiempo->Numero = count($numero) + 1;
+        if ($numero != null) {
+            $tiempo->Numero = $numero->Numero + 1;
         } else {
             $tiempo->Numero = 1;
         }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\RegistrarEgresosController;
+use App\Http\Controllers\Admin\ListaTareasController;
 use App\Http\Controllers\Admin\Maquinas\MaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ReparacionCompletarCancelarController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
@@ -163,3 +164,4 @@ Route::resource('maquinas',MaquinasController::class)->names('maquinas');
 
 Route::get('/admin/controlstock', [ControlStockController::class, 'index'])->name('stock');
 Route::get('/admin/controlstockegreso/{id}/{tipo}', [ControlStockController::class, 'egreso'])->name('stockEgreso');
+Route::get('/admin/listatareas/{id}', [ListaTareasController::class, 'index'])->name('listaTareas');
