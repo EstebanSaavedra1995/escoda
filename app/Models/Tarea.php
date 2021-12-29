@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tarea extends Model
 {
-     // alter table 'coladamaterial' drop primary key;
-    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
-   
+    /* alter table tareas drop primary key;
+ALTER TABLE tareas ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
     use HasFactory;
     public $timestamps = false;
     protected $table= 'tareas';

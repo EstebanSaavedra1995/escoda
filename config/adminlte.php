@@ -386,7 +386,7 @@ return [
                 ],
                 [
                     'text' => 'Listar Facturas',
-                    'url'  => '#',
+                    'route'  => 'listar.facturas',
                 ],
                 [
                     'text' => 'Ingresar Facturas',
