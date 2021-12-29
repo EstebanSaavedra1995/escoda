@@ -25,19 +25,19 @@ class RoleSeeder extends Seeder
         Permission::create([
             'name' => 'ordenes.trabajo',
             'description' => 'Ordenes de Trabajo'
-        ])->syncRoles([$rol2]);
+        ])->syncRoles([$rol1]);
         Permission::create([
             'name' => 'stock',
             'description' => 'Stock'
-        ])->syncRoles([$rol2]);
+        ])->syncRoles([$rol1]);
         Permission::create([
             'name' => 'egresos.etiquetas',
             'description' => 'Egresos y Etiquetas'
-        ])->syncRoles([$rol2]);
+        ])->syncRoles([$rol1]);
         Permission::create([
             'name' => 'horarios.maquinas',
             'description' => 'Horarios Maquinas'
-        ])->syncRoles([$rol2]);
+        ])->syncRoles([$rol1]);
         /* Permission::create([
             'name' => 'confeccionar.despiece',
             'description' => 'Stock Confeccionar Despiece'
