@@ -169,3 +169,6 @@ Route::get('/admin/controlstockegreso/{id}/{tipo}', [ControlStockController::cla
 Route::get('/admin/listatareas/{id}', [ListaTareasController::class, 'index'])->name('listaTareas');
 
 Route::get('/admin/listarfacturas', [ProveedoresListarFacturasController::class, 'index'])->name('listar.facturas');
+Route::post('/admin/listarfacturaslistar', [ProveedoresListarFacturasController::class, 'listarFacturas']);
+Route::post('/admin/listarfacturaslistararticulos', [ProveedoresListarFacturasController::class, 'listarArticulos']);
+Route::post('/admin/listarfacturasllenarmodal', [ProveedoresListarFacturasController::class, 'llenarModal']);

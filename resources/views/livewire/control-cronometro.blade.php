@@ -4,7 +4,7 @@
         {{$item['maquina']}}
     @endforeach --}}
     <small>{{ $evento }} </small>
-   
+
     @foreach ($maquinas as $item)
 
         <div class="card border-primary mb-3 mt-2 ml-2" style="max-width: 100%;" align="left">
@@ -24,9 +24,10 @@
                     <h4 class="col">Total Piezas = {{ $item['total'] }}</h4> --}}
                     {{-- <button class="btn btn-light col-2"
                         onclick="$('#{{ $item['detalleOC']->id }}').toggle();">Detalle</button> --}}
-                        {{-- <button class="btn btn-light col-2"
+                    {{-- <button class="btn btn-light col-2"
                         onclick="">Detalle</button> --}}
-                        <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary" target="blank">Detalle</a> 
+                    <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary"
+                        target="blank">Detalle</a>
                 </div>
             </div>
             <div class="card-body container" id="{{ $item['detalleOC']->id }}" {{-- style="display:none" --}}>
@@ -57,7 +58,10 @@
                         </head>
                     </tr>
                     {{-- @foreach ($item['piezas'] as $pieza) --}}
-                    <p hidden>{{$pieza = $item['piezas']}}</p>
+                    <p hidden>{{ $pieza = $item['piezas'] }}</p>
+                    @if ($pieza != null)
+
+
                         @switch($pieza->Estado)
                             @case('fallida')
                                 <tr class="bg-danger text-light">
@@ -108,8 +112,8 @@
                         <td>{{ $pieza->Estado }}</td>
                         <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
                         </tr>
-
-                   {{--  @endforeach --}}
+                    @endif
+                    {{-- @endforeach --}}
 
                 </table>
             </div>
