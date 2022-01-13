@@ -10,9 +10,8 @@ class PiezaOCStock extends Model
     use HasFactory;
     protected $table= 'piezaocstock';
     public $timestamps = false;
-    // alter table 'coladamaterial' drop primary key;
-    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
-
+    /* alter table piezaocstock drop primary key;
+ALTER TABLE piezaocstock ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
     
     
 }

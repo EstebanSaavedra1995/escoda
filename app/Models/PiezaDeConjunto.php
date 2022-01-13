@@ -9,8 +9,8 @@ class PiezaDeConjunto extends Model
 {
     use HasFactory;
     
-    // alter table 'coladamaterial' drop primary key;
-    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
+    /* alter table piezadeconjunto drop primary key;
+ALTER TABLE piezadeconjunto ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
     protected $table= 'piezadeconjunto';
     public $timestamps = false;
 

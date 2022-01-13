@@ -44,7 +44,7 @@ document.getElementById('listar').addEventListener('click', function (e) {
                     datos += `<td></td>`;
                     datos += `<td></td>`;
                 }
-                datos += `<td><button type="button" class="btn btn-primary" onclick="listarArticulos('${e['p'].CodigoProv}');">Listar</button></td>`;
+                datos += `<td><button type="button" class="btn btn-primary" onclick="listarArticulos('${e['p'].CodigoProv}');">Listar Artículos</button></td>`;
                 datos += `</tr>`;
             });
             tabla.innerHTML = datos;
@@ -73,6 +73,7 @@ function calificar(n) {
 
 function listarArticulos(id) {
     const datos = new FormData(document.getElementById('formulario'));
+    console.log(id);
     datos.append('id', id);
 
     fetch('/admin/listarproveedoresarticulos', {
@@ -82,6 +83,55 @@ function listarArticulos(id) {
         .then(res => res.json())
         .then(data => {
             console.log(data);
+
+            var tabla = document.getElementById('tablaArticulos');
+            let datos = `<thead>
+        <tr>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th>Sinónimo</th>
+        
+        </tr>
+        </thead>`;
+
+            data.forEach(e => {
+                if (e['articulos'] != null) {
+                    e['articulos'].forEach(e => {
+                      //console.log(e);
+                      datos += `<tr>`;
+                      datos += `<td>${e['CodArticulo']}</td>`;
+                      datos += `<td>${e['Descripcion']}</td>`;
+                      datos += `<td>Artículos Generales</td>`;
+                      //datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
+                      datos += `</tr>`;  
+                    });
+                }
+
+                if (e['gomas'] != null) {
+                    e['gomas'].forEach(e => {
+                      //console.log(e);
+                      datos += `<tr>`;
+                      datos += `<td>${e['CodigoGoma']}</td>`;
+                      datos += `<td>${e['Codigo Interno']} - øI${e['CodigoInterno']} - øE${e['CodigoExterno']} -a${e['Altura']}</td>`;
+                      datos += `<td>Gomas</td>`;
+                      //datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
+                      datos += `</tr>`;  
+                    });
+                }
+
+                if (e['materiales'] != null) {
+                    e['materiales'].forEach(e => {
+                      //console.log(e['CodigoMaterial']);  
+                      datos += `<tr>`;
+                      datos += `<td>${e['CodigoMaterial']}</td>`;
+                      datos += `<td>${e['Material']} - ${e['Dimension']} - ${e['Calidad']}</td>`;
+                      datos += `<td>Materiales</td>`;
+                      //datos += `<td><button type="button" class="btn btn-primary" onclick="listarProveedores(${e['CodigoMaterial']})">Listar Proveedores</button></td>`;
+                      datos += `</tr>`;
+                    });
+                }
+            });
+            tabla.innerHTML = datos;
         })
 
 }

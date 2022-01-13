@@ -10,6 +10,5 @@ class TotalStockMateriales extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'totalstockmateriales';
-    //ALTER TABLE 'coladamaterial' ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
-    //poner primary key en la base
+    //ALTER TABLE totalstockmateriales ADD id int NOT NULL AUTO_INCREMENT primary key FIRST
 }

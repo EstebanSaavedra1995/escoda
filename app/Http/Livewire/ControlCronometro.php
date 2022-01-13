@@ -82,7 +82,8 @@ class ControlCronometro extends Component
                 $exitosas = count($exitos);
 
                 $totales = count($total);
-
+                $ultima = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                                    ->orderBy('id', 'DESC')->first();
                 $zona = [
                     'maquina' => $maquina,
                     'detalleOC' => $detalleOC,
@@ -90,7 +91,7 @@ class ControlCronometro extends Component
                     'fallidas' => $fallidas,
                     'exitosas' => $exitosas,
                     'total' => $totales,
-                    'piezas' => $total,
+                    'piezas' => $ultima,
                 ];
 
                 $this->maquinas[] = $zona;

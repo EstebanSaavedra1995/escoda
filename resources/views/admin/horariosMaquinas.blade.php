@@ -41,10 +41,13 @@
 
     window.livewire.on('pausa', function() {
         //swal("Pausa iniciada", "", );
-        console.log('pausa');
-        localStorage.setItem("pausa", 'v');
-        $("#avisoPausa").show();
-        motivoPausa();
+        if (localStorage.getItem("pausa") != 'v'){
+
+            console.log('pausa');
+            localStorage.setItem("pausa", 'v');
+            $("#avisoPausa").show();
+            motivoPausa();
+        }
     });
 
     window.livewire.on('continuar', function() {
@@ -54,7 +57,7 @@
         window.livewire.emit('actualizarPausa');
     });
     window.livewire.on('refresh', function() {
-        if (localStorage.getItem("pausa") != null & localStorage.getItem("pausa") == 'v') {
+        if (localStorage.getItem("pausa") == 'v') {
         console.log(localStorage.getItem("pausa"));
         $("#avisoPausa").show();
     }
@@ -67,9 +70,9 @@
 </script>
 
 <script>
-    if (localStorage.getItem("pausa") != null & localStorage.getItem("pausa") == 'v') {
+    /* if (localStorage.getItem("pausa") != null & localStorage.getItem("pausa") == 'v') {
         console.log(localStorage.getItem("pausa"));
         $("#avisoPausa").show();
-    }
+    } */
 </script>
 @stop

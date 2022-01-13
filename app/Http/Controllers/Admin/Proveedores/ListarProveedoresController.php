@@ -22,16 +22,17 @@ class ListarProveedoresController extends Controller
         return view('admin.proveedores.listarProveedores');
     }
 
-    public function listar(){
+    public function listar()
+    {
         $prov = Proveedores::all();
         $resultado = [];
         foreach ($prov as $value) {
-            $provFac = ProveedorFactura::where('CodigoProv',$value->CodigoProv)->first();
-            
+            $provFac = ProveedorFactura::where('CodigoProv', $value->CodigoProv)->first();
+
             $resultado[] = [
                 'p' => $value,
                 'pf' => $provFac
-            ]; 
+            ];
         }
         return json_encode($resultado);
     }
@@ -39,28 +40,34 @@ class ListarProveedoresController extends Controller
     public function listarArticulos()
     {
         $id = request('id');
-        $articulos = ProveedorArticulos::where('CodigoProv',$id)->get();
+        $articulos = ProveedorArticulos::where('CodigoProv', $id)->get();
         $resultado = [];
+        $articulosG = null;
+        $gomas = null;
+        $materiales = null;
         foreach ($articulos as $value) {
-            $a = ArticulosGenerales::where('CodArticulo',$value->CodArticulo)->first();
+            $a = ArticulosGenerales::where('CodArticulo', $value->CodArticulo)->first();
             if ($a != null) {
                 $articulosG[] = $a;
             }
-            $g = Goma::where('CodigoGoma',$value->CodArticulo)->first();
+
+            $g = Goma::where('CodigoGoma', $value->CodArticulo)->first();
             if ($g != null) {
                 $gomas[] = $g;
             }
-            $m = Material::where('CodigoMaterial',$value->CodArticulo)->first();
+
+            $m = Material::where('CodigoMaterial', $value->CodArticulo)->first();
             if ($m != null) {
                 $materiales[] = $m;
             }
-            
         }
-        $resultado[]= [
+        $resultado[] = [
             'articulos' => $articulosG,
             'gomas' => $gomas,
             'materiales' => $materiales,
         ];
         return json_encode($resultado);
     }
+
+    
 }
