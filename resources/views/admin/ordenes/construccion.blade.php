@@ -295,34 +295,46 @@
     <script src="{{ asset('js/construccion.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
     <script>
         $(document).ready(function() {
-            $('#piezas').select2();
+            $('#piezas').select2({
+                theme: 'bootstrap4'
+            });
             //Para el modal de agregar tarea
             $('#tareaModal').select2({
-                dropdownParent: $('#modaltareas')
+                dropdownParent: $('#modaltareas'),
+                theme: 'bootstrap4'
             });
             $('#maquina').select2({
-                dropdownParent: $('#modaltareas')
+                dropdownParent: $('#modaltareas'),
+                theme: 'bootstrap4'
             });
             $('#operario').select2({
-                dropdownParent: $('#modaltareas')
+                dropdownParent: $('#modaltareas'),
+                theme: 'bootstrap4'
             });
             $('#supervisor').select2({
-                dropdownParent: $('#modaltareas')
+                dropdownParent: $('#modaltareas'),
+                theme: 'bootstrap4'
             });
             //Para el modal de modificar tarea
             $('#tarea-modificar').select2({
-                dropdownParent: $('#modalmodificartareas')
+                dropdownParent: $('#modalmodificartareas'),
+                theme: 'bootstrap4'
             });
             $('#maquina-modificar').select2({
-                dropdownParent: $('#modalmodificartareas')
+                dropdownParent: $('#modalmodificartareas'),
+                theme: 'bootstrap4'
             });
             $('#operario-modificar').select2({
-                dropdownParent: $('#modalmodificartareas')
+                dropdownParent: $('#modalmodificartareas'),
+                theme: 'bootstrap4'
             });
             $('#supervisor-modificar').select2({
-                dropdownParent: $('#modalmodificartareas')
+                dropdownParent: $('#modalmodificartareas'),
+                theme: 'bootstrap4'
             });
         });
     </script>

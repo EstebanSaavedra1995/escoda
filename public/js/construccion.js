@@ -66,6 +66,7 @@ function enviarDatos() {
     })
         .then(res => res.json())
         .then(data => {
+            //alert(data);
             //console.log(data);
             if (data === 'ok') {
                 swal({

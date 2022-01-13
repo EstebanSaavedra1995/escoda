@@ -17,6 +17,7 @@ use App\Models\PiezaTarea;
 use App\Models\Tarea;
 use App\Models\TotalStockMateriales;
 use App\Models\TotalStockPiezas;
+use PhpParser\Node\Stmt\TryCatch;
 
 class ConstruccionController extends Controller
 {
@@ -121,7 +122,7 @@ class ConstruccionController extends Controller
   public function agregarconstruccion()
   {
 
-
+    $error = "";
     $tareas = request('arreglo');
     $tareas = json_decode($tareas);
     $pieza = request('piezas');
@@ -177,6 +178,15 @@ class ConstruccionController extends Controller
     $totalStockPiezas->Stock = $totalStockPiezas->Stock + $ordenConstruccion->Cantidad;
     $totalStockPiezas->saveOrFail();
 
+/*     try{
+      $totalStockPiezas = TotalStockPiezas::where('CodigoPieza', $pieza)->first();
+      $totalStockPiezas->Stock = $totalStockPiezas->Stock + $ordenConstruccion->Cantidad;
+      $totalStockPiezas->saveOrFail();
+   }
+   catch(\Exception $e){
+      $error=  $e->getMessage();   
+   }
+ */
     $totalStockMateriales = TotalStockMateriales::where('CodigoMaterial', $idMaterial)->first();
     $totalStockMateriales->Stock = $totalStockMateriales->Stock - $cantidadMaterial;
     $totalStockMateriales->saveOrFail();
