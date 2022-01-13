@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ListarController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -26,6 +26,7 @@ class ListarController extends Controller
             $check = request('ck');
 
             if ($check == 'piezas') {
+
                 $piezas = Pieza::all();
                 //$materialPieza = MaterialPieza::all();
                 $resultado = [
@@ -220,7 +221,7 @@ class ListarController extends Controller
         $codigos = request('etiquetasChicas');
         $codigos = explode('/', $codigos);
         $tipo = request('tipoChicas');
-        $resultado = $this->cargarResultado($codigos,$tipo);
+        $resultado = $this->cargarResultado($codigos, $tipo);
         /* foreach ($codigos as $id) {
             $trazabilidad = TrazabilidadConjuntos::where('id', $id)->first();
             if ($trazabilidad !== null) {
