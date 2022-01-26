@@ -38,8 +38,9 @@ document.getElementById('listar').addEventListener('click', function (e) {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             var tabla = document.getElementById('tabla');
+
             let datos = `<thead>
         <tr>
         <th>Letra</th>
@@ -105,7 +106,7 @@ function listarArticulos(codFactura, codProveedor) {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
 
             var tabla = document.getElementById('tablaArticulos');
             let datos = `<thead>
@@ -131,6 +132,7 @@ function listarArticulos(codFactura, codProveedor) {
             tabla.innerHTML = datos;
             var btn = document.getElementById('btn');
             btn.innerHTML = `<button type="button" class="btn btn-primary" onclick="modificarFactura('${codFactura}','${codProveedor}')">Modificar</button>`;
+            listarArticulosModal(codProveedor);
             /* `<a href="{{route('modificarFactura',['${codFactura}','${codProveedor}'])}}" class="btn btn-secondary"
             target="blank">Modificar</a>`; */
             //<button type="button" class="btn btn-primary" onclick="modificarFactura('${codFactura}','${codProveedor}')">Modificar</button>
@@ -151,8 +153,8 @@ function modificarFactura(codFactura, codProveedor) {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
-
+            //console.log(data);
+            var tArticulos = [];
             var subTotalAux = 0;
             var tabla = document.getElementById('tablaModal');
             let datos = `<thead>
@@ -167,8 +169,9 @@ function modificarFactura(codFactura, codProveedor) {
         </thead>`;
 
             data['facturaArticulos'].forEach(e => {
-                subTotalAux = subTotalAux + (e.Cantidad * e.PrecioUnitario) ;
-                datos += `<tr>`;
+                subTotalAux = subTotalAux + (e.Cantidad * e.PrecioUnitario);
+                tArticulos.push(e.id);
+                datos += `<tr id="${e.CodArticulo}">`;
                 datos += `<td>${e.CodArticulo}</td>`;
                 datos += `<td>${e.Descripcion}</td>`;
                 datos += `<td>${e.Cantidad}</td>`;
@@ -182,11 +185,13 @@ function modificarFactura(codFactura, codProveedor) {
             });
             tabla.innerHTML = datos;
             var btnBon = document.getElementById('divBon');
-            btnBon.innerHTML = `<input type="button" class="btn btn-primary" value="Aplicar" onclick="bonificacion('${codFactura}','${codProveedor}');">`;
+            var btnAñadir = document.getElementById('divAñadir');
+            btnAñadir.innerHTML = `<input type="button" class="btn btn-primary" value="Añadir" onclick="añadir();">`;
+            btnBon.innerHTML = `<input type="button" class="btn btn-primary" value="Aplicar" onclick="bonificacion();">`;
             var prov = document.getElementById('proveedoresMod');
             var codProv = document.getElementById('provCod');
-            var razonProv = document.getElementById('provRazon');
             var nroFact = document.getElementById('nroFact');
+            var razonProv = document.getElementById('provRazon');
             var tipo = document.getElementById('tipo');
             var iva = document.getElementById('iva');
             var fechaMod = document.getElementById('fechaMod');
@@ -199,6 +204,8 @@ function modificarFactura(codFactura, codProveedor) {
             var bon = document.getElementById('bon');
             var ivaMod = document.getElementById('ivaMod');
             var total = document.getElementById('total');
+            var fArt = document.getElementById('fArtId');
+            var pFactId = document.getElementById('pFacId');
             prov.value = data['proveedorFactura'].CodigoProv;
             codProv.value = data['proveedor'].CodigoProv;
             razonProv.value = data['proveedor'].NombreProv;
@@ -215,15 +222,19 @@ function modificarFactura(codFactura, codProveedor) {
             bon.value = (data['proveedorFactura'].Bonificacion / 100) * subTotalAux;
             ivaMod.value = (data['proveedorFactura'].AlicuotaIVA / 100) * subTotalAux;
             total.value = parseFloat(subTotalAux) - parseFloat(bon.value) + parseFloat(ivaMod.value);
+            fArt.value = JSON.stringify(tArticulos);
+            pFactId.value = data['proveedorFactura'].id;
             $('#modalModificar').modal('show');
         })
 }
 
 function eliminarFactura(id) {
-    
+
 }
 
-function bonificacion(codFactura, codProveedor) {
+function bonificacion() {
+    var codProveedor = document.getElementById('provCod').value;
+    var codFactura = document.getElementById('nroFact').value;
     const datos = new FormData(document.getElementById('formulario2'));
     //console.log(id);
     datos.append('codFactura', codFactura);
@@ -240,19 +251,128 @@ function bonificacion(codFactura, codProveedor) {
             var subTotalAux = 0;
 
             data['facturaArticulos'].forEach(e => {
-                subTotalAux = subTotalAux + (e.Cantidad * e.PrecioUnitario) ;
+                subTotalAux = subTotalAux + (e.Cantidad * e.PrecioUnitario);
             });
 
             var subTotal = document.getElementById('subTotal');
             var bon = document.getElementById('bon');
             var ivaMod = document.getElementById('ivaMod');
+            var iva = document.getElementById('iva').value;
             var total = document.getElementById('total');
             var bonif = document.getElementById('bonif').value;
             subTotal.value = subTotalAux;
             bon.value = (bonif / 100) * subTotalAux;
-            ivaMod.value = (data['proveedorFactura'].AlicuotaIVA / 100) * subTotalAux;
+            ivaMod.value = (iva / 100) * subTotalAux;
             total.value = parseFloat(subTotalAux) - parseFloat(bon.value) + parseFloat(ivaMod.value);
             //$('#modalModificar').modal('show');
         })
 }
 
+
+function guardarFactura() {
+    const datos = new FormData(document.getElementById('formulario-modal'));
+    fetch('/admin/listarfacturasguardar', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+}
+
+function añadir() {
+    var cod = document.getElementById('productos').value;
+    const datos = new FormData(document.getElementById('formulario-modal'));
+    datos.append('cod', cod);
+    fetch('/admin/listarfacturasbuscarproducto', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(e => {
+            console.log(e);
+            var cantidad = document.getElementById('cantidad').value;
+            var precioU = document.getElementById('precioU').value;
+            var observP = document.getElementById('observP').value;
+            let datos = `<tr id="${e.CodArticulo}">`;
+            datos += `<td>${e.CodArticulo}</td>`;
+            datos += `<td>${e.Descripcion}</td>`;
+            datos += `<td>${cantidad}</td>`;
+            datos += `<td>${precioU}</td>`;
+            datos += `<td>${observP}</td>`;
+            datos += `<td>
+                <button type="button" class="btn btn-primary mb-1" onclick="modificarFactura('${e.id}')">Modificar</button>
+                <button type="button" class="btn btn-danger" onclick="eliminarFactura('${e.id}')">Eliminar</button>
+                </td>`;
+            datos += `</tr>`;
+
+            var tabla = document.getElementById('tablaModal');
+            tabla.insertAdjacentHTML("beforeEnd", datos);
+        })
+
+}
+
+function eliminarTodoSinAlert() {
+    let datos = `<thead>
+        <tr>
+        <th>Codigo de Articulo</th>
+        <th>Descripción</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Observaciones</th>
+        <th>Acción</th>
+        </tr>
+        </thead>`;
+    let tabla = document.getElementById('tablaModal');
+    tabla.innerHTML = datos;
+}
+
+
+function listarArticulosModal(id) {
+    const datos = new FormData(document.getElementById('formulario2'));
+    //console.log(id);
+    datos.append('id', id);
+
+    fetch('/admin/listarproveedoresarticulos', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            let datos = `<option></option>`;
+
+            data.forEach(e => {
+                if (e['articulos'] != null) {
+                    e['articulos'].forEach(e => {
+                        //console.log(e);
+                        datos += `<option value="${e['CodArticulo']}">${e['CodArticulo']} - ${e['Descripcion']} - Artículos</option>`
+                    });
+                }
+
+                if (e['gomas'] != null) {
+                    e['gomas'].forEach(e => {
+                        //console.log(e);
+                        datos += `<option value="${e['CodigoGoma']}"> ${e['CodigoGoma']} - ${e['Codigo Interno']} - øI${e['CodigoInterno']} - øE${e['CodigoExterno']} -a${e['Altura']} - Gomas</option>`;
+                    });
+                }
+
+                if (e['materiales'] != null) {
+                    e['materiales'].forEach(e => {
+                        //console.log(e['CodigoMaterial']);
+                        datos += `<option value="${e['CodigoMaterial']}"> ${e['CodigoMaterial']} - ${e['Material']} - ${e['Dimension']} - ${e['Calidad']} - Materiales</option>`;
+                    });
+                }
+            });
+            var select = document.getElementById('productos');
+            select.innerHTML = datos;
+        })
+
+}
+
+$('#proveedoresMod').on('select2:select', function () {
+    var codProv = document.getElementById('provCod').value;
+    var nroFact = document.getElementById('nroFact').value;
+    bonificacion(nroFact,codProv);
+});
