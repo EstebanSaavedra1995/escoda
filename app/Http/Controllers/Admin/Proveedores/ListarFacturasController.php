@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Admin\Proveedores;
 
 use App\Http\Controllers\Controller;
+use App\Models\ArticulosGenerales;
 use App\Models\FacturaArticulos;
+use App\Models\Goma;
 use App\Models\Iva;
+use App\Models\Material;
 use App\Models\Proveedores;
 use App\Models\ProveedorFactura;
 use Illuminate\Http\Request;
+
+use function GuzzleHttp\json_decode;
 
 class ListarFacturasController extends Controller
 {
@@ -81,6 +86,59 @@ class ListarFacturasController extends Controller
             'facturaArticulos' => $facArt,
             'proveedor' => $proveedor
         ];
+        return json_encode($resultado);
+    }
+
+    public function guardarFactura()
+    {
+        $idPF = request('pFacId');
+        $proveedoresMod = request('proveedoresMod');
+        $tipo = request('tipo');
+        $iva = request('iva');
+        $fechaMod = request('fechaMod');
+        $obsMod = request('obsMod');
+        $bonif = request('bonif');
+        $calValor = request('calValor');
+        $calFin = request('calFin');
+        $calEntrega = request('calEntrega');
+        $calCalidad = request('calCalidad');
+        $provFac = ProveedorFactura::find($idPF);
+        $provFac->Letra = $tipo;
+        $provFac->CodigoProv = $proveedoresMod;
+        $provFac->Fecha = $fechaMod;
+        $provFac->Observaciones = $obsMod;
+        $provFac->CalifValor = $calValor;
+        $provFac->CalifFinanzacion = $calFin;
+        $provFac->CalifEntrega = $calEntrega;
+        $provFac->CalifCalidad = $calCalidad;
+        $provFac->AlicuotaIVA = $iva;
+        $provFac->Bonificacion = $bonif;
+        $provFac->save();
+        $a = request('fArtId');
+        $facArt = json_decode($a);
+        return json_encode($a);
+    }
+
+    public function buscarProducto()
+    {
+        $cod = request('cod');
+        $resultado ='';
+
+        $a = ArticulosGenerales::where('CodArticulo', $cod)->first();
+        if ($a != null) {
+            $resultado = $a;
+        }
+
+        $g = Goma::where('CodigoGoma', $cod)->first();
+        if ($g != null) {
+            $resultado= $g;
+        }
+
+        $m = Material::where('CodigoMaterial', $cod)->first();
+        if ($m != null) {
+            $resultado = $m;
+        }
+
         return json_encode($resultado);
     }
 }
