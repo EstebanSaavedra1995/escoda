@@ -11,5 +11,6 @@ class ProveedorFactura extends Model
     ALTER TABLE proveedorfacturas ADD id int NOT NULL AUTO_INCREMENT primary key FIRST */
 
     use HasFactory;
+    public $timestamps = false;
     protected $table= 'proveedorfacturas';
 }

@@ -118,19 +118,22 @@
                 </div>
                 <div class="modal-body">
                     <form id="formulario-modal">
+                        <input type="text" id="fArtId" name="fArtId" readonly hidden>
+                        <input type="text" id="pFacId" name="pFacId" readonly hidden>
                         @csrf
                         <div class="row mb-2">
                             <label for="proveedoresMod">proveedor: </label>
                             <select name="proveedoresMod" id="proveedoresMod">
                                 @foreach ($proveedores as $item)
-                                <option value="{{$item->CodigoProv}}">{{$item->CodigoProv}} - {{$item->NombreProv}} - {{$item->Categoria}}</option>
+                                    <option value="{{ $item->CodigoProv }}">{{ $item->CodigoProv }} -
+                                        {{ $item->NombreProv }} - {{ $item->Categoria }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="row  mb-2">
                             <label for="provCod">Código: </label>
                             <input type="text" readonly class="col col-2" id="provCod">
-                            
+
                         </div>
                         <div class="row mb-2">
                             <label for="provRazon">Razón Social: </label>
@@ -145,31 +148,31 @@
                             <input type="text" readonly class="col" id="nroFact">
 
                             <label for="tipo">Tipo: </label>
-                            <select name="tipo" id="tipo" class="col">
+                            <select name="tipo" id="tipo" name="tipo" class="col">
                                 <option value="A">A</option>
                                 <option value="B">B</option>
                                 <option value="C">C</option>
                             </select>
-                            
+
                             <label for="iva">IVA: %</label>
-                            <select name="iva" id="iva" class="col">
+                            <select name="iva" id="iva" name="iva" class="col" onchange="bonificacion();">
                                 @foreach ($iva as $item)
-                                <option value="{{$item->IVA}}">{{$item->IVA}}</option>  
+                                    <option value="{{ $item->IVA }}">{{ $item->IVA }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="row mb-2">
                             <label for="fechaMod">Fecha: </label>
-                            <input type="date" id="fechaMod">
+                            <input type="date" id="fechaMod" name="fechaMod">
                         </div>
 
                         <div class="row mb-4">
                             <label for="obsMod">Observaciones: </label>
-                            <input type="text" id="obsMod">
+                            <input type="text" id="obsMod" name="obsMod">
                         </div>
                         <div class="contenedor-tabla-modal">
-                            <table class="table table-bordered table-scroll2" id="tablaModal">
+                            <table class="table table-bordered table-scroll2" id="tablaModal" name="tablaModal">
                                 <thead>
                                     <tr>
                                         <th scope="col">Código Articulo</th>
@@ -181,81 +184,104 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                
+
                                 </tbody>
                             </table>
                         </div>
                         <div class="row mb-2">
-                        <button class="btn btn-primary col col-2 mr-1">Añadir</button>
-                        
-                        <div class="col"></div>
-                        <label for="subTotal">Sub Total: $ </label>
-                        <input type="text" id="subTotal" readonly>
+                            <label >Añadir Articulo</label>
                         </div>
                         <div class="row mb-2">
-                            <label for="bonif">Bonificacion :</label>
-                            <input type="number" id="bonif" class="col">
-                            
-                            <div id="divBon" class="col">
-                                {{-- <button class="btn btn-primary">Aplicar</button> --}}
-                            </div>
+                            <select name="productos" id="productos" class="select2">
+
+                            </select>
                             <div class="col"></div>
-                            <label for="bon">Bonificación: $</label>
+
+                            <label for="subTotal">Sub Total: $ </label>
+                            <input type="text" id="subTotal" name="subTotal" readonly>
+                        </div>
+
+                        <div class="row mb-2">
+                            <label for="bonif">Cantidad : </label>
+                            <input type="number" id="cantidad" name="cantidad" class="col" value="1" min="1">
+
+                            <div class="col"></div>
+                            <label for="bon">Bonificación:</label>
                             <input type="text" id="bon" readonly>
                         </div>
+                        
                         <div class="row mb-2">
+                            <label for="bonif">Precio Unitario :</label>
+                            <input type="number" id="precioU" name="precioU" class="col">
+
                             <div class="col"></div>
-                            <div class="col"></div>
-                            <div class="col"></div>
+
                             <label for="ivaMod">IVA: $</label>
                             <input type="text" id="ivaMod" readonly>
                         </div>
-                        <div class="row mb-2">
+                        <div class="row mb-3">
+                            <label for="bonif">Observaciones :</label>
+                            <input type="text" id="observP" name="observP" class="col">
+                            <div id="divAñadir" class="col">
+
+                            </div>
                             <div class="col"></div>
-                            <div class="col"></div>
-                            <div class="col"></div>
+
                             <label for="total">Total: $</label>
                             <input type="text" id="total" readonly>
                         </div>
                         <div class="row mb-2">
-                        <label for="">Calificación</label>
+                            <label >Añadir Bonificacion</label>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="bonif">Bonificacion : %</label>
+                            <input type="number" id="bonif" name="bonif" class="col">
+                            <div id="divBon" class="col">
+                                {{-- <button class="btn btn-primary">Aplicar</button> --}}
+                            </div>
+                            
+                            <div class="col"></div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <label for="">Calificación</label>
                         </div>
                         <div class="row mb-2">
 
-                        <label for="calValor">Valor :</label>
-                        <select id="calValor" class="col">
-                            <option value="0"></option>
-                            <option value="1">Malo</option>
-                            <option value="2">Regular</option>
-                            <option value="3">Bueno</option>
-                        </select>
-                        <label for="calFin">Finanzación :</label>
-                        <select id="calFin" class="col">
-                            <option value="0"></option>
-                            <option value="1">Malo</option>
-                            <option value="2">Regular</option>
-                            <option value="3">Bueno</option>
-                        </select>
-                        <label for="calEntrega">Entrega :</label>
-                        <select id="calEntrega" class="col">
-                            <option value="0"></option>
-                            <option value="1">Malo</option>
-                            <option value="2">Regular</option>
-                            <option value="3">Bueno</option>
-                        </select>
-                        <label for="calCalidad">Calidad :</label>
-                        <select id="calCalidad" class="col">
-                            <option value="0"></option>
-                            <option value="1">Malo</option>
-                            <option value="2">Regular</option>
-                            <option value="3">Bueno</option>
-                        </select>
-                        
+                            <label for="calValor">Valor :</label>
+                            <select id="calValor" name="calValor" class="col">
+                                <option value="0"></option>
+                                <option value="1">Malo</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Bueno</option>
+                            </select>
+                            <label for="calFin">Finanzación :</label>
+                            <select id="calFin" name="calFin" class="col">
+                                <option value="0"></option>
+                                <option value="1">Malo</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Bueno</option>
+                            </select>
+                            <label for="calEntrega">Entrega :</label>
+                            <select id="calEntrega" name="calEntrega" class="col">
+                                <option value="0"></option>
+                                <option value="1">Malo</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Bueno</option>
+                            </select>
+                            <label for="calCalidad">Calidad :</label>
+                            <select id="calCalidad" name="calCalidad" class="col">
+                                <option value="0"></option>
+                                <option value="1">Malo</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Bueno</option>
+                            </select>
+
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                    <input type="button" class="btn btn-primary" value="Guardar" onclick="guardarFactura();">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
                 </div>
             </div>
@@ -278,4 +304,12 @@
             });
         });
     </script>
+
+    {{-- <script>
+        $(document).ready(function() {
+            $('#productos').select2({
+                width: '20%'
+            });
+        });
+    </script> --}}
 @stop

@@ -44,7 +44,7 @@ Route::post('/admin/construccion/modificartarea', [ConstruccionController::class
 Route::post('/admin/construccion/agregarconstruccion', [ConstruccionController::class, 'agregarconstruccion']);
 
 Route::get('/admin/horariosmaquinas',[HorariosMaquinasController::class,'index'])->name('horarios.maquinas');
-Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
+//Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
 
 
 
@@ -161,6 +161,7 @@ Route::get('/admin/datos/tareas', [TareaController::class, 'index'])->name('dato
 
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
+Route::post('/admin/listarproveedoresarticulos', [ListarProveedoresController::class, 'listarArticulos']);
 
 Route::get('/admin/listararticulos', [ListarArticulosController::class, 'index'])->name('listar.articulos');
 Route::post('/admin/listararticuloslistar', [ListarArticulosController::class, 'listarArticulos']);
@@ -179,3 +180,5 @@ Route::get('/admin/listarfacturas', [ProveedoresListarFacturasController::class,
 Route::post('/admin/listarfacturaslistar', [ProveedoresListarFacturasController::class, 'listarFacturas']);
 Route::post('/admin/listarfacturaslistararticulos', [ProveedoresListarFacturasController::class, 'listarArticulos']);
 Route::post('/admin/listarfacturasllenarmodal', [ProveedoresListarFacturasController::class, 'llenarModal']);
+Route::post('/admin/listarfacturasguardar', [ProveedoresListarFacturasController::class, 'guardarFactura']);
+Route::post('/admin/listarfacturasbuscarproducto', [ProveedoresListarFacturasController::class, 'buscarProducto']);
