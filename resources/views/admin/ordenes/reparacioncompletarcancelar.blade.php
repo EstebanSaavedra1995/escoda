@@ -92,16 +92,31 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 @stop
 @section('js')
     <script src="{{ asset('js/reparacion-completarcancelar.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
     <script>
         $(document).ready(function() {
-            $('#ordenes').select2();
-            $('#sup').select2();
-            $('#op').select2();
+            
+            $('#ordenes').select2({
+                theme: 'bootstrap4',
+                style: 'width: 20%'
+            });
+            $('#sup').select2({
+                theme: 'bootstrap4',
+                style: 'width: 20%'
+            });
+            $('#op').select2({
+                theme: 'bootstrap4',
+                style: 'width: 20%'
+            });
+            
 
         });
     </script>

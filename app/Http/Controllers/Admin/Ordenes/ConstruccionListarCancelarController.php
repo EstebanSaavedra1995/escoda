@@ -166,18 +166,34 @@ class ConstruccionListarCancelarController extends Controller
         $detalleOC->Estado = "";
         $detalleOC->saveOrFail();
         return json_encode('ok');
-        
-
-/* id	
-NroOC	
-Tarea	
-Maquina	
-Operario	
-Supervisor	
-Horas	
-Renglon	
-Estado */
     }
+    public function agregarTarea ()
+    {
+        $oc = request('oc');
+        $tarea = request('tarea');
+        $maquina = request('maquina');
+        $op = request('op');
+        $sup = request('sup');
+        $tiempo = request('tiempo');
+        $detalleOC = new DetalleOC();
+        $detalleOC->NroOC = $oc;
+        $detalleOC->Tarea = $tarea;
+        $detalleOC->Maquina = $maquina;
+        $detalleOC->Operario = $op;
+        $detalleOC->Supervisor = $sup;
+        $detalleOC->Horas = $tiempo;
+        $detalleOC->Estado = "";
+        $detalleOC->saveOrFail();
+        return json_encode('ok');
+    }
+    public function eliminarTarea ()
+    {
+        $oc = request('codTarea');
+        $detalleOC = DetalleOC::where('id', $oc)->firstOrFail();
+        $detalleOC->delete();
+        return json_encode('ok');
+    }
+    
 
 
     public function exportExcel()

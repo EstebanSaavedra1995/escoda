@@ -17,8 +17,8 @@
             <div class="card-body">
                 <div class="container">
                     <div class="row mb-2">
-                        <label class=" col mr-2">Listar por:</label>
-                        <select class=" col mr-2" name="conjunto" id="conjunto">
+                        <label class="col-3">Listar por:</label>
+                        <select name="conjunto" id="conjunto" class="col-4">
                             @foreach ($conjuntos as $conjunto)
                                 <option value="{{ $conjunto->CodPieza }}">
                                     {{ $conjunto->CodPieza }} - {{ $conjunto->NombrePieza }} - {{ $conjunto->Medida }}
@@ -29,7 +29,7 @@
                 </div>
                 <div class="container">
                     <div class="row mb-2">
-                        <button type="button" onclick="cargarTabla();" class="btn btn-primary col-12 ">Continuar</button>
+                        <button type="button" onclick="cargarTabla();" class="btn btn-primary col-7">Continuar</button>
 
                     </div>
                 </div>
@@ -45,6 +45,9 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/path/to/select2.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 @stop
 @section('js')
     <script src="{{ asset('js/reparacion.js') }}"></script>
@@ -52,7 +55,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#conjunto').select2();
+            $('#conjunto').select2({
+                theme: 'bootstrap4',
+                style: 'width: 20%'
+            });
         });
     </script>
 @stop
