@@ -24,46 +24,9 @@ document.getElementById('lista').addEventListener('change', function (e) {
     }
 
 })
-$('#pieza').on('select2:select', function () {
 
-});
-$('#ordenes').on('select2:select', function () {
-  /*  const datos = new FormData(document.getElementById('formulario'));
-    fetch('/admin/construccion', {
-        method: 'POST',
-        body: datos,
-    })
-
-        .then(res => res.json())
-        .then(data => {
-            if (data.length == 0) {
-                limpiarDatos();
-            } else {
-                let material = document.getElementById('material');
-                material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
-                let idmaterial = document.getElementById('idmaterial');
-                idmaterial.value = data.material.CodigoMaterial;
-                let longcorte = document.getElementById('longcorte');
-                longcorte.value = data.materialPieza.longitudCorte;
-                let cantidadNecesaria = document.getElementById('cantidad-necesaria');
-                let cantidadRealizar = document.getElementById('cantidad-realizar');
-                cantidadNecesaria.value = (cantidadRealizar.value * longcorte.value) / (1000);
-                completarColadas(data.coladaMaterial);
-                completarTareas(data.piezaTarea);
-            }
-        }) */ 
-});
 const filtroNroOrden = () => {
-    /* let filtro = document.getElementById('filtro');
-    filtro.className = "row mb-2";
-    let input = `<label class=" col mr-2">Nro orden de construcción:</label>`;
-    input += `<input type="number" name= "nroorden" id="nroorden" class="form-control col mr-2">`
-    filtro.innerHTML = input; */
-  /*   $("#divOrden").show();
-    $("#divPiezas").hide();
-    $("#divFechas").hide(); */
-    /* let div = document.querySelector('#divOrden');
-    div.style.visibility='visible'; */
+
     document.getElementById('divOrden').style.display='inline-block';
     document.getElementById('divPiezas').style.display='none';
     document.getElementById('divFechas').style.display='none';
@@ -88,13 +51,7 @@ const filtroFecha = () => {
     document.getElementById('fecha1').value = hoy;
     document.getElementById('fecha2').value = hoy;
     document.getElementById('buscar').disabled = false;
-    /* let filtro = document.getElementById('filtro'); 
-    filtro.className = "row mb-2";
-    let inputs = `<label class=" col mr-2">Desde</label>`;
-    inputs += `<input type="date" value="${hoy}" name="fecha1" id="fecha1" class="form-control col mr-2">`
-    inputs += `<label class=" col mr-2">Hasta</label>`;
-    inputs += `<input type="date" value="${hoy}" name="fecha2" id="fecha2" class="form-control col mr-2">`
-    filtro.innerHTML = inputs; */
+
 
 }
 const filtroPieza = () => {
@@ -102,30 +59,7 @@ const filtroPieza = () => {
     document.getElementById('divPiezas').style.display='inline-block';
     document.getElementById('divFechas').style.display='none'
     document.getElementById('buscar').disabled = false;
-    /* let filtro = document.getElementById('filtro');
-    filtro.className = "row mb-2";
 
-    const datos = new FormData(document.getElementById('formulario'));
-    fetch('/admin/listarcancelar/piezas', {
-        method: 'POST',
-        body: datos,
-    })
-        .then(res => res.json())
-        .then(data => {
-            let comboPieza = document.createElement("select");
-            comboPieza.className = "col mr-2";
-            comboPieza.name = "pieza";
-            comboPieza.id = "pieza";
-
-            data.forEach(piezas => {
-                let option = document.createElement('option');
-                option.innerHTML = `${piezas.CodPieza} - ${piezas.NombrePieza} - ${piezas.Medida}`;
-                option.value = piezas.CodPieza;
-                comboPieza.appendChild(option);
-            })
-            filtro.innerHTML = `<label class="col mr-2">Pieza:</label>`;
-            filtro.appendChild(comboPieza);
-        }) */
 }
 
 const listarOrdenes = () => { // SOLO ENVIAR FECHAS
@@ -170,6 +104,7 @@ const listarTareas = (oc) => {
     document.getElementById('hdOC').value = oc;
     const datos = new FormData(document.getElementById('formulario'));
     datos.append('oc', oc);
+
     fetch('/admin/listarcancelar/detalles', {
         method: 'POST',
         body: datos,
@@ -201,11 +136,14 @@ const listarTareas = (oc) => {
                 let maquina = codMaquina(tarea.Maquina);
                 let op = codOpSup(tarea.Operario);
                 let sup = codOpSup(tarea.Supervisor);
-                //Hacer una funcion q devuelva los id o codigo de los primeros 4 y pasarlo como parametros a la funcion alerta.
-                //en construccion.js ver linea 270 para abrir modal.
-                tabla += `<td><input type="button" value="Modificar" class="btn btn-success" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}');" /></td>`;
+                //tabla += `<td><a type="button" value="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}');" ><i class="fas fa-music"></i> </a>`;
+
+                tabla += `<td><a type="button" value="Modificar" title="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}');"><i class="fas fa-edit"></i></a> `;
+                tabla += `<a type="button" value="Eliminar" title="Eliminar" class="btn btn-warning" onclick="eliminarTarea(${tarea.id_detalle}, '${tarea.Tarea}');"><i class="fas fa-trash-alt"></i></a>`;
                 tabla += `</tr>`;
             })
+            tabla += `<tr><td><button type="button" class="btn btn-primary" onclick="modalAgregar();"> Agregar Tarea</button></td>`;
+            tabla += `<td colspan="5"></td></tr>`;
             tabla += `</tbody>`;
             tabla += `</table>`;
             divtablatareas.innerHTML = tabla;
@@ -287,12 +225,13 @@ const realizarTablaPieza = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
-        tabla += `<button type="button" class="btn btn-secondary" onclick="imprimir('${orden.NroOC}');">Imp</button> `
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info" title="Tareas" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOC}');">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger" title="Cancelar" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
+
     tabla += `</tbody>`;
     tabla += `</table>`;
     piezaReporteExcel();
@@ -324,9 +263,9 @@ const realizarTablaOrden = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
-        tabla += `<button type="button" class="btn btn-secondary" onclick="imprimir('${orden.NroOC}');">Imp</button> `
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info"  title="Tarea" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOC}');">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger"    title="Cancelar" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
@@ -363,12 +302,13 @@ const realizarTablaFecha = (array) => {
         tabla += `<td>${orden.CodigoMaterial} - ${orden.Material} - ${orden.Dimension} - ${orden.Calidad}</td>`;
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
-        tabla += `<button type="button" class="btn btn-secondary" onclick="imprimir('${orden.NroOC}');">Imp</button> `
-        tabla += `<button type="button" class="btn btn-danger" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
+        tabla += `<td><button type="button" class="btn btn-info"  title="Tarea" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOC}');">Imp</button> `
+        tabla += `<button type="button" class="btn btn-danger"    title="Cancelar" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 
     });
+
     tabla += `</tbody>`;
     tabla += `</table>`;
     fechaReporteExcel();
@@ -420,9 +360,7 @@ function codOpSup(operario) {
 }
 
 function  modalModificar(detalle, tarea, maq, op, sup, tiempo) {
-    //let tareas = document.getElementById("tarea-modificar").value = tarea;
-    //alert(tarea);
-    //console.log(tiempo);
+
     console.log(detalle, tarea, maq, op, sup, tiempo)
     document.getElementById("hdDetalle").value = detalle 
     $("#tarea-modificar").val(tarea);
@@ -432,7 +370,9 @@ function  modalModificar(detalle, tarea, maq, op, sup, tiempo) {
     document.getElementById("modificarhoraminuto").value = tiempo
     $('#modalmodificartareas').modal('show');
 }
-
+function  modalAgregar() {
+    $('#modalAgregarTarea').modal('show');
+}
 
 function enviarModificacion ()  {
     var comboTarea = document.getElementById("tarea-modificar");
@@ -449,7 +389,6 @@ function enviarModificacion ()  {
 
     var tiempo = document.getElementById("modificarhoraminuto").value;
     var datos = new FormData(document.getElementById('formulario-modalmodificartareas'));
-    //console.log(tarea, maquina, op, sup, tiempo);
     datos.append('tarea', tarea);
     datos.append('maquina', maquina);
     datos.append('op', op);
@@ -469,9 +408,7 @@ function enviarModificacion ()  {
                                 icon: "success",
                                 button: "Aceptar",
                             });
-                            setTimeout(function () {
-                                location.reload();
-                            }, 1000)
+                           listarTareas(oc)
                         } else {
                             swal({
                                 title: "¡Ocurrió un fallo, no se pudo modificar!",
@@ -481,3 +418,95 @@ function enviarModificacion ()  {
                         }
         }) 
 }
+function enviarTarea ()  {
+    var oc = document.getElementById("hdOC").value;
+    var comboTarea = document.getElementById("tarea-agregar");
+    var tarea = comboTarea.options[comboTarea.selectedIndex].text;
+
+    var comboMaquina = document.getElementById("maquina-agregar");
+    var maquina = comboMaquina.options[comboMaquina.selectedIndex].text;
+
+    var comboOP = document.getElementById("operario-agregar");
+    var op = comboOP.options[comboOP.selectedIndex].text;
+
+    var comboSup = document.getElementById("supervisor-agregar");
+    var sup = comboSup.options[comboSup.selectedIndex].text;
+
+    var tiempo = document.getElementById("agregarminuto").value;
+    var datos = new FormData(document.getElementById('formulario-agregarTarea'));
+    //console.log(tarea, maquina, op, sup, tiempo);
+    datos.append('tarea', tarea);
+    datos.append('maquina', maquina);
+    datos.append('op', op);
+    datos.append('sup', sup);
+    datos.append('tiempo', tiempo);
+    datos.append('oc', oc);
+
+    fetch('/admin/listarcancelar/agregarTarea', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+                if (data === 'ok') {
+                            swal({
+                                title: `¡Se ha agregado una tarea a la orden de construcción N°${oc}!`,
+                                icon: "success",
+                                button: "Aceptar",
+                            });
+                            listarTareas(oc);
+                        } else {
+                            swal({
+                                title: "¡Ocurrió un fallo, no se pudo agregar!",
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                        }
+        }) 
+}
+
+function eliminarTarea (cod, tar){
+    swal({
+        title: "¿Desea eliminar la tarea: " + tar + "?" ,
+        icon: "warning",
+        buttons: ["Cancelar", "Aceptar"],
+        dangerMode: true,
+    })
+        .then((willAdd) => {
+            if (willAdd) {
+                enviarEliminarTarea(cod, tar);
+            }
+        });
+}
+
+function enviarEliminarTarea (codTarea, tar )  {
+    var datos = new FormData(document.getElementById('formulario-agregarTarea'));
+    datos.append('codTarea', codTarea);
+
+    fetch('/admin/listarcancelar/eliminarTarea', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+                if (data === 'ok') {
+                    var oc = document.getElementById("hdOC").value;
+                            swal({
+                                title: `¡Se ha eliminado la tarea ${tar}!`,
+                                icon: "success",
+                                button: "Aceptar",
+                            });
+                            listarTareas(oc);
+                        } else {
+                            swal({
+                                title: "¡Ocurrió un fallo, no se pudo eliminar!",
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                        }
+        }) 
+}
+
+

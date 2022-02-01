@@ -285,7 +285,7 @@ const mostrarOC = (codigoPieza) => {
 
 
     /*  let select = '<label class ="col-2" for= "comboOrdenes"> Orden de construcción N°: </label> <select class="col-2 mr-2" name = "comboOrdenes" id = "comboOrdenes">'; */
-    let select = '<label class="col" for= "comboOrdenes"> Orden de construcción N°: </label> <select class="col" name = "comboOrdenes" id = "comboOrdenes">';
+    let select = '<label class="col" for= "comboOrdenes"> Orden de construcción N°: </label> <select class="select2 col" name = "comboOrdenes" id = "comboOrdenes" onmouseover="selectOrdenes();">';
     const datos = new FormData(document.getElementById('formulario'));
     datos.append('codigoPieza', codigoPieza);
     fetch('/admin/reparacion/ordenpieza', {
@@ -353,6 +353,7 @@ const mostrarOC = (codigoPieza) => {
                 lateral4.innerHTML = tabla;
             }
         })
+        selectOrdenes();
 }
 const agregarOC = () => {
     let body = document.getElementById('idbody');
@@ -518,4 +519,10 @@ const habilitar = (cod) => {
         //console.log(ordenesConstruccion);
     }
   
+}
+function selectOrdenes(){
+    $('#comboOrdenes').select2({
+        theme: 'bootstrap4',
+        style: 'width: 20%'
+    });
 }

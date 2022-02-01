@@ -9,10 +9,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Conjunto;
 use App\Models\ConjuntoArticulos;
 use App\Models\ConjuntoGomas;
+use App\Models\Construccion;
 use App\Models\DetalleReparacionArticulo;
 use App\Models\DetalleReparacionGoma;
 use App\Models\DetalleReparacionPieza;
 use App\Models\OrdenReparacion;
+use App\Models\Pieza;
 use App\Models\PiezaDeConjunto;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -23,11 +25,18 @@ class ReparacionListarOrden extends Controller
     {
         $this->middleware('auth');
     }
-
     public function index()
     {
-        return view('admin.ordenes.reparacionlistar');
+      /*   $ordenes = Construccion::select('id', 'NroOC')->orderBy('NroOC', 'DESC')->get();
+        $piezas = Pieza::select('CodPieza', 'NombrePieza', 'Medida')->orderBy('CodPieza', 'asc')->get(); */
+        $conjuntos = Conjunto::all();
+        $ordenes = OrdenReparacion::select('id', 'NroOR')->orderBy('NroOR', 'DESC')->get();
+        return view('admin.ordenes.reparacionlistar', compact(['ordenes','conjuntos']));
     }
+    /* public function index()
+    {
+        return view('admin.ordenes.reparacionlistar');
+    } */
     public function listarherramientas()
     {
         $conjuntos = Conjunto::all();
@@ -65,7 +74,7 @@ class ReparacionListarOrden extends Controller
             $rta[] = 'fechas';
             $rta[] = $ordenes;
             return json_encode($rta);
-        } else {
+        } elseif ($tipo == 2) {
             $herramienta = request('herramienta');
             $ordenes = OrdenReparacion::select('*')
                 ->join('conjuntos', 'ordenesreparacion.CodConjunto', '=', 'conjuntos.CodPieza')

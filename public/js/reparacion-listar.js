@@ -1,6 +1,58 @@
 let ordenesConstruccion = [];
-
 document.getElementById('lista').addEventListener('change', function (e) {
+    
+    let divtabla = document.getElementById('divtabla');
+    divtabla.innerHTML = '';
+    let divtablatareas = document.getElementById('divtablatareas');
+    divtablatareas.innerHTML = '';
+    //ocultarExcels();
+    let buscar = document.getElementById('buscar');
+    buscar.disabled = false;
+    let valor = document.getElementById('lista').value;
+    if (valor == 0) {
+        filtroNroOrden();
+    } else if (valor == 1) {
+        filtroFecha();
+    } else if (valor == 2){
+        filtroPieza();
+    } else if (valor == -1){
+    document.getElementById('divOrden').style.display='none';
+    document.getElementById('divPiezas').style.display='none';
+    document.getElementById('divFechas').style.display='none';
+    document.getElementById('buscar').disabled = true;
+    }
+
+})
+
+const filtroNroOrden = () => {
+
+    document.getElementById('divOrden').style.display='inline-block';
+    document.getElementById('divPiezas').style.display='none';
+    document.getElementById('divFechas').style.display='none';
+    document.getElementById('buscar').disabled = false;
+
+}
+
+const filtroFecha = () => {
+    let hoy = formatDate();
+
+    document.getElementById('divOrden').style.display='none';
+    document.getElementById('divPiezas').style.display='none';
+    document.getElementById('divFechas').style.display='inline-block';
+    document.getElementById('fecha1').value = hoy;
+    document.getElementById('fecha2').value = hoy;
+    document.getElementById('buscar').disabled = false;
+
+
+}
+const filtroPieza = () => {
+    document.getElementById('divOrden').style.display='none';
+    document.getElementById('divPiezas').style.display='inline-block';
+    document.getElementById('divFechas').style.display='none'
+    document.getElementById('buscar').disabled = false;
+
+}
+/* document.getElementById('lista').addEventListener('change', function (e) {
 
     let divtabla = document.getElementById('divtabla');
     divtabla.innerHTML = '';
@@ -8,7 +60,7 @@ document.getElementById('lista').addEventListener('change', function (e) {
     divtablatareas.innerHTML = '';
     let buscar = document.getElementById('buscar');
     buscar.disabled = false;
-    /* ocultarExcels(); */
+    ocultarExcels(); 
     let valor = document.getElementById('lista').value;
     if (valor == 0) {
         filtroNroOrden();
@@ -18,9 +70,9 @@ document.getElementById('lista').addEventListener('change', function (e) {
         filtroHerramienta();
     }
 
-})
+}) */
 
-const filtroNroOrden = () => {
+/* const filtroNroOrden = () => {
     let filtro = document.getElementById('filtro');
     filtro.className = "row mb-2";
     let input = `<label class=" col mr-2">Nro orden de construcción:</label>`;
@@ -69,7 +121,7 @@ const filtroHerramienta = () => {
             filtro.innerHTML = `<label class="col mr-2">Pieza:</label>`;
             filtro.appendChild(comboHerramienta);
         })
-}
+} */
 
 const listarOrdenes = () => {
     const datos = new FormData(document.getElementById('formulario'));
@@ -88,8 +140,6 @@ const listarOrdenes = () => {
             }
         })
 }
-
-
 
 const formatDate = () => {
     var d = new Date(),

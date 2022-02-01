@@ -420,7 +420,7 @@ function realizarModificacion() {
         fila.appendChild(celda5);
 
         let celda6 = document.createElement('td');
-        let botones = ` <button type="button" class="btn btn-info" id= "modificarTarea2" onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');"> Modificar</button>`;
+        let botones = ` <button type="button" class="btn btn-warning" id= "modificarTarea2" onclick="modificarTareas2('${fila.id}','${comboMaquinas.CodMaquina}','${comboOperario.NroLegajo}','${comboSupervisor.NroLegajo}','${horas}');"> Modificar</button>`;
         botones += ` <button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${fila.id}');"> Eliminar </button>`;
         celda6.innerHTML = botones;
         fila.appendChild(celda6);
@@ -542,7 +542,7 @@ const completarTareas = (data) => {
         tablatareas += `<td class="celdasincorrectas">Operario</td>`;
         tablatareas += `<td class="celdasincorrectas">${tarea.Supervisor}</td>`;
         tablatareas += `<td class="celdasincorrectas">${tarea.Horas}</td>`;
-        tablatareas += `<td class="celdasincorrectas"><button type="button" class="btn btn-info" id= "modificarTarea" onclick="modificarTareas('${tarea.Tarea.trim()}','${tarea.Maquina}');"> Modificar</button> `;
+        tablatareas += `<td class="celdasincorrectas"><button type="button" class="btn btn-warning" id= "modificarTarea" onclick="modificarTareas('${tarea.Tarea.trim()}','${tarea.Maquina}');"> Modificar</button> `;
         tablatareas += ` <button type="button" class="btn btn-danger id="eliminar" onclick="eliminarTarea('${id}');"> Eliminar </button>`;
         tablatareas += `</td></tr>`;
 
