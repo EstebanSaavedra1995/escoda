@@ -103,6 +103,7 @@ class ListarFacturasController extends Controller
         $calEntrega = request('calEntrega');
         $calCalidad = request('calCalidad');
         $provFac = ProveedorFactura::find($idPF);
+        $nroFac = $provFac->NroFactura;
         $provFac->Letra = $tipo;
         $provFac->CodigoProv = $proveedoresMod;
         $provFac->Fecha = $fechaMod;
@@ -114,9 +115,34 @@ class ListarFacturasController extends Controller
         $provFac->AlicuotaIVA = $iva;
         $provFac->Bonificacion = $bonif;
         $provFac->save();
-        $a = request('fArtId');
-        $facArt = json_decode($a);
-        return json_encode($a);
+        $a = request('valores');
+        $facArt = FacturaArticulos::where('NroFactura', $nroFac)
+            ->where('CodProveedor', $proveedoresMod)->get();
+        $valores = json_decode($a);
+        foreach ($facArt as $x) {
+            $x->delete();
+        }
+
+        foreach ($valores as $x) {
+            $fac = new FacturaArticulos();
+            $fac->NroFactura = $nroFac;
+            $fac->Letra = $tipo;
+            $fac->CodProveedor = $proveedoresMod;
+            $fac->Cantidad = $x->cantidad;
+            if ($x->precio != null) {
+                $fac->PrecioUnitario = $x->precio;
+            }else{
+                $fac->PrecioUnitario = '0';
+            }
+            $fac->Observaciones = $x->observaciones;
+            $fac->CodArticulo = $x->cod;
+            $fac->Descripcion = $x->descripcion;
+            $fac->save();   
+        }
+
+
+
+        return json_encode($facArt);
     }
 
     public function buscarProducto()

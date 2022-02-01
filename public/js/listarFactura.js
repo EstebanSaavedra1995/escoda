@@ -171,7 +171,12 @@ function modificarFactura(codFactura, codProveedor) {
             data['facturaArticulos'].forEach(e => {
                 subTotalAux = subTotalAux + (e.Cantidad * e.PrecioUnitario);
                 tArticulos.push(e.id);
-                datos += `<tr id="${e.CodArticulo}">`;
+                datos += `<tr id="${e.id}">`;
+                datos += `<input type="hidden" class="tblCodigo" value="${e.CodArticulo}"> `;
+                datos += `<input type="hidden" class="tblDesc" value="${e.Descripcion}"> `;
+                datos += `<input type="hidden" class="tblCant" value="${e.Cantidad}"> `;
+                datos += `<input type="hidden" class="tblPrecio" value="${e.PrecioUnitario}"> `;
+                datos += `<input type="hidden" class="tblObs" value="${e.Observaciones}"> `;
                 datos += `<td>${e.CodArticulo}</td>`;
                 datos += `<td>${e.Descripcion}</td>`;
                 datos += `<td>${e.Cantidad}</td>`;
@@ -229,6 +234,29 @@ function modificarFactura(codFactura, codProveedor) {
 }
 
 function eliminarFactura(id) {
+    swal({
+        title: "Seguro desea eliminar?",
+        /* text: "Once deleted, you will not be able to recover this imaginary file!", */
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal("El registro ha sido eliminado!", {
+                    icon: "success",
+                });
+
+                let parent = document.getElementById(id).parentNode;
+                parent.removeChild(document.getElementById(id));
+
+
+
+            } else {
+                /* swal("Your imaginary file is safe!"); */
+            }
+        });
+
 
 }
 
@@ -270,7 +298,34 @@ function bonificacion() {
 
 
 function guardarFactura() {
+    /* datos += `<input type="hidden" class="tblCodigo" value="${e.CodArticulo}"> `;
+                    datos += `<input type="hidden" class="tblDesc" value="${e.Descripcion}"> `;
+                    datos += `<input type="hidden" class="tblCant" value="${e.Cantidad}"> `;
+                    datos += `<input type="hidden" class="tblPrecio" value="${e.PrecioUnitario}"> `;
+                    datos += `<input type="hidden" class="tblObs" value="${e.Observaciones}"> `; */
+    var codigos = document.getElementsByClassName('tblCodigo');
+    var desc = document.getElementsByClassName('tblDesc');
+    var cant = document.getElementsByClassName('tblCant');
+    var precio = document.getElementsByClassName('tblPrecio');
+    var obs = document.getElementsByClassName('tblObs');
+    //console.log((codigos[0] == null));
+    //if (codigos[0] == null) {
+    //swal("Aviso!", "No puede predeterminar la tabla vacia!");
+    var val = [];
+    for (i = 0; i < codigos.length; i++) {
+        let e = {
+            cod: codigos[i].value,
+            descripcion: desc[i].value,
+            cantidad: cant[i].value,
+            precio: precio[i].value,
+            observaciones: obs[i].value
+        };
+        val.push(e);
+    }
+
+    val = JSON.stringify(val);
     const datos = new FormData(document.getElementById('formulario-modal'));
+    datos.append('valores', val);
     fetch('/admin/listarfacturasguardar', {
         method: 'POST',
         body: datos,
@@ -296,6 +351,11 @@ function añadir() {
             var precioU = document.getElementById('precioU').value;
             var observP = document.getElementById('observP').value;
             let datos = `<tr id="${e.CodArticulo}">`;
+            datos += `<input type="hidden" class="tblCodigo" value="${e.CodArticulo}"> `;
+            datos += `<input type="hidden" class="tblDesc" value="${e.Descripcion}"> `;
+            datos += `<input type="hidden" class="tblCant" value="${cantidad}"> `;
+            datos += `<input type="hidden" class="tblPrecio" value="${precioU}"> `;
+            datos += `<input type="hidden" class="tblObs" value="${observP}"> `;
             datos += `<td>${e.CodArticulo}</td>`;
             datos += `<td>${e.Descripcion}</td>`;
             datos += `<td>${cantidad}</td>`;
@@ -374,5 +434,5 @@ function listarArticulosModal(id) {
 $('#proveedoresMod').on('select2:select', function () {
     var codProv = document.getElementById('provCod').value;
     var nroFact = document.getElementById('nroFact').value;
-    bonificacion(nroFact,codProv);
+    bonificacion(nroFact, codProv);
 });

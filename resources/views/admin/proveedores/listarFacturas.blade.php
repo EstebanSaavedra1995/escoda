@@ -118,7 +118,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="formulario-modal">
-                        <input type="text" id="fArtId" name="fArtId" readonly hidden>
+                        <input type="text" id="fArtId" name="fArtId" readonly>
                         <input type="text" id="pFacId" name="pFacId" readonly hidden>
                         @csrf
                         <div class="row mb-2">
@@ -183,9 +183,7 @@
                                         <th scope="col">Observaciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
-                                </tbody>
+                                
                             </table>
                         </div>
                         <div class="row mb-2">
@@ -295,6 +293,7 @@
 
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script src="{{ asset('js/listarFactura.js') }}"></script>
     <script>
