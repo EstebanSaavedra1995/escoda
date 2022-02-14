@@ -172,7 +172,7 @@
                             <input type="text" id="obsMod" name="obsMod">
                         </div>
                         <div class="contenedor-tabla-modal">
-                            <table class="table table-bordered table-scroll2" id="tablaModal" name="tablaModal">
+                            <table class="table table-bordered table-scroll2" id="tablaModal" >
                                 <thead>
                                     <tr>
                                         <th scope="col">Código Articulo</th>
@@ -181,9 +181,10 @@
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Precio Unitario</th>
                                         <th scope="col">Observaciones</th>
+                                        <th scope="col">Acción</th>
                                     </tr>
                                 </thead>
-                                
+                                <tbody id="bodyModal"></tbody>
                             </table>
                         </div>
                         <div class="row mb-2">

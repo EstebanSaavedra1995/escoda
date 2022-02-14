@@ -158,6 +158,17 @@ function modificarFactura(codFactura, codProveedor) {
             var subTotalAux = 0;
             var tabla = document.getElementById('tablaModal');
             let datos = `<thead>
+            <tr>
+            <th>Codigo de Articulo</th>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Observaciones</th>
+            <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody id="bodyModal">`;
+        /* `<thead>
         <tr>
         <th>Codigo de Articulo</th>
         <th>Descripción</th>
@@ -166,12 +177,11 @@ function modificarFactura(codFactura, codProveedor) {
         <th>Observaciones</th>
         <th>Acción</th>
         </tr>
-        </thead>`;
-
+        </thead>`; */
             data['facturaArticulos'].forEach(e => {
                 subTotalAux = subTotalAux + (e.Cantidad * e.PrecioUnitario);
                 tArticulos.push(e.id);
-                datos += `<tr id="${e.id}">`;
+                datos += `<tr id="${e.CodArticulo}">`;
                 datos += `<input type="hidden" class="tblCodigo" value="${e.CodArticulo}"> `;
                 datos += `<input type="hidden" class="tblDesc" value="${e.Descripcion}"> `;
                 datos += `<input type="hidden" class="tblCant" value="${e.Cantidad}"> `;
@@ -183,11 +193,12 @@ function modificarFactura(codFactura, codProveedor) {
                 datos += `<td>${e.PrecioUnitario}</td>`;
                 datos += `<td>${e.Observaciones}</td>`;
                 datos += `<td>
-                <button type="button" class="btn btn-primary mb-1" onclick="modificarFactura('${e.id}')">Modificar</button>
-                <button type="button" class="btn btn-danger" onclick="eliminarFactura('${e.id}')">Eliminar</button>
+                <button type="button" class="btn btn-primary mb-1" onclick="modificarArticulo('${e.CodArticulo}')">Modificar</button>
+                <button type="button" class="btn btn-danger" onclick="eliminarFactura('${e.CodArticulo}')">Eliminar</button>
                 </td>`;
                 datos += `</tr>`;
             });
+            datos += `</tbody>`;
             tabla.innerHTML = datos;
             var btnBon = document.getElementById('divBon');
             var btnAñadir = document.getElementById('divAñadir');
@@ -258,6 +269,10 @@ function eliminarFactura(id) {
         });
 
 
+}
+
+function modificarArticulo(cod) {
+    
 }
 
 function bonificacion() {
@@ -362,13 +377,22 @@ function añadir() {
             datos += `<td>${precioU}</td>`;
             datos += `<td>${observP}</td>`;
             datos += `<td>
-                <button type="button" class="btn btn-primary mb-1" onclick="modificarFactura('${e.id}')">Modificar</button>
-                <button type="button" class="btn btn-danger" onclick="eliminarFactura('${e.id}')">Eliminar</button>
+                <button type="button" class="btn btn-primary mb-1" onclick="modificarArticulo('${e.CodArticulo}')">Modificar</button>
+                <button type="button" class="btn btn-danger" onclick="eliminarFactura('${e.CodArticulo}')">Eliminar</button>
                 </td>`;
             datos += `</tr>`;
+            
+            var tabla = document.getElementById('bodyModal');
+            var existe = document.getElementById(e.CodArticulo);
+            if (existe == null) {
+                tabla.insertAdjacentHTML("beforeEnd", datos);
+            } else {
+                eliminarSinAlert(e.CodArticulo);
+                tabla.insertAdjacentHTML("beforeEnd", datos);
+            }
 
-            var tabla = document.getElementById('tablaModal');
-            tabla.insertAdjacentHTML("beforeEnd", datos);
+            //tabla.appendChild(datos);
+            //tabla.insertAdjacentHTML("beforeEnd", datos);
         })
 
 }
@@ -388,6 +412,10 @@ function eliminarTodoSinAlert() {
     tabla.innerHTML = datos;
 }
 
+function eliminarSinAlert(id) {
+    let parent = document.getElementById(id).parentNode;
+    parent.removeChild(document.getElementById(id));
+}
 
 function listarArticulosModal(id) {
     const datos = new FormData(document.getElementById('formulario2'));
