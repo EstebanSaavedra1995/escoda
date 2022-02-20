@@ -182,7 +182,7 @@ class ConstruccionListarCancelarController extends Controller
         $detalleOC->Operario = $op;
         $detalleOC->Supervisor = $sup;
         $detalleOC->Horas = $tiempo;
-        $detalleOC->Estado = "";
+        $detalleOC->Estado = "pendiente";
         $detalleOC->saveOrFail();
         return json_encode('ok');
     }
