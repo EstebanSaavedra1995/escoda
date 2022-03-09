@@ -38,7 +38,7 @@ function imprimir (cod)
    
     let pdf = document.getElementById('idPDF');
     pdf.value = cod;
-    alert(pdf.value);
+    //alert(pdf.value);
     document.getElementById('formPDF').submit();
 }
 

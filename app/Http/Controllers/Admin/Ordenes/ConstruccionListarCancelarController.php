@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Ordenes;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use App\Models\ColadaMaterial;
@@ -16,6 +17,7 @@ use App\Exports\OCExport;
 use App\Exports\OCFechasExport;
 use App\Exports\OCNumeroExport;
 use App\Models\Maquina;
+use App\Models\OrdenesConstruccion;
 use App\Models\Personal;
 use App\Models\Tarea;
 
@@ -33,16 +35,16 @@ class ConstruccionListarCancelarController extends Controller
         $tareas = Tarea::all();
         $maquinas = Maquina::all();
         $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea')
-        ->where('Estado', 'A')->get();
+            ->where('Estado', 'A')->get();
 
-         $operarios = Personal::Where('Estado', 'A')
-        ->orwhere([
-          ['Cargo', 'Operario Ayudante'],
-          ['Cargo', 'Operario c/ Especializacion'],
-          ['Cargo', 'Supervisor de ├ürea']
-        ])->get();
+        $operarios = Personal::Where('Estado', 'A')
+            ->orwhere([
+                ['Cargo', 'Operario Ayudante'],
+                ['Cargo', 'Operario c/ Especializacion'],
+                ['Cargo', 'Supervisor de ├ürea']
+            ])->get();
 
-        return view('admin.ordenes.listarcancelar', compact(['ordenes','piezas', 'tareas','maquinas','operarios','supervisores']));
+        return view('admin.ordenes.listarcancelar', compact(['ordenes', 'piezas', 'tareas', 'maquinas', 'operarios', 'supervisores']));
     }
     public function piezas()
     {
@@ -105,9 +107,9 @@ class ConstruccionListarCancelarController extends Controller
         return json_encode($detallesOC); */
         $oc = request('oc');
         $detallesOC = DetalleOC::select('detalleoc.id AS id_detalle', 'detalleoc.Tarea', 'detalleoc.Maquina', 'detalleoc.Operario', 'detalleoc.Supervisor', 'detalleoc.Horas', 'tareas.id AS id_tarea')
-        ->join('tareas', 'detalleoc.Tarea', '=', 'tareas.Tarea')
-        ->where('NroOC', $oc)->get();
-        return json_encode($detallesOC); 
+            ->join('tareas', 'detalleoc.Tarea', '=', 'tareas.Tarea')
+            ->where('NroOC', $oc)->get();
+        return json_encode($detallesOC);
     }
     public function cancelar()
     {
@@ -149,7 +151,7 @@ class ConstruccionListarCancelarController extends Controller
         return json_encode('ok');
         //EN TABLA PIEZAS ACTUALIZAR EL STOCK CON LA CANTIDAD QUE SE PUSO EN LA ORDEN DE CONSTRUCCION 
     }
-    public function modificarOC ()
+    public function modificarOC()
     {
         $id = request('hdDetalle');
         $tarea = request('tarea');
@@ -167,7 +169,7 @@ class ConstruccionListarCancelarController extends Controller
         $detalleOC->saveOrFail();
         return json_encode('ok');
     }
-    public function agregarTarea ()
+    public function agregarTarea()
     {
         $oc = request('oc');
         $tarea = request('tarea');
@@ -186,14 +188,14 @@ class ConstruccionListarCancelarController extends Controller
         $detalleOC->saveOrFail();
         return json_encode('ok');
     }
-    public function eliminarTarea ()
+    public function eliminarTarea()
     {
         $oc = request('codTarea');
         $detalleOC = DetalleOC::where('id', $oc)->firstOrFail();
         $detalleOC->delete();
         return json_encode('ok');
     }
-    
+
 
 
     public function exportExcel()
@@ -214,19 +216,34 @@ class ConstruccionListarCancelarController extends Controller
         return Excel::download(new OCNumeroExport($numeroExcel), 'ocnumeros_' . $numeroExcel . '.xlsx');
     }
 
-    public function ordenPDF ()
+    public function ordenPDF()
     {
         $id = request('idPDF');
-      
-        $ordenes = DetalleOC::where('NroOC', $id)
-        ->orderBy('Renglon', 'ASC')
-        ->get();
-        return $this->enviarVistaPDF($ordenes);
+
+        $orden = OrdenesConstruccion::where('NroOC', $id)->first();
+        $fecha = date_create($orden->Fecha);
+        $fecha = date_format($fecha, "d/m/Y");
+        $orden->Fecha = $fecha;
+
+        $pieza = Pieza::where('CodPieza',$orden->CodigoPieza)->first();
+
+        $material= Material::where('CodigoMaterial',$orden->CodigoMaterial)->first();
+
+        $tareas = DetalleOC::where('NroOC', $id)
+            ->orderBy('Renglon', 'ASC')
+            ->get();
+
+        /* $resultado[] = [
+            'orden' => $orden,
+            'tareas' => $tareas
+          ]; */
+        //$resultado = $orden;
+        return $this->enviarVistaPDF($orden, $tareas, $pieza, $material);
     }
-    public function enviarVistaPDF($ordenes)
+    public function enviarVistaPDF($orden, $tareas, $pieza, $material)
     {
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('admin.ordenes.ordenPDF', compact('ordenes'));
+        $pdf->loadView('admin.ordenes.ordenPDF', compact('orden', 'tareas','pieza','material'));
         return $pdf->stream();
     }
 }

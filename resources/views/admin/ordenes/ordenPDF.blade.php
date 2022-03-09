@@ -8,19 +8,87 @@
     <title>Document</title>
 </head>
 
-<body style="font-size: 12px">
+<body style="font-size: 20px">
+    {{-- {{ $tareas }} --}}
+    <header>
+        <table style="width: 100%; border-bottom-style: solid">
+            {{-- border="1px solid black" border-collapse="collapse" --}}
+            <tr>
+                <td style="width: 30%">
+                    ESCODA
+                </td>
+                <td style="text-align: center">
+                    Orden de Construcción
+                </td>
+                <td style="width: 30%">
+                    Fecha: {{ $orden['Fecha'] }}
+                </td>
+            </tr>
 
-    <h1>ORDEN PDF</h1>
+            <tr>
+                <td style="width: 30%">
+                    {{ $orden['NroOC'] }}
+                </td>
+                <td style="text-align: center">
+
+                </td>
+                <td style="width: 30%">
+
+                </td>
+            </tr>
+        </table>
+    </header>
+    <br>
     <table style="width: 100%">
         <tr>
-            <th>Tarea</th>
-            <th>Màquina</th>
-            <th>Operario</th>
-            <th>Supervisor de Área</th>
-            <th>Tiempo Estimado</th>
+            <td>
+                Pieza: {{ $pieza->CodPieza }} - {{ $pieza->NombrePieza }} - {{ $pieza->Medida }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Cantidad: {{ $orden->Cantidad }}
+            </td>
+        </tr>
+
+    </table>
+    <br>
+    <table style="width: 100%">
+        <tr>
+            <td>
+                Material: {{ $material->CodigoMaterial }} - {{ $material->Material }} - {{ $material->Dimension }} -
+                {{ $material->Calidad }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Colada: {{ $orden->Colada }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Longitud de Corte (mm): {{ $orden->LongitudCorte }}
+            </td>
+        </tr>
+
+    </table>
+
+    <br>
+    <br>
+
+    <table style="width: 100%; border: 1px solid black">
+        <tr>
+            <th style="border-bottom-style: solid">Tarea</th>
+            <th style="border-bottom-style: solid">Màquina</th>
+            <th style="border-bottom-style: solid">Operario</th>
+            <th style="border-bottom-style: solid">Supervisor de Área</th>
+            <th style="border-bottom-style: solid">Tiempo Estimado</th>
 
         </tr>
-        @foreach ($ordenes as $orden)
+        @foreach ($tareas as $orden)
             <tr>
                 <td style="border-bottom-style: dashed">{{ $orden['Renglon'] . ' ' . $orden['Tarea'] }}</td>
                 <td style="border-bottom-style: dashed">{{ $orden['Maquina'] }}</td>
@@ -30,22 +98,27 @@
             </tr>
         @endforeach
     </table>
-    <table style="width: 100%">
-        <tr>
-            <th>Preparado por</th>
-            <th>Revisado por</th>
-            <th>Aprobado por</th>
-        </tr>
-        <tr>
-            <td style="text-align: center"></td>
-            <td style="text-align: center"></td>
-            <td style="text-align: center"></td>
-        </tr>
 
-        <tr><td colspan="3"><b>Nota: </b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic doloribus molestiae blanditiis iusto optio similique excepturi corrupti nam, amet voluptates? Autem repudiandae dolore possimus architecto ad, ut sequi quas natus?</td></tr>
-    </table>
+<br>
 
-
+    <footer>
+        <table style="width: 100%">
+            <tr>
+                <th>Preparado por</th>
+                <th>Revisado por</th>
+                <th>Aprobado por</th>
+            </tr>
+            <tr>
+                <td style="text-align: center">......................</td>
+                <td style="text-align: center">......................</td>
+                <td style="text-align: center">......................</td>
+            </tr>
+    
+            <tr>
+                <td colspan="3"><b>Nota: </b></td>
+            </tr>
+        </table>
+    </footer>
 </body>
 
 </html>
