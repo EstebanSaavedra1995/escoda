@@ -37,9 +37,9 @@
             <th>Aprobado por</th>
         </tr>
         <tr>
-            <td style="text-align: center">Tu vieja</td>
-            <td style="text-align: center">Tu vieja</td>
-            <td style="text-align: center">Tu vieja</td>
+            <td style="text-align: center"></td>
+            <td style="text-align: center"></td>
+            <td style="text-align: center"></td>
         </tr>
 
         <tr><td colspan="3"><b>Nota: </b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic doloribus molestiae blanditiis iusto optio similique excepturi corrupti nam, amet voluptates? Autem repudiandae dolore possimus architecto ad, ut sequi quas natus?</td></tr>
