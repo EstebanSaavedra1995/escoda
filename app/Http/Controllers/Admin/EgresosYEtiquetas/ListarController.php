@@ -68,10 +68,10 @@ class ListarController extends Controller
                 case 'fecha':
                     $fechaDesde = request('fechaDesde');
                     $fechaDesde = date_create($fechaDesde);
-                    $fechaDesde = date_format($fechaDesde, "ymd");
+                    $fechaDesde = date_format($fechaDesde, "y-m-d");
                     $fechaHasta = request('fechaHasta');
                     $fechaHasta = date_create($fechaHasta);
-                    $fechaHasta = date_format($fechaHasta, "ymd");
+                    $fechaHasta = date_format($fechaHasta, "y-m-d");
                     $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesde)
                         ->where('Fecha', '<=', $fechaHasta)->get();
                     break;
@@ -110,9 +110,9 @@ class ListarController extends Controller
                 $value->Fecha = $fecha;
 
                 if ($value->FechaIntervencion != "__/__/__") {
-                    $fecha = date_create($value->FechaIntervencion);
+                    /* $fecha = date_create($value->FechaIntervencion);
                     $fecha = date_format($fecha, "d/m/Y");
-                    $value->FechaIntervencion = $fecha;
+                    $value->FechaIntervencion = $fecha; */
                 } else {
                     $value->FechaIntervencion = '-';
                 }
