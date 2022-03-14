@@ -167,9 +167,11 @@ class ConstruccionController extends Controller
 
     $coladaMaterial = ColadaMaterial::where('CodigoMaterial', $idMaterial)
       ->where('Colada', $colada)->first();
-    $coladaMaterial->Stock = $coladaMaterial->Stock - $cantidadMaterial;
+    $resu = floatval($coladaMaterial->Stock) - ((floatval($longitudCorte) / 1000)* floatval($cantidadRealizar));
+    $coladaMaterial->Stock = strval($resu);
+    //$coladaMaterial->Stock = '5.1';
     $coladaMaterial->saveOrFail();
-
+//des
     $materiales = Material::where('CodigoMaterial', $idMaterial)->first();
     $materiales->Stock = $materiales->Stock - $cantidadMaterial;
     $materiales->saveOrFail();
@@ -177,7 +179,7 @@ class ConstruccionController extends Controller
     $totalStockPiezas = TotalStockPiezas::where('CodigoPieza', $pieza)->first();
     $totalStockPiezas->Stock = $totalStockPiezas->Stock + $ordenConstruccion->Cantidad;
     $totalStockPiezas->saveOrFail();
-
+//des
 /*     try{
       $totalStockPiezas = TotalStockPiezas::where('CodigoPieza', $pieza)->first();
       $totalStockPiezas->Stock = $totalStockPiezas->Stock + $ordenConstruccion->Cantidad;
@@ -187,6 +189,7 @@ class ConstruccionController extends Controller
       $error=  $e->getMessage();   
    }
  */
+//descomentar de aca
     $totalStockMateriales = TotalStockMateriales::where('CodigoMaterial', $idMaterial)->first();
     $totalStockMateriales->Stock = $totalStockMateriales->Stock - $cantidadMaterial;
     $totalStockMateriales->saveOrFail();

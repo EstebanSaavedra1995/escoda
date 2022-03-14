@@ -67,7 +67,7 @@ function enviarDatos() {
         .then(res => res.json())
         .then(data => {
             //alert(data);
-            //console.log(data);
+            console.log(data);
             if (data === 'ok') {
                 swal({
                     title: "¡Se ha agregado una nueva orden de construcción!",
@@ -457,7 +457,9 @@ const agregarMaterial = (codigoMaterial) => {
         .then(res => res.json())
         .then(data => {
             let material = document.getElementById('material');
+            let idMaterial = document.getElementById('idmaterial');
             material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
+            idMaterial.value = data.material.CodigoMaterial;
             completarColadas(data.coladaMaterial);
             swal({
                 title: "¡El material se ha agregado con éxito!",
