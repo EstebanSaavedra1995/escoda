@@ -29,9 +29,12 @@
                             </div>
                         </div>
 
-                        <select class="form-select col mr-2 select2" name="piezas" id="piezas">
+                        <select class="form-select col-5 mr-2 select2" name="piezas" id="piezas">
                         </select>
 
+                    </div>
+                    <div class="row mb-2">
+                        <label class=" col-2 mr-2">Cantidad:</label>
                         <input type="number" class="form-control col-2 mr-2" name="cantidad" id="cantidad" min="1"
                             value="1">
                     </div>
@@ -55,7 +58,7 @@
                     <div class="row mb-2">
                         <label class=" col-2 mr-2">Fecha de Egreso:</label>
                         <input type="date" id="fechaEgreso" name="fechaEgreso" class="form-control col-4"
-                        value="{{$date = date('Y-m-d')}}" max="{{$date = date('Y-m-d')}}">
+                            value="{{ $date = date('Y-m-d') }}" max="{{ $date = date('Y-m-d') }}">
                     </div>
 
                     <div class="row mb-2">
@@ -97,13 +100,13 @@
                     <div class="row mt-4">
                         <button class="btn btn-primary col-2 mr-2" type="button" id="btnGuardar">Guardar</button>
                         {{-- <button class="btn btn-primary col-2" type="button" id="btnListar">Listar</button> --}}
-                        <a href="{{ route('listar') }}" class="btn btn-primary col-2" target="_blank" >Listar</a>
+                        <a href="{{ route('listar') }}" class="btn btn-primary col-2" target="_blank">Listar</a>
                     </div>
 
 
 
         </form>
-        
+
         {{-- </div>
                     </div> --}}
 
@@ -141,7 +144,8 @@
                                     </div>
 
                                     <div class="col-2"></div>
-                                    <label class="col-2" id="cantidadHtas" name="cantidadHtas">Cantidad de Htas.:</label>
+                                    <label class="col-2" id="cantidadHtas" name="cantidadHtas">Cantidad de
+                                        Htas.:</label>
                                 </div>
                                 {{-- OPCION NRO --}}
                                 <div class="conteiner collapse" id="collNroEgreso">
@@ -155,10 +159,10 @@
                                     <div class="row mb-2">
                                         <label class=" col-1">Desde:</label>
                                         <input type="date" id="fechaDesde" name="fechaDesde" class="form-control col-3 mr-2"
-                                        value="2000-01-01" max="{{$date = date('Y-m-d')}}">
+                                            value="2000-01-01" max="{{ $date = date('Y-m-d') }}">
                                         <label class=" col-1">Hasta:</label>
                                         <input type="date" id="fechaHasta" name="fechaHasta" class="form-control col-3"
-                                        value="{{$date = date('Y-m-d')}}" max="{{$date = date('Y-m-d')}}">
+                                            value="{{ $date = date('Y-m-d') }}" max="{{ $date = date('Y-m-d') }}">
                                     </div>
                                 </div>
                                 {{-- OPCION PIEZA/CONJ --}}
@@ -185,13 +189,14 @@
                                             min="0">
 
                                         <label class=" col-1 ">Desde:</label>
-                                        <input type="date" id="fechaDesdePieza" name="fechaDesdePieza" class="form-control col-2"
-                                            value="2000-01-01" max="{{$date = date('Y-m-d')}}">
+                                        <input type="date" id="fechaDesdePieza" name="fechaDesdePieza"
+                                            class="form-control col-2" value="2000-01-01" max="{{ $date = date('Y-m-d') }}">
                                         <label class=" col-1 ">Hasta:</label>
-                                        
-                                        <input type="date" id="fechaHastaPieza" name="fechaHastaPieza" class="form-control col-2"
-                                        value="{{$date = date('Y-m-d')}}" max="{{$date = date('Y-m-d')}}">
-                                        
+
+                                        <input type="date" id="fechaHastaPieza" name="fechaHastaPieza"
+                                            class="form-control col-2" value="{{ $date = date('Y-m-d') }}"
+                                            max="{{ $date = date('Y-m-d') }}">
+
                                     </div>
                                 </div>
                                 {{-- END OPCIONES --}}
