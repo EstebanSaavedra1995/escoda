@@ -75,7 +75,9 @@
                 </div>
             @else
                 <div align="center">
-                    <h2>Usuario incorrecto, esperando a {{ substr($detalleOC->Operario, 6) }} </h2>
+                    <h2>Usuario incorrecto, esperando a {{ substr($detalleOC->Operario, 6) }}</h2>
+                    <h2>Tarea: {{$detalleOC->Tarea}}  </h2>
+                    <h2>Nro. Orden: {{$detalleOC->NroOC}}</h2>
                 </div>
         @endif
     @endif

@@ -41,13 +41,9 @@ class Cronometro extends Component
     public function fin($estadoPieza)
     {
         $this->estado = $estadoPieza;
-        if ($this->exitosas >= $this->ordenC->Cantidad) {
-            $detalle = DetalleOC::find($this->detalleOC->id);
-            $detalle->Estado = 'finalizado';
-            $detalle->save();
-        } else {
-            $this->actualizarTiempoOC();
-        }
+
+        $this->actualizarTiempoOC();
+
         $this->cargarDatos();
     }
 
@@ -81,6 +77,11 @@ class Cronometro extends Component
         ]; */
 
         //$this->emit("recibido",$this->cantidad);
+        if ($this->exitosas >= $this->ordenC->Cantidad) {
+            $detalle = DetalleOC::find($this->detalleOC->id);
+            $detalle->Estado = 'finalizado';
+            $detalle->save();
+        }
         $this->emit("enviado");
         event(new Enviar($this->maquina->CodMaquina));
     }
@@ -136,8 +137,8 @@ class Cronometro extends Component
         $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
 
         $numero = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-                    ->orderBy('Numero', 'DESC')->first();
-/*         if ($numero != null) {
+            ->orderBy('Numero', 'DESC')->first();
+        /*         if ($numero != null) {
             $numero = $numero->Numero;
         } */
         //->where('CodMaquina', $this->maquina->CodMaquina)
