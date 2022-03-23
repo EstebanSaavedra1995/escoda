@@ -409,6 +409,10 @@ return [
                     'text' => 'Tareas',
                     'route'  => 'datos.tareas',
                 ],
+                [
+                    'text' => 'Personal',
+                    'route'  => 'datos.personal.index',
+                ],
 
             ]
         ],

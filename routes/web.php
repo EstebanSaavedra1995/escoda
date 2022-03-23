@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
+use App\Http\Controllers\Admin\Datos\PersonalController;
 use App\Http\Controllers\Admin\Datos\TareaController;
 use App\Http\Controllers\Admin\Datos\PiezaArticuloController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
@@ -182,3 +183,5 @@ Route::post('/admin/listarfacturaslistararticulos', [ProveedoresListarFacturasCo
 Route::post('/admin/listarfacturasllenarmodal', [ProveedoresListarFacturasController::class, 'llenarModal']);
 Route::post('/admin/listarfacturasguardar', [ProveedoresListarFacturasController::class, 'guardarFactura']);
 Route::post('/admin/listarfacturasbuscarproducto', [ProveedoresListarFacturasController::class, 'buscarProducto']);
+
+Route::resource('personal', PersonalController::class)->names('datos.personal');
