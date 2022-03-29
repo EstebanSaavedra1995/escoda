@@ -71,10 +71,11 @@
 
                     <div class="row mb-2">
                         <label class=" col-2 mr-2">Tipo de Egreso:</label>
-                        <select class="form-select col-2 mr-2" name="tipoEgreso" id="tipoEgreso">
+                        <input type="text" class="col-2 mr-2" id="tipoEgreso" name="tipoEgreso" maxlength="25">
+                        {{-- <select class="form-select col-2 mr-2" name="tipoEgreso" id="tipoEgreso">
                             <option value="EG 2">EG 2</option>
                             <option value="EG 4">EG 4</option>
-                        </select>
+                        </select> --}}
                     </div>
 
                     <div class="row mb-2">
