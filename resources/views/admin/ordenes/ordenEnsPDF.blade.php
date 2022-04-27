@@ -15,7 +15,7 @@
             {{-- border="1px solid black" border-collapse="collapse" --}}
             <tr>
                 <td style="width: 30%">
-                    <img src="{{asset('storage/logoEscoda.jpg')}}" alt="">
+                    <img src="https://i.postimg.cc/k43PSGWN/logo-escoda.jpg" alt="">
                 </td>
                 <td style="text-align: center">
                     Orden de Construcción
