@@ -18,6 +18,7 @@ use App\Models\Pieza;
 use App\Models\PiezaDeConjunto;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class ReparacionListarOrden extends Controller
 {
@@ -138,6 +139,37 @@ class ReparacionListarOrden extends Controller
         ];
 
         return json_encode($resultado);
+    }
+
+    public function ordenRepPDF() 
+    {
+        $id = request('idPDF');
+
+        $orden = OrdenReparacion::where('NroOR', $id)->first();
+        $fecha = date_create($orden->Fecha);
+        $fecha = date_format($fecha, "d/m/Y");
+        $orden->Fecha = $fecha;
+
+        /* $pieza = Pieza::where('CodPieza',$orden->CodigoPieza)->first();
+
+        $material= Material::where('CodigoMaterial',$orden->CodigoMaterial)->first();
+
+        $tareas = DetalleOC::where('NroOC', $id)
+            ->orderBy('Renglon', 'ASC')
+            ->get(); */
+
+        /* $resultado[] = [
+            'orden' => $orden,
+            'tareas' => $tareas
+          ]; */
+        //$resultado = $orden;
+        return $this->enviarVistaPDF($orden);
+    }
+    public function enviarVistaPDF($orden)
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('admin.ordenes.ordenRepPDF', compact('orden'));
+        return $pdf->stream();
     }
   /*   public function exportExcel()
     {

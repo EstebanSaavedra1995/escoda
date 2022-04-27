@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Ordenes\EnsambleController;
 use App\Http\Controllers\Admin\Ordenes\EnsambleListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
+use App\Http\Controllers\Admin\Proveedores\IngresarFacturasController;
 use App\Http\Controllers\Admin\Proveedores\ListarArticulosController;
 use App\Http\Controllers\Admin\Proveedores\ListarFacturasController as ProveedoresListarFacturasController;
 use App\Http\Controllers\Admin\Proveedores\ListarProveedoresController;
@@ -106,6 +107,8 @@ Route::post('/admin/listarcancelar/exportExcel', [ConstruccionListarCancelarCont
 Route::post('/admin/listarcancelar/exportExcelFechas', [ConstruccionListarCancelarController::class, 'exportExcelFechas'])->name('fechaExcel');
 Route::post('/admin/listarcancelar/exportExcelNumero', [ConstruccionListarCancelarController::class, 'exportExcelNumero'])->name('numeroExcel');
 Route::post('/admin/listarcancelar/ordenPDF', [ConstruccionListarCancelarController::class, 'ordenPDF'])->name('ordenPDF');
+Route::post('/admin/listarcancelar/ordenRepPDF', [ReparacionListarOrden::class, 'ordenRepPDF'])->name('ordenRepPDF');
+Route::post('/admin/listarcancelar/ordenEnsPDF', [EnsambleListarOrden::class, 'ordenEnsPDF'])->name('ordenEnsPDF');
 Route::post('/admin/listarcancelar/modificarOC', [ConstruccionListarCancelarController::class, 'modificarOC']);
 Route::post('/admin/listarcancelar/agregarTarea', [ConstruccionListarCancelarController::class, 'agregarTarea']);
 Route::post('/admin/listarcancelar/eliminarTarea', [ConstruccionListarCancelarController::class, 'eliminarTarea']);
@@ -185,3 +188,9 @@ Route::post('/admin/listarfacturasguardar', [ProveedoresListarFacturasController
 Route::post('/admin/listarfacturasbuscarproducto', [ProveedoresListarFacturasController::class, 'buscarProducto']);
 
 Route::resource('personal', PersonalController::class)->names('datos.personal');
+
+Route::get('/admin/ingrasarfacturas', [IngresarFacturasController::class, 'index'])->name('ingresar.facturas');
+Route::post('/admin/facturaobtenerproveedor', [IngresarFacturasController::class, 'getProveedor']);
+Route::post('/admin/ingresarfacturasllenarmodal', [IngresarFacturasController::class, 'getArticulos']);
+Route::post('/admin/ingresarfacturasgetart', [IngresarFacturasController::class, 'getArticulo']);
+Route::post('/admin/ingresarfacturassave', [IngresarFacturasController::class, 'saveFactura']);

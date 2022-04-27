@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Ordenes;
 use App\Http\Controllers\Controller;
 use App\Models\OrdenEnsamble;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class EnsambleListarOrden extends Controller
 {
@@ -58,5 +59,36 @@ class EnsambleListarOrden extends Controller
             $rta[] = $ordenes;
             return json_encode($rta);
         }
+    }
+
+    public function ordenEnsPDF() 
+    {
+        $id = request('idPDF');
+
+        $orden = OrdenEnsamble::where('NroOE', $id)->first();
+        $fecha = date_create($orden->Fecha);
+        $fecha = date_format($fecha, "d/m/Y");
+        $orden->Fecha = $fecha;
+
+        /* $pieza = Pieza::where('CodPieza',$orden->CodigoPieza)->first();
+
+        $material= Material::where('CodigoMaterial',$orden->CodigoMaterial)->first();
+
+        $tareas = DetalleOC::where('NroOC', $id)
+            ->orderBy('Renglon', 'ASC')
+            ->get(); */
+
+        /* $resultado[] = [
+            'orden' => $orden,
+            'tareas' => $tareas
+          ]; */
+        //$resultado = $orden;
+        return $this->enviarVistaPDF($orden);
+    }
+    public function enviarVistaPDF($orden)
+    {
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('admin.ordenes.ordenEnsPDF', compact('orden'));
+        return $pdf->stream();
     }
 }

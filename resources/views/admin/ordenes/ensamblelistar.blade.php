@@ -107,6 +107,14 @@
                         </section>
                     </div>
                 </form>
+                <div style="visibility: hidden" id="divNumero" name="divNumero">
+
+                    <form id="formPDF" name="formPDF" method="POST" action="{{ route('ordenEnsPDF') }}" target="_blank">
+                        @csrf
+                        <input type="text" hidden id="idPDF" name="idPDF">
+                        <button type="submit"></button>
+                    </form>
+                </div>
             </div>
             <div class="modal-footer">
             </div>

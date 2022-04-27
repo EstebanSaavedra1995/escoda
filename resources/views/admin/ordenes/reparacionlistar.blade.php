@@ -163,6 +163,14 @@
                             </section>
                         </div>
                     </form>
+                    <div style="visibility: hidden" id="divNumero" name="divNumero">
+
+                        <form id="formPDF" name="formPDF" method="POST" action="{{ route('ordenRepPDF') }}" target="_blank">
+                            @csrf
+                            <input type="text" hidden id="idPDF" name="idPDF">
+                            <button type="submit"></button>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                 </div>
@@ -184,7 +192,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-
         $(document).ready(function() {
 
             $('#ordenes').select2({

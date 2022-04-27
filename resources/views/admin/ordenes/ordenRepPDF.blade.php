@@ -27,7 +27,7 @@
 
             <tr>
                 <td style="width: 30%">
-                    &nbsp; {{$orden['NroOC'] }}
+                    &nbsp; {{$orden['NroOR'] }}
                 </td>
                 <td style="text-align: center">
 
@@ -42,13 +42,13 @@
     <table style="width: 100%">
         <tr>
             <td>
-                Pieza: {{ $pieza->CodPieza }} - {{ $pieza->NombrePieza }} - {{ $pieza->Medida }}
+                Pieza: 
             </td>
         </tr>
 
         <tr>
             <td>
-                Cantidad: {{ $orden->Cantidad }}
+                Cantidad: 
             </td>
         </tr>
 
@@ -57,20 +57,19 @@
     <table style="width: 100%">
         <tr>
             <td>
-                Material: {{ $material->CodigoMaterial }} - {{ $material->Material }} - {{ $material->Dimension }} -
-                {{ $material->Calidad }}
+                Material: 
             </td>
         </tr>
 
         <tr>
             <td>
-                Colada: {{ $orden->Colada }}
+                Colada: 
             </td>
         </tr>
 
         <tr>
             <td>
-                Longitud de Corte (mm): {{ $orden->LongitudCorte }}
+                Longitud de Corte (mm):
             </td>
         </tr>
 
@@ -88,7 +87,7 @@
             <th style="border-bottom-style: solid">Tiempo Estimado</th>
 
         </tr>
-        @foreach ($tareas as $orden)
+        {{-- @foreach ($tareas as $orden)
             <tr>
                 <td style="border-bottom-style: dashed">{{ $orden['Renglon'] . ' ' . $orden['Tarea'] }}</td>
                 <td style="border-bottom-style: dashed">{{ $orden['Maquina'] }}</td>
@@ -96,7 +95,7 @@
                 <td style="border-bottom-style: dashed">{{ $orden['Supervisor'] }}</td>
                 <td style="border-bottom-style: dashed">{{ $orden['Horas'] }}</td>
             </tr>
-        @endforeach
+        @endforeach --}}
     </table>
 
 <br>

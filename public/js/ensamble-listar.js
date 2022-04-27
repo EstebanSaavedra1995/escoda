@@ -195,6 +195,7 @@ const realizarTablaOrden = (array) => {
     tabla += `<th scope="col">Fecha</th>`;
     tabla += `<th scope="col">Conjunto</th>`;
     tabla += `<th scope="col">Nro</th>`;
+    tabla += `<th scope="col">Acciones</th>`;
     tabla += `</tr>`;
     tabla += `</thead>`;
     tabla += `<tbody>`;
@@ -204,6 +205,7 @@ const realizarTablaOrden = (array) => {
         tabla += `<td style="width: 15px">${formatoFecha(orden.fecha)}</td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
         tabla += `<td>${orden.NroCjto}</td>`;
+        tabla += `<td><button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOE}');">Imp</button> </td>`;
         tabla += `</tr>`;
     });
     tabla += `</tbody>`;
@@ -598,4 +600,11 @@ function exportTableToExcel(tableID, filename = '') {
         //triggering the function
         downloadLink.click();
     }
+}
+
+function imprimir(cod) {
+    let pdf = document.getElementById('idPDF');
+    pdf.value = cod;
+    //alert(pdf.value);
+    document.getElementById('formPDF').submit();
 }

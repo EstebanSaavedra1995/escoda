@@ -35,7 +35,6 @@ const filtroNroOrden = () => {
 }
 function imprimir (cod)
 {
-   
     let pdf = document.getElementById('idPDF');
     pdf.value = cod;
     //alert(pdf.value);
@@ -226,7 +225,7 @@ const realizarTablaPieza = (array) => {
         tabla += `<td style="width: 20px">${orden.LongitudCorte} </td>`;
         tabla += `<td style="width: 15px">${orden.Colada} </td>`;
         tabla += `<td><button type="button" class="btn btn-info" title="Tareas" onclick="listarTareas('${orden.NroOC}');">Tar</button> `;
-        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOC}');">Imp</button> `
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOC}');">Imp</button> `;
         tabla += `<button type="button" class="btn btn-danger" title="Cancelar" onclick="cancelarTarea('${orden.NroOC}');">Can</button></td>`;
         tabla += `</tr>`;
 

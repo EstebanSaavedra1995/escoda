@@ -1,6 +1,6 @@
 let ordenesConstruccion = [];
 document.getElementById('lista').addEventListener('change', function (e) {
-    
+
     let divtabla = document.getElementById('divtabla');
     divtabla.innerHTML = '';
     let divtablatareas = document.getElementById('divtablatareas');
@@ -13,22 +13,22 @@ document.getElementById('lista').addEventListener('change', function (e) {
         filtroNroOrden();
     } else if (valor == 1) {
         filtroFecha();
-    } else if (valor == 2){
+    } else if (valor == 2) {
         filtroPieza();
-    } else if (valor == -1){
-    document.getElementById('divOrden').style.display='none';
-    document.getElementById('divPiezas').style.display='none';
-    document.getElementById('divFechas').style.display='none';
-    document.getElementById('buscar').disabled = true;
+    } else if (valor == -1) {
+        document.getElementById('divOrden').style.display = 'none';
+        document.getElementById('divPiezas').style.display = 'none';
+        document.getElementById('divFechas').style.display = 'none';
+        document.getElementById('buscar').disabled = true;
     }
 
 })
 
 const filtroNroOrden = () => {
 
-    document.getElementById('divOrden').style.display='inline-block';
-    document.getElementById('divPiezas').style.display='none';
-    document.getElementById('divFechas').style.display='none';
+    document.getElementById('divOrden').style.display = 'inline-block';
+    document.getElementById('divPiezas').style.display = 'none';
+    document.getElementById('divFechas').style.display = 'none';
     document.getElementById('buscar').disabled = false;
 
 }
@@ -36,9 +36,9 @@ const filtroNroOrden = () => {
 const filtroFecha = () => {
     let hoy = formatDate();
 
-    document.getElementById('divOrden').style.display='none';
-    document.getElementById('divPiezas').style.display='none';
-    document.getElementById('divFechas').style.display='inline-block';
+    document.getElementById('divOrden').style.display = 'none';
+    document.getElementById('divPiezas').style.display = 'none';
+    document.getElementById('divFechas').style.display = 'inline-block';
     document.getElementById('fecha1').value = hoy;
     document.getElementById('fecha2').value = hoy;
     document.getElementById('buscar').disabled = false;
@@ -46,9 +46,9 @@ const filtroFecha = () => {
 
 }
 const filtroPieza = () => {
-    document.getElementById('divOrden').style.display='none';
-    document.getElementById('divPiezas').style.display='inline-block';
-    document.getElementById('divFechas').style.display='none'
+    document.getElementById('divOrden').style.display = 'none';
+    document.getElementById('divPiezas').style.display = 'inline-block';
+    document.getElementById('divFechas').style.display = 'none'
     document.getElementById('buscar').disabled = false;
 
 }
@@ -263,8 +263,8 @@ const realizarTablaOrden = (array) => {
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
         tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-/*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
-        tabla += ` <button type="button" class="btn btn-secondary">PDF</button>`;
+        /*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imp</button> `;
         tabla += `</tr>`;
 
     });
@@ -298,8 +298,8 @@ const realizarTablaFecha = (array) => {
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
         tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-/*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
-        tabla += ` <button type="button" class="btn btn-secondary">PDF</button>`;
+        /*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imp</button> `;
         tabla += `</tr>`;
 
     });
@@ -334,8 +334,8 @@ const realizarTablaHerramienta = (array) => {
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
         tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-/*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
-        tabla += ` <button type="button" class="btn btn-secondary">PDF</button>`;
+        /*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imp</button> `;
         tabla += `</tr>`;
 
     });
@@ -766,4 +766,11 @@ function exportTableToExcel(tableID, filename = '') {
         //triggering the function
         downloadLink.click();
     }
+}
+
+function imprimir(cod) {
+    let pdf = document.getElementById('idPDF');
+    pdf.value = cod;
+    //alert(pdf.value);
+    document.getElementById('formPDF').submit();
 }
