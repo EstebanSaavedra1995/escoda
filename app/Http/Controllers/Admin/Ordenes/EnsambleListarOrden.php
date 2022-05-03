@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Admin\Ordenes;
 
 use App\Http\Controllers\Controller;
+use App\Models\ArticulosGenerales;
+use App\Models\Conjunto;
+use App\Models\DetalleOE;
+use App\Models\Goma;
+use App\Models\Material;
 use App\Models\OrdenEnsamble;
+use App\Models\Pieza;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -61,7 +67,7 @@ class EnsambleListarOrden extends Controller
         }
     }
 
-    public function ordenEnsPDF() 
+    public function ordenEnsPDF()
     {
         $id = request('idPDF');
 
@@ -70,25 +76,84 @@ class EnsambleListarOrden extends Controller
         $fecha = date_format($fecha, "d/m/Y");
         $orden->Fecha = $fecha;
 
-        /* $pieza = Pieza::where('CodPieza',$orden->CodigoPieza)->first();
+        $pieza = Conjunto::where('CodPieza',$orden->codigoCjto)->first();
 
-        $material= Material::where('CodigoMaterial',$orden->CodigoMaterial)->first();
+        $detalles = DetalleOE::where('NroOE', $id)->get();
+        $resultado = [];
+        foreach ($detalles as $detalle) {
+            $aux = $this->buscarArticulos($detalle);
+            if ($aux['tipo'] != 'nada') {
+                $resultado[] = $aux;
+            }
+            /* $a = ArticulosGenerales::where('CodArticulo', $detalle->CodigoArticulo)->first();
+            if ($a != null) {
+                $resultadoA[] = $a;
+            }
 
-        $tareas = DetalleOC::where('NroOC', $id)
-            ->orderBy('Renglon', 'ASC')
-            ->get(); */
+            $g = Goma::where('CodigoGoma', $detalle->CodigoArticulo)->first();
+            if ($g != null) {
+                $resultadoG[] = $g;
+            }
 
+            $p = Pieza::where('CodPieza', $detalle->CodigoArticulo)->first();
+            if ($p != null) {
+                $resultadoP[] = $p;
+            } */
+        }
+
+        /* foreach ($resultado as $detalle) {
+            echo json_encode($detalle) .'<br>';
+        } */
         /* $resultado[] = [
             'orden' => $orden,
             'tareas' => $tareas
           ]; */
         //$resultado = $orden;
-        return $this->enviarVistaPDF($orden);
+        //echo json_encode($resultado);
+        return $this->enviarVistaPDF($orden, $detalles, $resultado,$pieza);
     }
-    public function enviarVistaPDF($orden)
+    public function enviarVistaPDF($orden, $detalles, $resultado,$pieza)
     {
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('admin.ordenes.ordenEnsPDF', compact('orden'));
+        $pdf->loadView('admin.ordenes.ordenEnsPDF', compact('orden', 'detalles', 'resultado','pieza'));
+        $pdf->setPaper('A4');
+        //$pdf->render();
         return $pdf->stream();
+    }
+
+    public function buscarArticulos($detalle)
+    {
+        $resultado= [
+            'tipo' => 'nada'
+        ];
+
+        $a = ArticulosGenerales::where('CodArticulo', $detalle->CodigoArticulo)->first();
+        if ($a != null) {
+            $resultado = [
+                'tipo' => 'articulo',
+                'art' => $a,
+                'detalle' => $detalle
+            ];
+        }
+
+        $g = Goma::where('CodigoGoma', $detalle->CodigoArticulo)->first();
+        if ($g != null) {
+            $resultado = [
+                'tipo' => 'goma',
+                'art' => $g,
+                'detalle' => $detalle
+            ];
+        }
+
+        $p = Pieza::where('CodPieza', $detalle->CodigoArticulo)->first();
+        if ($p) {
+            $resultado = [
+                'tipo' => 'pieza',
+                'art' => $p,
+                'detalle' => $detalle
+            ];
+        }
+
+        return $resultado;
     }
 }
