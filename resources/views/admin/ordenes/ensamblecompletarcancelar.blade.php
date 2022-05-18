@@ -16,7 +16,7 @@
         <div class="card-body">
             <div class="container">
                 <div class="row mb-2">
-                    <label class="col-2">Orden de reparación N°:</label>
+                    <label class="col-2">Orden de Ensamble N°:</label>
                     <select class="col-2 mr-2" name="ordenes" id="ordenes">
                         <option value="">Ordenes</option>
                         @foreach ($ordenesPendientes as $ordenPendiente)

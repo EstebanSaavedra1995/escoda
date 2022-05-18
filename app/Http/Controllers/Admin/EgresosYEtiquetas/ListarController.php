@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TrazabilidadConjuntos;
 use App\Models\Conjunto;
 use App\Models\Pieza;
+use App\Models\TrazabilidadPiezas;
 use Illuminate\Http\Request;
 
 class ListarController extends Controller
@@ -76,28 +77,58 @@ class ListarController extends Controller
                         ->where('Fecha', '<=', $fechaHasta)->get();
                     break;
                 case 'pieza':
-                    $pieza = request('piezasMod');
-                    $nro = request('nroMod');
-                    $fechaDesdePieza = request('fechaDesdePieza');
-                    $fechaDesdePieza = date_create($fechaDesdePieza);
-                    $fechaDesdePieza = date_format($fechaDesdePieza, "ymd");
-                    $fechaHastaPieza = request('fechaHastaPieza');
-                    $fechaHastaPieza = date_create($fechaHastaPieza);
-                    $fechaHastaPieza = date_format($fechaHastaPieza, "ymd");
-                    if ($pieza == 0) {
-                        $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
-                            ->where('Fecha', '<=', $fechaHastaPieza)->get();
-                    } else {
-                        if ($nro == 0) {
+                    $ck = request('ck');
+                    if ($ck == 'conjuntos') {
+
+
+                        $pieza = request('piezasMod');
+                        $nro = request('nroMod');
+                        $fechaDesdePieza = request('fechaDesdePieza');
+                        $fechaDesdePieza = date_create($fechaDesdePieza);
+                        $fechaDesdePieza = date_format($fechaDesdePieza, "ymd");
+                        $fechaHastaPieza = request('fechaHastaPieza');
+                        $fechaHastaPieza = date_create($fechaHastaPieza);
+                        $fechaHastaPieza = date_format($fechaHastaPieza, "ymd");
+                        if ($pieza == 0) {
                             $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
-                                ->where('Fecha', '<=', $fechaHastaPieza)
-                                ->where('CodPieza', $pieza)->get();
+                                ->where('Fecha', '<=', $fechaHastaPieza)->get();
                         } else {
-                            $nro = str_pad($nro, 8, "0", STR_PAD_LEFT);
-                            $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
-                                ->where('Fecha', '<=', $fechaHastaPieza)
-                                ->where('CodPieza', $pieza)
-                                ->where('Numero', $nro)->get();
+                            if ($nro == 0) {
+                                $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
+                                    ->where('Fecha', '<=', $fechaHastaPieza)
+                                    ->where('CodPieza', $pieza)->get();
+                            } else {
+                                $nro = str_pad($nro, 8, "0", STR_PAD_LEFT);
+                                $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
+                                    ->where('Fecha', '<=', $fechaHastaPieza)
+                                    ->where('CodPieza', $pieza)
+                                    ->where('Numero', $nro)->get();
+                            }
+                        }
+                    }else{
+                        $pieza = request('piezasMod');
+                        $nro = request('nroMod');
+                        $fechaDesdePieza = request('fechaDesdePieza');
+                        $fechaDesdePieza = date_create($fechaDesdePieza);
+                        $fechaDesdePieza = date_format($fechaDesdePieza, "ymd");
+                        $fechaHastaPieza = request('fechaHastaPieza');
+                        $fechaHastaPieza = date_create($fechaHastaPieza);
+                        $fechaHastaPieza = date_format($fechaHastaPieza, "ymd");
+                        if ($pieza == 0) {
+                            $trazabilidad = TrazabilidadPiezas::where('Fecha', '>=', $fechaDesdePieza)
+                                ->where('Fecha', '<=', $fechaHastaPieza)->get();
+                        } else {
+                            if ($nro == 0) {
+                                $trazabilidad = TrazabilidadPiezas::where('Fecha', '>=', $fechaDesdePieza)
+                                    ->where('Fecha', '<=', $fechaHastaPieza)
+                                    ->where('CodPieza', $pieza)->get();
+                            } else {
+                                $nro = str_pad($nro, 8, "0", STR_PAD_LEFT);
+                                $trazabilidad = TrazabilidadPiezas::where('Fecha', '>=', $fechaDesdePieza)
+                                    ->where('Fecha', '<=', $fechaHastaPieza)
+                                    ->where('CodPieza', $pieza)
+                                    ->where('Numero', $nro)->get();
+                            }
                         }
                     }
                     break;

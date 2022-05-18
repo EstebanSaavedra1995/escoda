@@ -6,6 +6,7 @@ use App\Exports\ORExport;
 use App\Exports\ORFechasExport;
 use App\Exports\ORNumeroExport;
 use App\Http\Controllers\Controller;
+use App\Models\ArticulosGenerales;
 use App\Models\Conjunto;
 use App\Models\ConjuntoArticulos;
 use App\Models\ConjuntoGomas;
@@ -13,6 +14,7 @@ use App\Models\Construccion;
 use App\Models\DetalleReparacionArticulo;
 use App\Models\DetalleReparacionGoma;
 use App\Models\DetalleReparacionPieza;
+use App\Models\Goma;
 use App\Models\OrdenReparacion;
 use App\Models\Pieza;
 use App\Models\PiezaDeConjunto;
@@ -146,9 +148,44 @@ class ReparacionListarOrden extends Controller
         $id = request('idPDF');
 
         $orden = OrdenReparacion::where('NroOR', $id)->first();
+        $conjunto = Conjunto::where('CodPieza',$orden->CodConjunto)->first();
         $fecha = date_create($orden->Fecha);
         $fecha = date_format($fecha, "d/m/Y");
         $orden->Fecha = $fecha;
+        $gomas = [];        
+        $art = [];        
+        $piezas = [];        
+
+        $detalleGoma = DetalleReparacionGoma::where('NroOR', $id)->get();
+        $detalleArt = DetalleReparacionArticulo::where('NroOR', $id)->get();
+        $detallePieza = DetalleReparacionPieza::where('NroOR', $id)->get();
+
+        foreach ($detalleArt as $x) {
+            if ($x != null) {
+                $a = ArticulosGenerales::where('CodArticulo' , $x->codArticulo)->first();
+                if ($a != null) {
+                    $art[] = $a;     
+                }
+            }
+        }
+
+        foreach ($detalleGoma as $x) {
+            if ($x != null) {
+                $g = Goma::where('CodigoGoma', $x->CodGoma)->first();
+                if ($g != null) {
+                    $gomas[] = $g;
+                }
+            }
+        }
+
+        foreach ($detallePieza as $x) {
+            if ($x != null) {
+                $p = Pieza::where('CodPieza',$x->codPieza)->first();
+                if ($p != null) {
+                    $piezas[] = $p;
+                }
+            }
+        }
 
         /* $pieza = Pieza::where('CodPieza',$orden->CodigoPieza)->first();
 
@@ -163,12 +200,13 @@ class ReparacionListarOrden extends Controller
             'tareas' => $tareas
           ]; */
         //$resultado = $orden;
-        return $this->enviarVistaPDF($orden);
+        //echo json_encode($art);
+        return $this->enviarVistaPDF($orden, $art,$gomas,$piezas,$conjunto);
     }
-    public function enviarVistaPDF($orden)
+    public function enviarVistaPDF($orden, $art,$gomas,$piezas,$conjunto)
     {
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('admin.ordenes.ordenRepPDF', compact('orden'));
+        $pdf->loadView('admin.ordenes.ordenRepPDF', compact('orden','art','gomas','piezas','conjunto'));
         return $pdf->stream();
     }
   /*   public function exportExcel()

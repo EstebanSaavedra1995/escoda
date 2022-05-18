@@ -27,8 +27,8 @@ class ReparacionCompletarCancelarController extends Controller
     }
     public function index()
     {
-        $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea')
-            ->where('Estado', 'A')->get();
+        $supervisores = Personal::where('Cargo','like', '%'.'Supervisor'.'%')->get();
+            //->where('Estado', 'A')
         //Cambiar string cuando se cambie de base
 
         $operarios = Personal::Where('Estado', 'A')

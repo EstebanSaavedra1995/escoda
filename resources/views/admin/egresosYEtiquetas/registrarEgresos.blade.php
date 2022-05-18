@@ -70,6 +70,10 @@
                     </div>
 
                     <div class="row mb-2">
+                        <label class=" col-2 mr-2">Numero:</label>
+                        <input type="text" class="col-2 mr-2" id="numero" name="numero" maxlength="11">
+                    </div>
+                    <div class="row mb-2">
                         <label class=" col-2 mr-2">Tipo de Egreso:</label>
                         <input type="text" class="col-2 mr-2" id="tipoEgreso" name="tipoEgreso" maxlength="25">
                         {{-- <select class="form-select col-2 mr-2" name="tipoEgreso" id="tipoEgreso">

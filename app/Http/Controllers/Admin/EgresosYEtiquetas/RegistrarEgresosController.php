@@ -8,6 +8,7 @@ use App\Models\MaterialPieza;
 use App\Models\Conjunto;
 use App\Models\PiezaDeConjunto;
 use App\Models\TrazabilidadConjuntos;
+use App\Models\TrazabilidadPiezas;
 use Illuminate\Http\Request;
 
 class RegistrarEgresosController extends Controller
@@ -108,16 +109,12 @@ class RegistrarEgresosController extends Controller
   public function guardar()
   {
     if (request()->getMethod() == 'POST') {
+      $ck = request('ck');
       $fechaEgreso = request('fechaEgreso');
       $fechaEgreso = date_create($fechaEgreso);
       $fechaEgreso = date_format($fechaEgreso, "ymd");
       $condicion = request('condicion');
-      if ($condicion == 'CONDICION I') {
-        $condicion = 'I';
-      }
-      if ($condicion == 'CONDICION II') {
-        $condicion = 'II';
-      }
+      
       $tipo = request('tipoEgreso');
       $nroEgreso = request('nroEgreso');
       $fechaIntervencion = request('fechaIntervencion');
@@ -127,16 +124,34 @@ class RegistrarEgresosController extends Controller
       $orden = request('ordenTarea');
       $pieza = request('piezas');
       $numero = TrazabilidadConjuntos::where('CodPieza', $pieza)
-        ->orderBy('Numero', 'DESC')->first()->Numero;
+        ->orderBy('Numero', 'DESC')->first();
+        if ($numero != null) {
+          $numero = $numero->Numero;
+        }else{
+          $numero = 1;
+        }
       $cantidad = request('cantidad');
 
       for ($i = 0; $i < $cantidad; $i++) {
-        $trazabilidad = new TrazabilidadConjuntos();
+        if ($ck == 'conjuntos') {
+          $trazabilidad = new TrazabilidadConjuntos();
+        }else{
+          $trazabilidad = new TrazabilidadPiezas();
+        }
         $trazabilidad->CodPieza = $pieza;
-        $numero++;
-        $trazabilidad->Numero = $numero;
+        
         $trazabilidad->Fecha = $fechaEgreso;
-        $trazabilidad->Condicion = $condicion;
+        if ($condicion == 'CONDICION I') {
+          $condicion = 'I';
+          $trazabilidad->Condicion = $condicion;
+          $numero++;
+          $trazabilidad->Numero = $numero;
+        }
+        if ($condicion == 'CONDICION II') {
+          $condicion = 'II';
+          $trazabilidad->Condicion = $condicion;
+          $trazabilidad->Numero = request('numero');
+        }
         $trazabilidad->TipoEgreso = $tipo;
         $trazabilidad->NroEgreso = $nroEgreso;
         $trazabilidad->FechaIntervencion = $fechaIntervencion;

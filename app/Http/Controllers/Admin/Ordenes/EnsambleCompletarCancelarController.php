@@ -24,8 +24,8 @@ class EnsambleCompletarCancelarController extends Controller
     }
     public function index()
     {
-        $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea')
-            ->where('Estado', 'A')->get();
+        $supervisores = Personal::where('Cargo','like', '%'.'Supervisor'.'%')->get();
+            //->where('Estado', 'A')
 
         $operarios = Personal::Where('Estado', 'A')
             ->orwhere([
@@ -36,6 +36,8 @@ class EnsambleCompletarCancelarController extends Controller
 
         $ordenesPendientes = OrdenEnsamblePendiente::orderBy('NroOE', 'desc')
             ->where('Estado', 'A')->get();
+            
+            //echo json_encode($supervisores);
         return view('admin.ordenes.ensamblecompletarcancelar', compact(['ordenesPendientes', 'operarios', 'supervisores']));
     }
     public function ordenpendiente()
