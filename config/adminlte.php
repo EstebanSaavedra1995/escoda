@@ -390,7 +390,7 @@ return [
                 ],
                 [
                     'text' => 'Ingresar Facturas',
-                    'url'  => '#',
+                    'route'  => 'ingresar.facturas',
                 ],
             ]
         ],
