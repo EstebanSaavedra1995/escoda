@@ -255,7 +255,7 @@
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="{{ asset('js/ingresarFactura.js') }}"></script>
+    <script src="{{ asset('js/IngresarFactura.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#proveedores').select2({
