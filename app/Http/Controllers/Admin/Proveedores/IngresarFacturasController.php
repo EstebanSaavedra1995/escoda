@@ -20,7 +20,7 @@ class IngresarFacturasController extends Controller
     {
         $proveedores = Proveedores::all();
         $iva = Iva::all();
-        return view('admin.proveedores.Ingresarfactura', compact(['proveedores', 'iva']));
+        return view('admin.proveedores.IngresarFactura', compact(['proveedores', 'iva']));
     }
 
     public function getProveedor()
