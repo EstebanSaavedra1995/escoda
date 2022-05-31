@@ -203,7 +203,14 @@
 
                         <div class="row mb-2">
                             <label for="selectArt" class=" col col-3">Seleccionar Artículo:</label>
-                            <select name="selectArt" id="selectArt" class="select2">
+                            <select name="selectArt" id="selectArt" class="select2" onchange="getColada();">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <label for="selectColada" class=" col col-3">Seleccionar Colada:</label>
+                            <select name="selectColada" id="selectColada" class="select2">
                                 <option value=""></option>
                             </select>
                         </div>
@@ -236,7 +243,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarArt();" data-dismiss="modal">
+                    <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarArt();" >
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
                 </div>
             </div>
@@ -245,7 +252,7 @@
 
     {{-- FIN MODAL --}}
 
-
+<form action="" id="form-null" >@csrf</form>
 @stop
 
 @section('css')

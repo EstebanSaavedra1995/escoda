@@ -40,7 +40,7 @@ function abrirModal() {
                         e['materiales'].forEach(e => {
                             //console.log(e['CodigoMaterial']);  
                             datos += `<option value="${e['CodigoMaterial']}">`;
-                            datos += `Material - ${e['Material']} - ${e['Dimension']} - ${e['Calidad']}`;
+                            datos += `Material - ${e['CodigoMaterial']} - ${e['Material']} - ${e['Dimension']} - ${e['Calidad']}`;
                             datos += `</option>`;
                         });
                     }
@@ -97,17 +97,28 @@ function agregarArt() {
     var cantidad = document.getElementById('cantidadArt').value;
     var precio = document.getElementById('precioArt').value;
     var obs = document.getElementById('obsArt').value;
-    let datos = `<tr>`;
-    datos += `<td>${cod}<input type="hidden" id="id${cod}" name="id${cod}" class="tblCodigo" value="${cod}"> </td>`;
-    datos += `<td>${$("#selectArt option:selected").text()}<input type="hidden" id="desc${cod}" name="desc${cod}" class="tblDesc" value="${$("#selectArt option:selected").text()}">
-     <input type="hidden" id="sin${cod}" name="sin${cod}" class="tblSin" value="${sinonimo}"></td>`;
-    datos += `<td>${cantidad}<input type="hidden" id="can${cod}" name="can${cod}" class="tblCan" value="${cantidad}"></td>`;
-    datos += `<td>${precio}<input type="hidden" id="precio${cod}" name="precio${cod}" class="tblPrecio" value="${precio}"></td>`;
-    datos += `<td>${obs}<input type="hidden" id="obs${cod}" name="obs${cod}" class="tblObs" value="${obs}"></td>`;
-    datos += `<td>Accion</td>`;
-    datos += `</tr>`;
+    var colada = document.getElementById('selectColada').value;
+    if (sinonimo == '' || cod == '' || cantidad == '' || precio == '' ) {
+        swal({
+            title: `¡Falta completar datos!`,
+            icon: "",
+        });
+    }else{
 
-    tabla.insertAdjacentHTML("beforeEnd", datos);
+        let datos = `<tr>`;
+        datos += `<td>${cod}<input type="hidden" id="id${cod}" name="id${cod}" class="tblCodigo" value="${cod}"> </td>`;
+        datos += `<td>${$("#selectArt option:selected").text()} - ${$("#selectColada option:selected").text()}<input type="hidden" id="desc${cod}" name="desc${cod}" class="tblDesc" value="${$("#selectArt option:selected").text()}">
+        <input type="hidden" id="sin${cod}" name="sin${cod}" class="tblSin" value="${sinonimo}">
+        <input type="hidden" id="col${cod}" name="col${cod}" class="tblCol" value="${colada}"></td>`;
+        datos += `<td>${cantidad}<input type="hidden" id="can${cod}" name="can${cod}" class="tblCan" value="${cantidad}"></td>`;
+        datos += `<td>${precio}<input type="hidden" id="precio${cod}" name="precio${cod}" class="tblPrecio" value="${precio}"></td>`;
+        datos += `<td>${obs}<input type="hidden" id="obs${cod}" name="obs${cod}" class="tblObs" value="${obs}"></td>`;
+        datos += `<td>Accion</td>`;
+        datos += `</tr>`;
+        
+        tabla.insertAdjacentHTML("beforeEnd", datos);
+        $('#modalAñadirArt').modal('hide');
+    }
 
 }
 
@@ -121,9 +132,9 @@ function bonificacion() {
 
     var codigos = document.getElementsByClassName('tblCodigo');
     var subTotalAux = 0;
-    
+
     for (i = 0; i < codigos.length; i++) {
-        subTotalAux = subTotalAux + (document.getElementById('can'+codigos[i].value).value * document.getElementById('precio'+codigos[i].value).value);
+        subTotalAux = subTotalAux + (document.getElementById('can' + codigos[i].value).value * document.getElementById('precio' + codigos[i].value).value);
         console.log(subTotalAux);
     }
 
@@ -161,17 +172,52 @@ function guardarFactura() {
         .then(data => {
             //console.log(data);
             if (data == 'ok') {
-                    swal({
-                        title: `¡Se ha guardado la factura!`,
-                        icon: "success",
-                        button: "Aceptar",
-                    });
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000)
-            }else{
+                swal({
+                    title: `¡Se ha guardado la factura!`,
+                    icon: "success",
+                    button: "Aceptar",
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 1000)
+            } else {
                 console.log('error');
             }
 
+        })
+}
+
+function getColada() {
+    var codigoMaterial = document.getElementById('selectArt');
+    console.log(codigoMaterial.value);
+
+    var datos = new FormData(document.getElementById('form-null'));
+
+    datos.append('codigo', codigoMaterial.value);
+
+    fetch('/admin/ingresarfacturasgetcolada', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+
+            var selectArt = document.getElementById('selectColada');
+            let datos = ``;
+            if (data != null) {
+
+                data.forEach(e => {
+
+                    datos += `<option value="${e['id']}">`;
+                    datos += `${e['Colada']}`;
+                    datos += `</option>`;
+
+                });
+            } else {
+                datos += `<option>-</option>`;
+            }
+
+            selectArt.innerHTML = datos;
         })
 }

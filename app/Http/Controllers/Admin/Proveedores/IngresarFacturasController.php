@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Proveedores;
 
 use App\Http\Controllers\Controller;
 use App\Models\ArticulosGenerales;
+use App\Models\ColadaMaterial;
 use App\Models\FacturaArticulos;
 use App\Models\Goma;
 use App\Models\Iva;
@@ -11,6 +12,7 @@ use App\Models\Material;
 use App\Models\ProveedorArticulos;
 use App\Models\Proveedores;
 use App\Models\ProveedorFactura;
+use App\Models\TotalStockMateriales;
 use Illuminate\Http\Request;
 
 class IngresarFacturasController extends Controller
@@ -136,9 +138,20 @@ class IngresarFacturasController extends Controller
             $a ='sin' . $codArticulos[$i];
             switch (request('sin' . $codArticulos[$i])) {
                 case 'Materiales':
+                    $colada = request('col' . $codArticulos[$i]);
+                    
+                    $coladaMat = ColadaMaterial::find($colada);
+                    $coladaMat->Stock = $coladaMat->Stock + request('can' . $codArticulos[$i]);
+                    $coladaMat->saveOrFail();
+                    
+                    $totalStock = TotalStockMateriales::where('CodigoMaterial',$codArticulos[$i])->first();
+                    $totalStock->Stock = $totalStock->Stock + request('can' . $codArticulos[$i]);
+                    $totalStock->saveOrFail();
+                    
                     $material = Material::where('CodigoMaterial',$codArticulos[$i])->first();
                     $material->Stock = $material->Stock + request('can' . $codArticulos[$i]);
                     $material->saveOrFail();
+
                     break;
 
                 case 'Articulos':
@@ -158,6 +171,20 @@ class IngresarFacturasController extends Controller
                     break;
             }
         }
-        return json_encode('ok'); 
+        return json_encode('ok');
+        /* $colada = request('colCORIND-23'); 
+        $coladaMat = ColadaMaterial::find($colada);
+        $coladaMat->Stock =$coladaMat->Stock + request('canCORIND-23');
+        $coladaMat->saveOrFail();
+        echo json_encode($coladaMat->Stock);  */
+    }
+    
+    
+    public function getColada()
+    {
+        $cod = request('codigo');
+        $coladas = ColadaMaterial::where('CodigoMaterial',$cod)->get();
+        return json_encode($coladas);
     }
 }
+
