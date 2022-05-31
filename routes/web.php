@@ -194,3 +194,4 @@ Route::post('/admin/facturaobtenerproveedor', [IngresarFacturasController::class
 Route::post('/admin/ingresarfacturasllenarmodal', [IngresarFacturasController::class, 'getArticulos']);
 Route::post('/admin/ingresarfacturasgetart', [IngresarFacturasController::class, 'getArticulo']);
 Route::post('/admin/ingresarfacturassave', [IngresarFacturasController::class, 'saveFactura']);
+Route::post('/admin/ingresarfacturasgetcolada', [IngresarFacturasController::class, 'getColada']);
