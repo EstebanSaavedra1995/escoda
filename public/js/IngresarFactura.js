@@ -98,16 +98,16 @@ function agregarArt() {
     var precio = document.getElementById('precioArt').value;
     var obs = document.getElementById('obsArt').value;
     var colada = document.getElementById('selectColada').value;
-    if (sinonimo == '' || cod == '' || cantidad == '' || precio == '' ) {
+    if (sinonimo == '' || cod == '' || cantidad == '' || precio == '') {
         swal({
             title: `¡Falta completar datos!`,
             icon: "",
         });
-    }else{
+    } else {
 
         let datos = `<tr>`;
         datos += `<td>${cod}<input type="hidden" id="id${cod}" name="id${cod}" class="tblCodigo" value="${cod}"> </td>`;
-        datos += `<td>${$("#selectArt option:selected").text()} - ${$("#selectColada option:selected").text()}<input type="hidden" id="desc${cod}" name="desc${cod}" class="tblDesc" value="${$("#selectArt option:selected").text()}">
+        datos += `<td>${$("#selectArt option:selected").text()} - ${colada}<input type="hidden" id="desc${cod}" name="desc${cod}" class="tblDesc" value="${$("#selectArt option:selected").text()}">
         <input type="hidden" id="sin${cod}" name="sin${cod}" class="tblSin" value="${sinonimo}">
         <input type="hidden" id="col${cod}" name="col${cod}" class="tblCol" value="${colada}"></td>`;
         datos += `<td>${cantidad}<input type="hidden" id="can${cod}" name="can${cod}" class="tblCan" value="${cantidad}"></td>`;
@@ -115,7 +115,7 @@ function agregarArt() {
         datos += `<td>${obs}<input type="hidden" id="obs${cod}" name="obs${cod}" class="tblObs" value="${obs}"></td>`;
         datos += `<td>Accion</td>`;
         datos += `</tr>`;
-        
+
         tabla.insertAdjacentHTML("beforeEnd", datos);
         $('#modalAñadirArt').modal('hide');
     }
@@ -157,34 +157,43 @@ function bonificacion() {
 }
 
 function guardarFactura() {
-    var codigos = document.getElementsByClassName('tblCodigo');
-    var val = [];
-    for (i = 0; i < codigos.length; i++) {
-        val.push(codigos[i].value);
-    }
-    const datos = new FormData(document.getElementById('formulario-factura'));
-    datos.append('codigos', val);
-    fetch('/admin/ingresarfacturassave', {
-        method: 'POST',
-        body: datos,
-    })
-        .then(res => res.json())
-        .then(data => {
-            //console.log(data);
-            if (data == 'ok') {
-                swal({
-                    title: `¡Se ha guardado la factura!`,
-                    icon: "success",
-                    button: "Aceptar",
-                });
-                setTimeout(function () {
-                    location.reload();
-                }, 1000)
-            } else {
-                console.log('error');
-            }
+    var nroFact = document.getElementById('nroFact');
+    if (nroFact == '' ) {
+        swal({
+            title: `¡Falta completar Nro. Factura!`,
+            icon: "",
+        });
+    } else {
 
+        var codigos = document.getElementsByClassName('tblCodigo');
+        var val = [];
+        for (i = 0; i < codigos.length; i++) {
+            val.push(codigos[i].value);
+        }
+        const datos = new FormData(document.getElementById('formulario-factura'));
+        datos.append('codigos', val);
+        fetch('/admin/ingresarfacturassave', {
+            method: 'POST',
+            body: datos,
         })
+            .then(res => res.json())
+            .then(data => {
+                //console.log(data);
+                if (data == 'ok') {
+                    swal({
+                        title: `¡Se ha guardado la factura!`,
+                        icon: "success",
+                        button: "Aceptar",
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000)
+                } else {
+                    console.log('error');
+                }
+
+            })
+    }
 }
 
 function getColada() {

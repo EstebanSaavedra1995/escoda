@@ -44,7 +44,7 @@
                         </div>
                         <div class="row mb-2">
                             <label for="nroFact" class="col col-1">Nro. de Factura: </label>
-                            <input type="text" readonly class="col col-3" id="nroFact" value="9999-90000005">
+                            <input type="text" maxlength="13" class="col col-3" id="nroFact" name="nroFact" value="">
 
                             <label for="tipo" class="col col-1">Tipo: </label>
                             <select name="tipo" id="tipo" name="tipo" class="col col-3">
@@ -203,16 +203,14 @@
 
                         <div class="row mb-2">
                             <label for="selectArt" class=" col col-3">Seleccionar Artículo:</label>
-                            <select name="selectArt" id="selectArt" class="select2" onchange="getColada();">
+                            <select name="selectArt" id="selectArt" class="select2">
                                 <option value=""></option>
                             </select>
                         </div>
                         
                         <div class="row mb-2">
-                            <label for="selectColada" class=" col col-3">Seleccionar Colada:</label>
-                            <select name="selectColada" id="selectColada" class="select2">
-                                <option value=""></option>
-                            </select>
+                            <label for="selectColada" class=" col col-3">Colada:</label>
+                            <input type="text" maxlength="50" name="selectColada" id="selectColada" class="col col-2">
                         </div>
 
                         <div class="row mb-2">

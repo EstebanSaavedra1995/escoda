@@ -103,12 +103,13 @@ class IngresarFacturasController extends Controller
         $calCalidad = request('calCalidad');
         $bonif = request('bonif');
 
-        $ultimaFact = ProveedorFactura::OrderBy('NroFactura', 'DESC')->first();
+        /* $ultimaFact = ProveedorFactura::OrderBy('NroFactura', 'DESC')->first();
 
         $aux = explode("-", $ultimaFact->NroFactura);
 
         $nroFact = $aux[1] + 1;
-        $nroFact = $aux[0] . '-' . $nroFact;
+        $nroFact = $aux[0] . '-' . $nroFact; */
+        $nroFact = request('nroFact');
 
         $factura = new ProveedorFactura();
         $factura->NroFactura = $nroFact;
@@ -140,10 +141,18 @@ class IngresarFacturasController extends Controller
                 case 'Materiales':
                     $colada = request('col' . $codArticulos[$i]);
                     
-                    $coladaMat = ColadaMaterial::find($colada);
-                    $coladaMat->Stock = $coladaMat->Stock + request('can' . $codArticulos[$i]);
-                    $coladaMat->saveOrFail();
-                    
+                    $coladaMat = ColadaMaterial::where('Colada',$colada)->first();
+                    if ($coladaMat != null) {
+                        $coladaMat->Stock = $coladaMat->Stock + request('can' . $codArticulos[$i]);
+                        $coladaMat->saveOrFail();
+                    }else{
+                        $coladaMat = new ColadaMaterial();
+                        $coladaMat->CodigoMaterial = $codArticulos[$i];
+                        $coladaMat->Colada = $colada;
+                        $coladaMat->Stock = request('can' . $codArticulos[$i]);
+                        $coladaMat->saveOrFail();
+                    }
+                     
                     $totalStock = TotalStockMateriales::where('CodigoMaterial',$codArticulos[$i])->first();
                     $totalStock->Stock = $totalStock->Stock + request('can' . $codArticulos[$i]);
                     $totalStock->saveOrFail();
