@@ -1,8 +1,11 @@
 //PARA LIMPIAR CACHE Y FUNCIONE BIEN PUSHER
 /* php artisan config:cache */
+window.onload = function () {
+  start();
+}
 $(document).ready(function(){
 //window.onload = function () {
-  if (document.getElementsByClassName('inicio')) {
+  /* if (document.getElementsByClassName('inicio')) {
     var inicios = document.getElementsByClassName('inicio');
     var fecha;
    
@@ -15,7 +18,7 @@ $(document).ready(function(){
     }
       console.log('array'+controlI);
     
-  }
+  } */
 
 }
 )
@@ -33,9 +36,23 @@ var timeInicial;
 
 function start() {
   console.log('start');
-  timeInicial = new Date();
+  if (document.getElementsByClassName('inicio')) {
+    var inicios = document.getElementsByClassName('inicio');
+    var fecha;
+   
+    //console.log('Inicio= '+localStorage.getItem("inicio"));
+    for (let i = 0; i < inicios.length; i++) {
+      fecha = localStorage.getItem(inicios[i].value);
+      fecha = new Date(localStorage.getItem(inicios[i].value));
+      console.log('fecha: '+fecha);
+      controlI.push(setInterval(cronometro, 1000, fecha,inicios[i].value));
+    }
+      console.log('array: '+controlI);
+    
+  }
+  /* timeInicial = new Date();
   localStorage.setItem("inicio", timeInicial);
-  control = setInterval(cronometro, 1000);
+  control = setInterval(cronometro, 1000); */
 }
 function cronometro(fecha,pantalla) {
 
@@ -65,6 +82,7 @@ function cronometro(fecha,pantalla) {
   // if(localStorage.getItem("inicio")!=null)
   //inicio=localStorage.getItem("inicio");
   var pantalla = document.getElementById('pantalla'+pantalla);
+  //console.log(pantalla);
   if (pantalla != null) {
     
     pantalla.innerHTML = tiempoPieza;

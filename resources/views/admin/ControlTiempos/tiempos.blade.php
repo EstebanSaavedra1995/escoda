@@ -1,32 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('adminlte::page')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-    </script>
-    {{-- Bootstrap --}}
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <title>tiempos</title>
-    {{-- scripts --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+@section('title', 'Escoda')
+
+@section('content_header')
+
+@stop
+
+@section('content')
+<table class="table table-bordered table-striped">
+    <head>
+        <th>Nro. Orden</th>
+        <th>Tarea</th>
+        <th>Operario</th>
+        <th>Renglon</th>
+        <th>Accion</th>
+    </head>
+    @foreach ($ordenesC as $orden)
+    <tr>
+        <td>{{$orden->NroOC}}</td>
+        <td>{{$orden->Tarea}}</td>
+        <td>{{$orden->Operario}}</td>
+        <td>{{$orden->Renglon}}</td>
+        <td>
+            <form action="{{ route('horarios.maquinas.tiempos') }}" method="POST">
+                <input type="text" name="id" value="{{$orden->id}}" hidden>
+                @csrf
+                <button type="submit" class="btn btn-primary">Elegir</button>
+            </form>
+        </td>
+    </tr>
+    @endforeach
+</table>
+@stop
+
+@section('css')
+@stop
+
+@section('js')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     @livewireScripts
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script src="{{ asset('js/cronometro.js') }}"></script>
-</head>
+@stop
 
-<body class="bg-dark">
-    {{-- @livewire("control-horarios")
-    @livewire("horarios-lista") --}}
-
-    @livewire('cronometro')
-</body>
-
-</html>

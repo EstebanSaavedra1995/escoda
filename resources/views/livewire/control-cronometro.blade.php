@@ -3,7 +3,7 @@
     {{-- @foreach ($maquinas as $item)
         {{$item['maquina']}}
     @endforeach --}}
-    <small>{{ $evento }} </small>
+    
 
     @foreach ($maquinas as $item)
 

@@ -15,101 +15,104 @@ use Livewire\Component;
 
 class Cronometro extends Component
 {
-    public $cantidad;
-    public $pieza;
-    public $estado;
-    public $tiempo;
-    public $exitosas;
-    public $fallidas;
-    public $enviado;
-    public $maquina;
     public $detalleOC;
-    public $ordenC;
+    public $maquina;
     public $material;
+    public $fallidas;
+    public $exitosas;
+    public $cantidad;
+    public $ordenC;
     public $tiempoOC;
-    public $idTiempoOC;
+    public $idTiempo;
     public $pausa;
+    public $estado;
 
 
     protected $listeners = [
         'reset' => 'fin',
         'start' => 'inicio',
-        'guardarPausa' => 'guardarPausa',
-        'actualizarPausa' => 'actualizarPausa'
+        'pausa' => 'pausa',
+        'finPausa' => 'finPausa',
+        'recarga'
     ];
 
-    public function fin($estadoPieza)
+    public function mount($id)
     {
-        $this->estado = $estadoPieza;
+        $idMaq = Request::cookie('maquina');
 
-        $this->actualizarTiempoOC();
+        $this->maquina = Maquina::where('CodMaquina', $idMaq)->first();
+        $this->detalleOC = DetalleOC::find($id);
 
-        $this->cargarDatos();
+        if ($this->detalleOC != null) {
+
+            $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
+
+            $this->material = Material::where('CodigoMaterial', $this->ordenC->CodigoMaterial)->first();
+
+            $this->cantidadPiezas();
+        }
     }
-
-    public function mount()
-    {
-        $this->cantidad = "0";
-        $this->pieza = [];
-        $this->tiempo = '';
-        $this->estado = '';
-        $this->exitosas = '0';
-        $this->fallidas = '0';
-        $this->idTiempoOC = '0';
-    }
-
 
     public function render()
     {
-        //$this->guardarTiempoOC();
-        $this->cargarDatos();
-
+        $idMaq = Request::cookie('maquina');
+        $this->maquina = Maquina::where('CodMaquina', $idMaq)->first();
         return view('livewire.cronometro');
     }
 
-    public function enviarDatos()
+    public function inicio($tiempoStart)
     {
-        //$this->guardarTiempoOC(); 
-        /*         $this->pieza = [
-            'estado' => $this->estado,
-            'tiempo' => $this->tiempo,
-            'numero' => $this->cantidad
-        ]; */
+        $idMaq = Request::cookie('maquina');
+        $this->maquina = Maquina::where('CodMaquina', $idMaq)->first();
 
-        //$this->emit("recibido",$this->cantidad);
-        if ($this->exitosas >= $this->ordenC->Cantidad) {
-            $detalle = DetalleOC::find($this->detalleOC->id);
-            $detalle->Estado = 'finalizado';
-            $detalle->save();
+        $numero = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+            ->orderBy('Numero', 'DESC')->first();
+
+        $tiempo = new TiemposOC();
+        $tiempo->idDetalleOC = $this->detalleOC->id;
+        $tiempo->NroOC = $this->ordenC->NroOC;
+        $tiempo->Tiempo = $tiempoStart;
+        $tiempo->Estado = 'Inicio';
+        $tiempo->CodMaquina = $this->maquina->CodMaquina;
+        $tiempo->Fecha = date("y-m-d H:i:s");
+
+        if ($numero != null) {
+            $tiempo->Numero = $numero->Numero + 1;
+        } else {
+            $tiempo->Numero = 1;
         }
-        $this->emit("enviado");
+
+        $tiempo->save();
+
+        $this->tiempoOC = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+            ->where('Numero', $tiempo->Numero)->first();
+        $this->idTiempo = $this->tiempoOC->id;
+        $this->emit("idTiempo");
+        $this->estado = 'inicio';
+
+        event(new Enviar($this->estado));
+        //$this->idTiempoOC = $this->tiempoOC->id;
+        //$this->emit("guardado", $this->idTiempoOC);
+    }
+
+    public function fin($estado, $tiempoPieza)
+    {
+        if ($this->tiempoOC->id != '0') {
+            $tiempo = TiemposOC::find($this->tiempoOC->id);
+            if ($tiempo->Estado == 'pausa') {
+                $this->finPausa();
+            }
+            $tiempo->Tiempo = $tiempoPieza;
+            $tiempo->Estado = $estado;
+            $tiempo->Fecha = date("y-m-d H:i:s");
+            $tiempo->save();
+        }
+
+        $this->cantidadPiezas();
         event(new Enviar($this->maquina->CodMaquina));
     }
 
-    public function pausa()
-    {
-        $this->estado = 'pausa';
-        //$this->guardarTiempoOC();
-        $this->actualizarTiempoOC();
-        $this->emit("pausa");
-        event(new Enviar('pausa'));
-    }
-    public function inicio()
-    {
-        $this->estado = 'inicio';
-        $this->guardarTiempoOC();
-        event(new Enviar('inicio'));
-    }
-
-    public function continuar()
-    {
-        $this->estado = 'inicio';
-        $this->actualizarTiempoOC();
-        $this->emit("continuar");
-        event(new Enviar('inicio'));
-    }
-
-    public function guardarPausa($tipo)
+    public function pausa($tipo)
     {
         $pausa = new PausasOC();
         $pausa->Tipo = $tipo;
@@ -117,89 +120,53 @@ class Cronometro extends Component
         $pausa->IdDetalleOC = $this->detalleOC->id;
         $pausa->saveOrFail();
         $this->pausa = $pausa;
-    }
+        $this->estado = 'pausa';
 
-    public function actualizarPausa()
-    {
-        $pausa = PausasOC::where('IdDetalleOC', $this->detalleOC->id)
-            ->orderBy('id', 'DESC')->first();;
-        $pausa->Fin = date("y-m-d H:i:s");
-        $pausa->saveOrFail();
-    }
-
-    public function guardarTiempoOC()
-    {
-        $id = Request::cookie('maquina');
-        $this->maquina = Maquina::where('CodMaquina', $id)->first();
-        $this->detalleOC = DetalleOC::where('Maquina', 'like', '%' . $this->maquina->CodMaquina . '%')
-            ->where('Estado', 'pendiente')
-            ->orderBy('Tarea', 'ASC')->first();
-        $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
-
-        $numero = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-            ->orderBy('Numero', 'DESC')->first();
-        /*         if ($numero != null) {
-            $numero = $numero->Numero;
-        } */
-        //->where('CodMaquina', $this->maquina->CodMaquina)
-        $tiempo = new TiemposOC();
-        $tiempo->idDetalleOC = $this->detalleOC->id;
-        $tiempo->NroOC = $this->ordenC->NroOC;
-        $tiempo->Tiempo = $this->tiempo;
-        $tiempo->Estado = $this->estado;
-        $tiempo->CodMaquina = $this->maquina->CodMaquina;
-        $tiempo->Fecha = date("y-m-d H:i:s");
-        if ($numero != null) {
-            $tiempo->Numero = $numero->Numero + 1;
-        } else {
-            $tiempo->Numero = 1;
-        }
-        $tiempo->save();
-        $this->tiempoOC = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-            ->where('Numero', $tiempo->Numero)->first();
-        $this->idTiempoOC = $this->tiempoOC->id;
-        $this->emit("guardado", $this->idTiempoOC);
-    }
-
-    public function actualizarTiempoOC()
-    {
-        if ($this->idTiempoOC != '0') {
-            $tiempo = TiemposOC::find($this->idTiempoOC);
-            $tiempo->Tiempo = $this->tiempo;
-            $tiempo->Estado = $this->estado;
-            $tiempo->Fecha = date("y-m-d H:i:s");
+        if ($this->tiempoOC->id != '0') {
+            $tiempo = TiemposOC::find($this->tiempoOC->id);
+            $tiempo->Estado = 'pausa';
             $tiempo->save();
+            event(new Enviar($this->estado));
         }
     }
 
-    public function cargarDatos()
+    public function finPausa()
     {
-        $id = Request::cookie('maquina');
-        $this->maquina = Maquina::where('CodMaquina', $id)->first();
-        if ($this->maquina != null) {
-            $this->detalleOC = DetalleOC::where('Maquina', 'like', '%' . $this->maquina->CodMaquina . '%')
-                ->where('Estado', 'pendiente')
-                ->orderBy('Tarea', 'ASC')->first();
-            if ($this->detalleOC != null) {
+        if ($this->estado == 'pausa') {
+            $pausa = PausasOC::where('IdDetalleOC', $this->detalleOC->id)
+                ->orderBy('id', 'DESC')->first();;
+            $pausa->Fin = date("y-m-d H:i:s");
+            $pausa->saveOrFail();
+            $this->estado = 'inicio';
 
-                $this->ordenC = OrdenesConstruccion::where('NroOC', $this->detalleOC->NroOC)->first();
-
-                $this->material = Material::where('CodigoMaterial', $this->ordenC->CodigoMaterial)->first();
-
-                $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-                    ->where('Estado', 'fallida')->get();
-                $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
-                    ->where('Estado', 'exitosa')->get();
-
-                $this->fallidas = count($fallas);
-                $this->exitosas = count($exitos);
-
-                $this->cantidad = $this->fallidas + $this->exitosas;
+            if ($this->tiempoOC->id != '0') {
+                $tiempo = TiemposOC::find($this->tiempoOC->id);
+                $tiempo->Estado = 'inicio';
+                $tiempo->save();
+                event(new Enviar($this->estado));
             }
-            /* if ($this->idTiempoOC != '0') {
-                $tiempo = TiemposOC::find($this->idTiempoOC);
-            } */
-            $this->emit("refresh");
+        }
+    }
+
+    public function cantidadPiezas()
+    {
+        $fallas = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+            ->where('Estado', 'fallida')->get();
+        $exitos = TiemposOC::where('idDetalleOC', $this->detalleOC->id)
+            ->where('Estado', 'exitosa')->get();
+
+        $this->fallidas = count($fallas);
+        $this->exitosas = count($exitos);
+
+        $this->cantidad = $this->fallidas + $this->exitosas;
+    }
+
+    public function recarga($id)
+    {
+        $this->tiempoOC = TiemposOC::find($id);
+        if ($this->tiempoOC != null) {
+            $this->idTiempo = $this->tiempoOC->id;
+            $this->estado = $this->tiempoOC->Estado;
         }
     }
 }
