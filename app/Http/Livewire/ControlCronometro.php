@@ -61,7 +61,7 @@ class ControlCronometro extends Component
         $this->maquinas = [];
         //$codigos = Maquina::all();
         $detalles = DetalleOC::where('Estado', 'pendiente')
-        ->orderBy('Tarea', 'ASC')->get();
+            ->orderBy('Tarea', 'ASC')->get();
         foreach ($detalles as $detalleOC) {
             //$cod = $value->CodMaquina;
             //$maquina = Maquina::where('CodMaquina', $cod)->first();
@@ -69,37 +69,39 @@ class ControlCronometro extends Component
             if ($detalleOC != null) {
                 $cod = substr($detalleOC->Maquina, 0, 3);
                 $maquina = Maquina::where('CodMaquina', $cod)->first();
-                $ordenC = OrdenesConstruccion::where('NroOC', $detalleOC->NroOC)->first();
+                if ($maquina != null) {
+                    $ordenC = OrdenesConstruccion::where('NroOC', $detalleOC->NroOC)->first();
 
-                $fallas = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                    ->where('Estado', 'fallida')->get();
-                $exitos = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                    ->where('Estado', 'exitosa')->get();
+                    $fallas = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                        ->where('Estado', 'fallida')->get();
+                    $exitos = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                        ->where('Estado', 'exitosa')->get();
 
-                $total = TiemposOC::where('idDetalleOC', $detalleOC->id)->get();
+                    $total = TiemposOC::where('idDetalleOC', $detalleOC->id)->get();
 
-                $fallidas = count($fallas);
-                $exitosas = count($exitos);
+                    $fallidas = count($fallas);
+                    $exitosas = count($exitos);
 
-                $totales = count($total);
-                $ultima = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                                    ->orderBy('id', 'DESC')->first();
-                $zona = [
-                    'maquina' => $maquina,
-                    'detalleOC' => $detalleOC,
-                    'ordenC' => $ordenC,
-                    'fallidas' => $fallidas,
-                    'exitosas' => $exitosas,
-                    'total' => $totales,
-                    'piezas' => $ultima,
-                ];
+                    $totales = count($total);
+                    $ultima = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                        ->orderBy('id', 'DESC')->first();
+                    $zona = [
+                        'maquina' => $maquina,
+                        'detalleOC' => $detalleOC,
+                        'ordenC' => $ordenC,
+                        'fallidas' => $fallidas,
+                        'exitosas' => $exitosas,
+                        'total' => $totales,
+                        'piezas' => $ultima,
+                    ];
 
-                $this->maquinas[] = $zona;
+                    $this->maquinas[] = $zona;
+                }
 
                 /* $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
                                     ->where('Estado','inicio')->get(); */
                 //if ($inicios != null) {
-                    //$this->emit("inicios",json_encode($inicios));
+                //$this->emit("inicios",json_encode($inicios));
                 //}
             }
         }
