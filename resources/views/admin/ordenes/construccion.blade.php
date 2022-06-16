@@ -51,7 +51,7 @@
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Longitud de corte (mm)</label>
-                        <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte" readonly>
+                        <input type="number" class="form-control col mr-2" id="longcorte" name="longcorte">
                     </div>
                     <div class="row mb-2">
                         <label class="col mr-1">Cantidad necesaria (mts)</label>

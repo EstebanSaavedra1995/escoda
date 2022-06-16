@@ -32,7 +32,7 @@ class ConstruccionController extends Controller
     $construccion = Construccion::orderBy('NroOC', 'desc')->first();
     $tareas = Tarea::all();
     $maquinas = Maquina::all();
-    $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea')
+    $supervisores = Personal::where('Cargo','like','%'. 'Supervisor'.'%')
       ->where('Estado', 'A')->get();
 
 
