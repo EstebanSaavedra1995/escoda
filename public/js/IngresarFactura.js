@@ -11,12 +11,11 @@ function abrirModal() {
         .then(res => res.json())
         .then(data => {
             //console.log(data);
-            $('#modalAñadirArt').modal('show');
-
+            
             var selectArt = document.getElementById('selectArt');
             let datos = `<option></option>`;
             if (data != null) {
-
+                
                 data.forEach(e => {
                     if (e['articulos'] != null) {
                         e['articulos'].forEach(e => {
@@ -26,7 +25,7 @@ function abrirModal() {
                             datos += `</option>`;
                         });
                     }
-
+                    
                     if (e['gomas'] != null) {
                         e['gomas'].forEach(e => {
                             //console.log(e);
@@ -35,7 +34,7 @@ function abrirModal() {
                             datos += `</option>`;
                         });
                     }
-
+                    
                     if (e['materiales'] != null) {
                         e['materiales'].forEach(e => {
                             //console.log(e['CodigoMaterial']);  
@@ -48,8 +47,9 @@ function abrirModal() {
             } else {
                 datos += `<option>-</option>`;
             }
-
+            
             selectArt.innerHTML = datos;
+            $('#modalAñadirArt').modal('show');
         })
 }
 

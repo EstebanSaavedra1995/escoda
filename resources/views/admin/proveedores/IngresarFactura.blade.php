@@ -267,6 +267,13 @@
                 width: '20%'
             });
         });
+        
+        $(document).ready(function() {
+            $('#selectArt').select2({
+                width: '40%',
+                dropdownParent: $("#modalAñadirArt")
+            });
+        });
     </script>
     {{-- <script>
         $(document).ready(function() {

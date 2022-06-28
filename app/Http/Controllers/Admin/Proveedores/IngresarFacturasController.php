@@ -22,7 +22,10 @@ class IngresarFacturasController extends Controller
     {
         $proveedores = Proveedores::all();
         $iva = Iva::all();
-        return view('admin.proveedores.IngresarFactura', compact(['proveedores', 'iva']));
+        $articulos = ArticulosGenerales::all();
+        $gomas = Goma::all();
+        $materiales = Material::all();
+        return view('admin.proveedores.IngresarFactura', compact(['proveedores', 'iva','articulos','gomas','materiales']));
     }
 
     public function getProveedor()
@@ -41,26 +44,26 @@ class IngresarFacturasController extends Controller
         $articulosG = null;
         $gomas = null;
         $materiales = null;
-        foreach ($articulos as $value) {
-            $a = ArticulosGenerales::where('CodArticulo', $value->CodArticulo)->first();
-            if ($a != null) {
-                $articulosG[] = $a;
-            }
-
-            $g = Goma::where('CodigoGoma', $value->CodArticulo)->first();
-            if ($g != null) {
-                $gomas[] = $g;
-            }
-
-            $m = Material::where('CodigoMaterial', $value->CodArticulo)->first();
-            if ($m != null) {
-                $materiales[] = $m;
-            }
+        //foreach ($articulos as $value) {
+        /* $a = ArticulosGenerales::all();
+        if ($a != null) {
+            $articulosG[] = $a;
         }
+
+        $g = Goma::all();
+        if ($g != null) {
+            $gomas[] = $g;
+        }
+
+        $m = Material::all();
+        if ($m != null) {
+            $materiales[] = $m;
+        } */
+        //}
         $resultado[] = [
-            'articulos' => $articulosG,
-            'gomas' => $gomas,
-            'materiales' => $materiales,
+            'articulos' => ArticulosGenerales::all(),
+            'gomas' => Goma::all(),
+            'materiales' => Material::all(),
         ];
         return json_encode($resultado);
     }
@@ -124,7 +127,7 @@ class IngresarFacturasController extends Controller
         $factura->AlicuotaIVA = $iva;
         $factura->Bonificacion = $bonif;
         $factura->saveOrFail();
-        $a='';
+        $a = '';
         for ($i = 0; $i < sizeof($codArticulos); $i++) {
             $factArt = new FacturaArticulos();
             $factArt->NroFactura = $nroFact;
@@ -136,41 +139,41 @@ class IngresarFacturasController extends Controller
             $factArt->CodArticulo = $codArticulos[$i];
             $factArt->Descripcion = request('desc' . $codArticulos[$i]);
             $factArt->saveOrFail();
-            $a ='sin' . $codArticulos[$i];
+            $a = 'sin' . $codArticulos[$i];
             switch (request('sin' . $codArticulos[$i])) {
                 case 'Materiales':
                     $colada = request('col' . $codArticulos[$i]);
-                    
-                    $coladaMat = ColadaMaterial::where('Colada',$colada)->first();
+
+                    $coladaMat = ColadaMaterial::where('Colada', $colada)->first();
                     if ($coladaMat != null) {
                         $coladaMat->Stock = $coladaMat->Stock + request('can' . $codArticulos[$i]);
                         $coladaMat->saveOrFail();
-                    }else{
+                    } else {
                         $coladaMat = new ColadaMaterial();
                         $coladaMat->CodigoMaterial = $codArticulos[$i];
                         $coladaMat->Colada = $colada;
                         $coladaMat->Stock = request('can' . $codArticulos[$i]);
                         $coladaMat->saveOrFail();
                     }
-                     
-                    $totalStock = TotalStockMateriales::where('CodigoMaterial',$codArticulos[$i])->first();
+
+                    $totalStock = TotalStockMateriales::where('CodigoMaterial', $codArticulos[$i])->first();
                     $totalStock->Stock = $totalStock->Stock + request('can' . $codArticulos[$i]);
                     $totalStock->saveOrFail();
-                    
-                    $material = Material::where('CodigoMaterial',$codArticulos[$i])->first();
+
+                    $material = Material::where('CodigoMaterial', $codArticulos[$i])->first();
                     $material->Stock = $material->Stock + request('can' . $codArticulos[$i]);
                     $material->saveOrFail();
 
                     break;
 
                 case 'Articulos':
-                    $articulo = ArticulosGenerales::where('CodArticulo',$codArticulos[$i])->first();
+                    $articulo = ArticulosGenerales::where('CodArticulo', $codArticulos[$i])->first();
                     $articulo->Stock = $articulo->Stock + request('can' . $codArticulos[$i]);
                     $articulo->saveOrFail();
                     break;
 
                 case 'Gomas':
-                    $goma = Goma::where('CodigoGoma',$codArticulos[$i])->first();
+                    $goma = Goma::where('CodigoGoma', $codArticulos[$i])->first();
                     $goma->Stock = $goma->Stock + request('can' . $codArticulos[$i]);
                     $goma->saveOrFail();
                     break;
@@ -187,13 +190,12 @@ class IngresarFacturasController extends Controller
         $coladaMat->saveOrFail();
         echo json_encode($coladaMat->Stock);  */
     }
-    
-    
+
+
     public function getColada()
     {
         $cod = request('codigo');
-        $coladas = ColadaMaterial::where('CodigoMaterial',$cod)->get();
+        $coladas = ColadaMaterial::where('CodigoMaterial', $cod)->get();
         return json_encode($coladas);
     }
 }
-
