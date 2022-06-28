@@ -30,7 +30,7 @@ function abrirModal() {
                         e['gomas'].forEach(e => {
                             //console.log(e);
                             datos += `<option value="${e['CodigoGoma']}">`;
-                            datos += `Goma - ${e['Codigo Interno']} - øI${e['CodigoInterno']} - øE${e['CodigoExterno']} -a${e['Altura']}`;
+                            datos += `Goma - ${e['CodigoInterno']} - øI ${e['DiametroInterior']} - øE ${e['DiametroExterior']} - altura ${e['Altura']}`;
                             datos += `</option>`;
                         });
                     }
