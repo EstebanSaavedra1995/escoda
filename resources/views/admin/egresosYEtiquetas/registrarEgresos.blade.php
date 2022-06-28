@@ -63,7 +63,7 @@
 
                     <div class="row mb-2">
                         <label class=" col-2 mr-2">Condición:</label>
-                        <select class="form-select col-2 mr-2" name="condicion" id="condicion">
+                        <select class="form-select col-2 mr-2" name="condicion" id="condicion" onchange="cambioCondicion()">
                             <option value="CONDICION I">CONDICION I</option>
                             <option value="CONDICION II">CONDICION II</option>
                         </select>

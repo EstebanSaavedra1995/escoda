@@ -256,4 +256,15 @@ function collapse() {
 
 }
 
+function cambioCondicion() {
+    var condicion = document.getElementById('condicion').value;
+
+    if (condicion == 'CONDICION I') {
+        $("#numero").removeAttr("readonly");
+    } else {
+        $("#numero").attr("readonly","readonly");
+        document.getElementById('numero').value = '';
+    }
+}
+
 //$('#piezas').on('select2:select', function () {});
