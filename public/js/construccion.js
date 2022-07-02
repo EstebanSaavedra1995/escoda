@@ -144,8 +144,10 @@ $('#piezas').on('select2:select', function () {
 
         .then(res => res.json())
         .then(data => {
+            console.log(data.length);
             if (data.length == 0) {
                 limpiarDatos();
+                completarSinTareas();
             } else {
                 let material = document.getElementById('material');
                 material.value = `${data.material.CodigoMaterial} - ${data.material.Material} - ${data.material.Dimension} - ${data.material.Calidad}`;
@@ -550,6 +552,14 @@ const completarTareas = (data) => {
 
     });
 
+    tablatareas += `<tr id= "filaboton"><td><button type="button" class="btn btn-primary" id="agregartarea">Agregar tarea</button> </td>`;
+    tablatareas += `<td colspan="5" style="text-align:center"><input type="checkbox"> PREDETERMINAR TAREAS</td></tr>`;
+    tareas.innerHTML = tablatareas;
+}
+
+const completarSinTareas = () => {
+    let tareas = document.getElementById('tareas');
+    let tablatareas = '';
     tablatareas += `<tr id= "filaboton"><td><button type="button" class="btn btn-primary" id="agregartarea">Agregar tarea</button> </td>`;
     tablatareas += `<td colspan="5" style="text-align:center"><input type="checkbox"> PREDETERMINAR TAREAS</td></tr>`;
     tareas.innerHTML = tablatareas;
