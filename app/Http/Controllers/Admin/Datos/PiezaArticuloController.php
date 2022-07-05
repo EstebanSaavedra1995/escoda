@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Datos;
 use App\Http\Controllers\Controller;
 use App\Models\Conjunto;
 use App\Models\Pieza;
+use App\Models\TotalStockPiezas;
 use Illuminate\Http\Request;
 
 class PiezaArticuloController extends Controller
@@ -67,6 +68,11 @@ class PiezaArticuloController extends Controller
             $pieza->Instruccion = $instruccion;
             $pieza->Stock = 0;
             $pieza->saveOrFail();
+
+            $stock = new TotalStockPiezas();
+            $stock->CodigoPieza = $codigo;
+            $stock->Stock = 0;
+            $stock->saveOrFail();
             return json_encode('ok');
         }
     }
