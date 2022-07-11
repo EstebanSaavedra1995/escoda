@@ -64,14 +64,15 @@
                     <div class="row mb-2">
                         <label class=" col-2 mr-2">Condición:</label>
                         <select class="form-select col-2 mr-2" name="condicion" id="condicion" onchange="cambioCondicion()">
-                            <option value="CONDICION I">CONDICION I</option>
-                            <option value="CONDICION II">CONDICION II</option>
+                            <option value="I">CONDICION I</option>
+                            <option value="II">CONDICION II</option>
+                            <option value="BAJA">BAJA</option>
                         </select>
                     </div>
 
                     <div class="row mb-2">
                         <label class=" col-2 mr-2">Numero:</label>
-                        <input type="text" class="col-2 mr-2" id="numero" name="numero" maxlength="11">
+                        <input type="text" class="col-2 mr-2" id="numero" name="numero" maxlength="11" readonly>
                     </div>
                     <div class="row mb-2">
                         <label class=" col-2 mr-2">Tipo de Egreso:</label>

@@ -143,13 +143,13 @@ class RegistrarEgresosController extends Controller
         $trazabilidad->Fecha = $fechaEgreso;
         if ($condicion == 'CONDICION I') {
           //$condicion = 'I';
-          $trazabilidad->Condicion = 'I';
+          $trazabilidad->Condicion = $condicion;
           $numero++;
           $trazabilidad->Numero = $numero;
         }
-        if ($condicion == 'CONDICION II') {
+        if ($condicion == 'CONDICION II' || $condicion == 'BAJA') {
           //$condicion = 'II';
-          $trazabilidad->Condicion = 'II';
+          $trazabilidad->Condicion = $condicion;
           $trazabilidad->Numero = request('numero');
         }
         $trazabilidad->TipoEgreso = $tipo;

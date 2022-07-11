@@ -259,7 +259,7 @@ function collapse() {
 function cambioCondicion() {
     var condicion = document.getElementById('condicion').value;
 
-    if (condicion == 'CONDICION I') {
+    if (condicion != 'I') {
         $("#numero").removeAttr("readonly");
     } else {
         $("#numero").attr("readonly","readonly");
