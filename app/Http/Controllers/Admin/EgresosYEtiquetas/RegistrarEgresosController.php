@@ -141,13 +141,13 @@ class RegistrarEgresosController extends Controller
         $trazabilidad->CodPieza = $pieza;
         
         $trazabilidad->Fecha = $fechaEgreso;
-        if ($condicion == 'CONDICION I') {
+        if ($condicion == 'I') {
           //$condicion = 'I';
           $trazabilidad->Condicion = $condicion;
           $numero++;
           $trazabilidad->Numero = $numero;
         }
-        if ($condicion == 'CONDICION II' || $condicion == 'BAJA') {
+        if ($condicion == 'II' || $condicion == 'BAJA') {
           //$condicion = 'II';
           $trazabilidad->Condicion = $condicion;
           $trazabilidad->Numero = request('numero');
@@ -158,7 +158,7 @@ class RegistrarEgresosController extends Controller
         $trazabilidad->Pozo = $pozo;
         $trazabilidad->NroOR = $orden;
         $trazabilidad->IE = 'E';
-        $trazabilidad->save();
+        $trazabilidad->saveOrFail();
       }
       return json_encode($numero);
     }
