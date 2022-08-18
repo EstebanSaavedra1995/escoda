@@ -1,15 +1,20 @@
 <?php
 
 use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
+use App\Http\Controllers\Admin\Datos\ArticulosController;
+use App\Http\Controllers\Admin\Datos\CargosController;
+use App\Http\Controllers\Admin\Datos\MaquinasController as DatosMaquinasController;
 use App\Http\Controllers\Admin\Datos\PersonalController;
 use App\Http\Controllers\Admin\Datos\TareaController;
 use App\Http\Controllers\Admin\Datos\PiezaArticuloController;
+use App\Http\Controllers\Admin\Datos\ProveedoresController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\RegistrarEgresosController;
 use App\Http\Controllers\Admin\ListarFacturasController;
 use App\Http\Controllers\Admin\ListaTareasController;
+use App\Http\Controllers\Admin\Maquinas\MaquinaController;
 use App\Http\Controllers\Admin\Maquinas\MaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ReparacionCompletarCancelarController;
 use App\Http\Controllers\Admin\Stock\ConfeccionarDespieceController;
@@ -189,6 +194,10 @@ Route::post('/admin/listarfacturasguardar', [ProveedoresListarFacturasController
 Route::post('/admin/listarfacturasbuscarproducto', [ProveedoresListarFacturasController::class, 'buscarProducto']);
 
 Route::resource('personal', PersonalController::class)->names('datos.personal');
+Route::resource('cargos', CargosController::class)->names('datos.cargos');
+Route::resource('datosmaquinas', DatosMaquinasController::class)->names('datos.maquinas');
+Route::resource('proveedores', ProveedoresController::class)->names('datos.proveedores');
+Route::resource('articulos', ArticulosController::class)->names('datos.articulos');
 
 Route::get('/admin/ingrasarfacturas', [IngresarFacturasController::class, 'index'])->name('ingresar.facturas');
 Route::post('/admin/facturaobtenerproveedor', [IngresarFacturasController::class, 'getProveedor']);

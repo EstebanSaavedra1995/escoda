@@ -413,6 +413,22 @@ return [
                     'text' => 'Personal',
                     'route'  => 'datos.personal.index',
                 ],
+                [
+                    'text' => 'Cargos',
+                    'route'  => 'datos.cargos.index',
+                ],
+                [
+                    'text' => 'Maquinas',
+                    'route'  => 'datos.maquinas.index',
+                ],
+                [
+                    'text' => 'Proveedores',
+                    'route'  => 'datos.proveedores.index',
+                ],
+                [
+                    'text' => 'Articulos, Gomas y Materiales',
+                    'route'  => 'datos.articulos.index',
+                ],
 
             ]
         ],
