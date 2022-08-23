@@ -407,7 +407,7 @@ return [
                 ],
                 [
                     'text' => 'Tareas',
-                    'route'  => 'datos.tareas',
+                    'route'  => 'datos.tareas.index',
                 ],
                 [
                     'text' => 'Personal',

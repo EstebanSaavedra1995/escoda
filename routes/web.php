@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Datos\PersonalController;
 use App\Http\Controllers\Admin\Datos\TareaController;
 use App\Http\Controllers\Admin\Datos\PiezaArticuloController;
 use App\Http\Controllers\Admin\Datos\ProveedoresController;
+use App\Http\Controllers\Admin\Datos\TareasController;
 use App\Http\Controllers\Admin\EgresosYEtiquetas\ListarController;
 use App\Http\Controllers\Admin\HorariosMaquinasController;
 use App\Http\Controllers\Admin\Ordenes\ConstruccionController;
@@ -167,7 +168,7 @@ Route::post('/admin/datos/store', [PiezaArticuloController::class, 'store']);
 Route::post('/admin/datos/show', [PiezaArticuloController::class, 'show']);
 Route::post('/admin/datos/update', [PiezaArticuloController::class, 'update']);
 
-Route::get('/admin/datos/tareas', [TareaController::class, 'index'])->name('datos.tareas');
+//Route::get('/admin/datos/tareas', [TareaController::class, 'index'])->name('datos.tareas');
 
 Route::get('/admin/listarproveedores', [ListarProveedoresController::class, 'index'])->name('listar.proveedores');
 Route::post('/admin/listarproveedoreslistar', [ListarProveedoresController::class, 'listar']);
@@ -198,6 +199,7 @@ Route::resource('cargos', CargosController::class)->names('datos.cargos');
 Route::resource('datosmaquinas', DatosMaquinasController::class)->names('datos.maquinas');
 Route::resource('proveedores', ProveedoresController::class)->names('datos.proveedores');
 Route::resource('articulos', ArticulosController::class)->names('datos.articulos');
+Route::resource('tareas', TareasController::class)->names('datos.tareas');
 
 Route::get('/admin/ingrasarfacturas', [IngresarFacturasController::class, 'index'])->name('ingresar.facturas');
 Route::post('/admin/facturaobtenerproveedor', [IngresarFacturasController::class, 'getProveedor']);
