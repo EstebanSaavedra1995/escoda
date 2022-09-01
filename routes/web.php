@@ -90,6 +90,7 @@ Route::get('/admin/controlhorariosmaquina',[ControlHorariosMaquinaController::cl
 //Route::get('/admin/controlmaquina',[ControlHorariosMaquinaController::class,'indexControl'])->name('control.maquina');
 //Route::get('/admin/tiemposmaquina',[ControlHorariosMaquinaController::class,'indexTiempos'])->name('tiempos.maquina');
 Route::get('/admin/pdf/{id}', [ListarController::class,'PDF'])->name('descargarPDF');
+Route::post('/admin/exel', [ListarController::class,'Exel'])->name('descargarExelEgresos');
 Route::post('/admin/etchicaspdf', [ListarController::class,'etChicasPDF'])->name('etChicasPDF');
 Route::post('/admin/etgrandespdf', [ListarController::class,'etGrandesPDF'])->name('etGrandesPDF');
 Route::post('/admin/imprimirtodo', [ListarController::class,'imprimirTodo'])->name('todoPDF');

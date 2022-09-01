@@ -231,8 +231,8 @@ function borrarEtiqueta(id) {
     })
         .then((willDelete) => {
             if (willDelete) {
-                let parent = document.getElementById('et'+id).parentNode;
-                parent.removeChild(document.getElementById('et'+id));
+                let parent = document.getElementById('et' + id).parentNode;
+                parent.removeChild(document.getElementById('et' + id));
             } else {
                 /* swal("Your imaginary file is safe!"); */
             }
@@ -316,9 +316,9 @@ function etiqueta() {
             var etChica = document.getElementById('etiquetasChicas');
             var etChicasTodo = document.getElementById('etChicas');
             var etGrandes = document.getElementById('etiquetasGrandes');
-            etGrandes.value='';
+            etGrandes.value = '';
             var etGrandesTodo = document.getElementById('etGrandes');
-            etGrandesTodo.value='';
+            etGrandesTodo.value = '';
             let str = '';
             data.forEach(e => {
                 str += `${e.trazabilidad.id}/`;
@@ -349,7 +349,7 @@ function etiqueta() {
 
 function cargarEtiquetas(id) {
     var codigos = document.getElementsByClassName('tblId');
-    var tamaño = document.getElementById('tamaño' + id).value;
+    var tamaño = document.getElementById('tamañoEt' + id).value;
     var etChicas = document.getElementById('etiquetasChicas');
     var etGrandes = document.getElementById('etiquetasGrandes');
     var etChicasTodo = document.getElementById('etChicas');
@@ -373,6 +373,28 @@ function cargarEtiquetas(id) {
     /* console.log('chicas ' + etChicas.value);
     console.log('grandes ' + etGrandes.value); */
 }
+
+//Evento listar modal
+document.getElementById('btnExel').addEventListener('click', function (e) {
+    e.preventDefault(); //para evitar que se recargue la pagina
+    const datos = new FormData(document.getElementById('formulario-modal'));
+    fetch('/admin/exel', {
+        method: 'GET',
+        //body: datos,
+        //responseType: "blob",
+    })
+        //.then(res => res.json())
+        .then(data => {
+            console.log('ok');
+            const url = window.URL.createObjectURL(new Blob([data]));
+            console.log(url);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "mat.xls");
+            document.body.appendChild(link);
+            link.click();
+        })
+}, true)
 
 
 

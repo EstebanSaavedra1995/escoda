@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin\EgresosYEtiquetas;
 
+use App\Exports\EgresosExport;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Models\TrazabilidadConjuntos;
 use App\Models\Conjunto;
+use App\Models\Material;
 use App\Models\Pieza;
 use App\Models\TrazabilidadPiezas;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListarController extends Controller
 {
@@ -105,7 +108,7 @@ class ListarController extends Controller
                                     ->where('Numero', $nro)->get();
                             }
                         }
-                    }else{
+                    } else {
                         $pieza = request('piezasMod');
                         $nro = request('nroMod');
                         $fechaDesdePieza = request('fechaDesdePieza');
@@ -139,6 +142,10 @@ class ListarController extends Controller
                 $fecha = date_create($value->Fecha);
                 $fecha = date_format($fecha, "d/m/Y");
                 $value->Fecha = $fecha;
+
+                $fecha = date_create($value->FechaIntervencion);
+                $fecha = date_format($fecha, "d/m/Y");
+                $value->FechaIntervencion = $fecha;
 
                 if ($value->FechaIntervencion != "__/__/__") {
                     /* $fecha = date_create($value->FechaIntervencion);
@@ -351,5 +358,127 @@ class ListarController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('vistaPDF', compact('arrayDatos'));
         return $pdf->stream();
+    }
+
+    public function Exel()
+    {
+        $listar = request('listarPor');
+        $trazabilidad = "";
+        switch ($listar) {
+            case '0':
+                $trazabilidad = TrazabilidadConjuntos::all();
+                break;
+            case 'nroDeEgreso':
+                $nroEgreso = request('nroEgreso');
+                if ($nroEgreso != "0") {
+                    $nroEgreso = str_pad($nroEgreso, 8, "0", STR_PAD_LEFT);
+                    $trazabilidad = TrazabilidadConjuntos::where('NroEgreso', $nroEgreso)->get();
+                } else {
+                    $trazabilidad = TrazabilidadConjuntos::all();
+                }
+                break;
+            case 'fecha':
+                $fechaDesde = request('fechaDesde');
+                $fechaDesde = date_create($fechaDesde);
+                $fechaDesde = date_format($fechaDesde, "y-m-d");
+                $fechaHasta = request('fechaHasta');
+                $fechaHasta = date_create($fechaHasta);
+                $fechaHasta = date_format($fechaHasta, "y-m-d");
+                $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesde)
+                    ->where('Fecha', '<=', $fechaHasta)->get();
+                break;
+            case 'pieza':
+                $ck = request('ck');
+                if ($ck == 'conjuntos') {
+
+
+                    $pieza = request('piezasMod');
+                    $nro = request('nroMod');
+                    $fechaDesdePieza = request('fechaDesdePieza');
+                    $fechaDesdePieza = date_create($fechaDesdePieza);
+                    $fechaDesdePieza = date_format($fechaDesdePieza, "ymd");
+                    $fechaHastaPieza = request('fechaHastaPieza');
+                    $fechaHastaPieza = date_create($fechaHastaPieza);
+                    $fechaHastaPieza = date_format($fechaHastaPieza, "ymd");
+                    if ($pieza == 0) {
+                        $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
+                            ->where('Fecha', '<=', $fechaHastaPieza)->get();
+                    } else {
+                        if ($nro == 0) {
+                            $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
+                                ->where('Fecha', '<=', $fechaHastaPieza)
+                                ->where('CodPieza', $pieza)->get();
+                        } else {
+                            $nro = str_pad($nro, 8, "0", STR_PAD_LEFT);
+                            $trazabilidad = TrazabilidadConjuntos::where('Fecha', '>=', $fechaDesdePieza)
+                                ->where('Fecha', '<=', $fechaHastaPieza)
+                                ->where('CodPieza', $pieza)
+                                ->where('Numero', $nro)->get();
+                        }
+                    }
+                } else {
+                    $pieza = request('piezasMod');
+                    $nro = request('nroMod');
+                    $fechaDesdePieza = request('fechaDesdePieza');
+                    $fechaDesdePieza = date_create($fechaDesdePieza);
+                    $fechaDesdePieza = date_format($fechaDesdePieza, "ymd");
+                    $fechaHastaPieza = request('fechaHastaPieza');
+                    $fechaHastaPieza = date_create($fechaHastaPieza);
+                    $fechaHastaPieza = date_format($fechaHastaPieza, "ymd");
+                    if ($pieza == 0) {
+                        $trazabilidad = TrazabilidadPiezas::where('Fecha', '>=', $fechaDesdePieza)
+                            ->where('Fecha', '<=', $fechaHastaPieza)->get();
+                    } else {
+                        if ($nro == 0) {
+                            $trazabilidad = TrazabilidadPiezas::where('Fecha', '>=', $fechaDesdePieza)
+                                ->where('Fecha', '<=', $fechaHastaPieza)
+                                ->where('CodPieza', $pieza)->get();
+                        } else {
+                            $nro = str_pad($nro, 8, "0", STR_PAD_LEFT);
+                            $trazabilidad = TrazabilidadPiezas::where('Fecha', '>=', $fechaDesdePieza)
+                                ->where('Fecha', '<=', $fechaHastaPieza)
+                                ->where('CodPieza', $pieza)
+                                ->where('Numero', $nro)->get();
+                        }
+                    }
+                }
+                break;
+        }
+
+        foreach ($trazabilidad as $value) {
+
+            $fecha = date_create($value->Fecha);
+            $fecha = date_format($fecha, "d/m/Y");
+            $value->Fecha = $fecha;
+
+            $fecha = date_create($value->FechaIntervencion);
+            $fecha = date_format($fecha, "d/m/Y");
+            $value->FechaIntervencion = $fecha;
+
+            if ($value->FechaIntervencion != "__/__/__") {
+                /* $fecha = date_create($value->FechaIntervencion);
+                    $fecha = date_format($fecha, "d/m/Y");
+                    $value->FechaIntervencion = $fecha; */
+            } else {
+                $value->FechaIntervencion = '-';
+            }
+
+            if ($value->NroOR == null) {
+                $value->NroOR = '-';
+            }
+
+            if ($value->NroEgreso == null) {
+                $value->NroEgreso = '-';
+            }
+
+            if ($value->Pozo == null) {
+                $value->Pozo = '-';
+            }
+        }
+
+        //return json_encode($trazabilidad);
+        //$algo = Material::all();
+        return Excel::download(new EgresosExport($trazabilidad), 'Egresos.xlsx');
+        //return $trazabilidad;
     }
 }

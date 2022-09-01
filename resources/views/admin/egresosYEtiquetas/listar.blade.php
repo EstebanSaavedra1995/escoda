@@ -16,7 +16,7 @@
 
     </div>
     <div class="card-body">
-        <form id="formulario-modal" method="POST">
+        <form id="formulario-modal" method="POST" action="{{ route('descargarExelEgresos') }}">
             @csrf
             <div class="conteiner">
                 <div class="row">
@@ -116,12 +116,14 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        
+        <div class="card-footer">
+            {{-- <a href="{{ route('descargarPDF', ['4']) }}" class="btn btn-danger">PDF</a> --}}
+            {{-- <a href="{{ route('descargarExelEgresos') }}" class="btn btn-primary">Exel</a> --}}
+            <button class="btn btn-primary" id="" type="submit">Exel</button>
+            <button class="btn btn-primary" id="btnEtiquetas" onclick="etiqueta();">Etiquetas</button>
         </form>
-    </div>
-
-    <div class="card-footer">
-        <a href="{{ route('descargarPDF', ['4']) }}" class="btn btn-danger">PDF</a>
-        <button class="btn btn-primary" id="btnEtiquetas" onclick="etiqueta();">Etiquetas</button>
     </div>
 
     {{-- MODAL MODIFICAR --}}
