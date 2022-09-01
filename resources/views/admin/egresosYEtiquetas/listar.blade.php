@@ -51,7 +51,7 @@
                     <div class="row mb-2">
                         <label class=" col-1">Desde:</label>
                         <input type="date" id="fechaDesde" name="fechaDesde" class="form-control col-3 mr-2"
-                            value="2000-01-01" max="{{ $date = date('Y-m-d') }}">
+                            value="{{ $date = date('Y-m-d') }}" max="{{ $date = date('Y-m-d') }}">
                         <label class=" col-1">Hasta:</label>
                         <input type="date" id="fechaHasta" name="fechaHasta" class="form-control col-3"
                             value="{{ $date = date('Y-m-d') }}" max="{{ $date = date('Y-m-d') }}">
@@ -79,7 +79,7 @@
 
                         <label class=" col-1 ">Desde:</label>
                         <input type="date" id="fechaDesdePieza" name="fechaDesdePieza" class="form-control col-2"
-                            value="2000-01-01" max="{{ $date = date('Y-m-d') }}">
+                            value="{{ $date = date('Y-m-d') }}" max="{{ $date = date('Y-m-d') }}">
                         <label class=" col-1 ">Hasta:</label>
 
                         <input type="date" id="fechaHastaPieza" name="fechaHastaPieza" class="form-control col-2"

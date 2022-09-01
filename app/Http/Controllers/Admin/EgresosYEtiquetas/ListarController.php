@@ -143,9 +143,9 @@ class ListarController extends Controller
                 $fecha = date_format($fecha, "d/m/Y");
                 $value->Fecha = $fecha;
 
-                $fecha = date_create($value->FechaIntervencion);
+                /* $fecha = date_create($value->FechaIntervencion);
                 $fecha = date_format($fecha, "d/m/Y");
-                $value->FechaIntervencion = $fecha;
+                $value->FechaIntervencion = $fecha; */
 
                 if ($value->FechaIntervencion != "__/__/__") {
                     /* $fecha = date_create($value->FechaIntervencion);
@@ -451,9 +451,9 @@ class ListarController extends Controller
             $fecha = date_format($fecha, "d/m/Y");
             $value->Fecha = $fecha;
 
-            $fecha = date_create($value->FechaIntervencion);
+            /* $fecha = date_create($value->FechaIntervencion);
             $fecha = date_format($fecha, "d/m/Y");
-            $value->FechaIntervencion = $fecha;
+            $value->FechaIntervencion = $fecha; */
 
             if ($value->FechaIntervencion != "__/__/__") {
                 /* $fecha = date_create($value->FechaIntervencion);
@@ -478,7 +478,7 @@ class ListarController extends Controller
 
         //return json_encode($trazabilidad);
         //$algo = Material::all();
-        return Excel::download(new EgresosExport($trazabilidad), 'Egresos.xlsx');
+        return Excel::download(new EgresosExport($trazabilidad),'Egresos '. date('d-m-Y').'.xlsx');
         //return $trazabilidad;
     }
 }
