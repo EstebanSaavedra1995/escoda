@@ -68,7 +68,7 @@ Route::get('/admin/registraregreso', [RegistrarEgresosController::class, 'index'
 Route::post('/admin/registraregresopiezas', [RegistrarEgresosController::class, 'piezas']);
 Route::post('/admin/registraregresotabla', [RegistrarEgresosController::class, 'tabla']);
 Route::post('/admin/registraregresoguardar', [RegistrarEgresosController::class, 'guardar']);
-Route::post('/admin/registraregresoguardar', [RegistrarEgresosController::class, 'guardar']);
+//Route::post('/admin/registraregresoguardar', [RegistrarEgresosController::class, 'guardar']);
 Route::get('/admin/listar', [ListarController::class, 'index'])->name('listar');
 Route::post('/admin/listartabla', [ListarController::class, 'tabla']);
 Route::post('/admin/listarpiezas', [ListarController::class, 'piezas']);
@@ -80,7 +80,7 @@ Route::post('/admin/confeccionardespiecepredeterminar',[ConfeccionarDespieceCont
 Route::get('/admin/registraregreso',[RegistrarEgresosController::class,'index'])->name('registrar.egresos');
 Route::post('/admin/registraregresopiezas',[RegistrarEgresosController::class,'piezas']);
 Route::post('/admin/registraregresotabla',[RegistrarEgresosController::class,'tabla']);
-Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
+//Route::post('/admin/registraregresoguardar',[RegistrarEgresosController::class,'guardar']);
 Route::get('/admin/listar',[ListarController::class,'index'])->name('listar');
 Route::post('/admin/listarpiezas',[ListarController::class,'piezas']);
 Route::post('/admin/listarmodificar',[ListarController::class,'modificar']);
