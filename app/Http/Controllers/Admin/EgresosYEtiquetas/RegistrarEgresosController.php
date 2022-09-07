@@ -15,7 +15,7 @@ class RegistrarEgresosController extends Controller
 {
   public function __construct()
   {
-      $this->middleware('auth');
+    $this->middleware('auth');
   }
 
   public function index()
@@ -49,7 +49,7 @@ class RegistrarEgresosController extends Controller
       return json_encode($resultado);
     }
   }
-//tabla del modal
+  //tabla del modal
   public function tabla()
   {
     if (request()->getMethod() == 'POST') {
@@ -114,7 +114,7 @@ class RegistrarEgresosController extends Controller
       $fechaEgreso = date_create($fechaEgreso);
       $fechaEgreso = date_format($fechaEgreso, "ymd");
       $condicion = request('condicion');
-      
+
       $tipo = request('tipoEgreso');
       $nroEgreso = request('nroEgreso');
       $fechaIntervencion = request('fechaIntervencion');
@@ -123,23 +123,26 @@ class RegistrarEgresosController extends Controller
       $pozo = request('pozo');
       $orden = request('ordenTarea');
       $pieza = request('piezas');
-      $numero = TrazabilidadConjuntos::where('CodPieza', $pieza)
-        ->orderBy('Numero', 'DESC')->first();
-        if ($numero != null) {
-          $numero = $numero->Numero;
-        }else{
-          $numero = 1;
-        }
       $cantidad = request('cantidad');
 
       for ($i = 0; $i < $cantidad; $i++) {
         if ($ck == 'conjuntos') {
           $trazabilidad = new TrazabilidadConjuntos();
-        }else{
-          $trazabilidad = new TrazabilidadPiezas();
+          $numero = TrazabilidadConjuntos::where('CodPieza', $pieza)
+            ->orderBy('Numero', 'DESC')->first();
+          } else {
+            $trazabilidad = new TrazabilidadPiezas();
+            $numero = TrazabilidadPiezas::where('CodPieza', $pieza)
+              ->orderBy('Numero', 'DESC')->first();
+        }
+        
+        if ($numero != null) {
+          $numero = $numero->Numero;
+        } else {
+          $numero = 1;
         }
         $trazabilidad->CodPieza = $pieza;
-        
+
         $trazabilidad->Fecha = $fechaEgreso;
         if ($condicion == 'I') {
           //$condicion = 'I';
