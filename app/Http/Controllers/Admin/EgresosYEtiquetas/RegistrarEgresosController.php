@@ -139,7 +139,7 @@ class RegistrarEgresosController extends Controller
         if ($numero != null) {
           $numero = $numero->Numero;
         } else {
-          $numero = 1;
+          $numero = 0;
         }
         $trazabilidad->CodPieza = $pieza;
 
