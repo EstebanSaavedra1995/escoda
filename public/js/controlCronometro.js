@@ -21,7 +21,7 @@ $(document).ready(function(){
   } */
 
 }
-)
+) 
 var isMarch = false;
 var isStart = false;
 var terminado = false;

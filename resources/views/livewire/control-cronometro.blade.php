@@ -103,6 +103,7 @@
                                             //localStorage.removeItem("{{ $pieza->id }}");
                                         }
                                         //document.location.reload();
+                                        start();
                                     </script>
                             @break
                             @default
@@ -133,16 +134,19 @@
         channel.bind('escoda-event', function(data) {
             //alert(JSON.stringify(data.datos));
             if (data.datos == 'inicio') {
-                start();
             }
+            //start();
             window.livewire.emit('recibido', data.datos);
         });
     </script>
 
     <script>
         window.livewire.on('inicios', function(data) {
+            console.log('dsadasdasasdsd');
             //localStorage.setItem("idTiempo", document.getElementById('idTiempo').value);
-            //console.log(data);
+            console.log('data: '+data);
         });
     </script>
+
+<script src="{{ asset('js/controlCronometro.js') }}"></script>
 </div>

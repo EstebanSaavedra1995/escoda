@@ -62,6 +62,7 @@ class ControlCronometro extends Component
         //$codigos = Maquina::all();
         $detalles = DetalleOC::where('Estado', 'pendiente')
             ->orderBy('Tarea', 'ASC')->get();
+        $piezas = [];
         foreach ($detalles as $detalleOC) {
             //$cod = $value->CodMaquina;
             //$maquina = Maquina::where('CodMaquina', $cod)->first();
@@ -95,15 +96,16 @@ class ControlCronometro extends Component
                         'piezas' => $ultima,
                     ];
 
+                    $piezas[] = $ultima;
                     $this->maquinas[] = $zona;
                 }
 
                 /* $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                                    ->where('Estado','inicio')->get(); */
+                ->where('Estado','inicio')->get(); */
                 //if ($inicios != null) {
-                //$this->emit("inicios",json_encode($inicios));
                 //}
             }
         }
+        $this->emit("inicios",json_encode($piezas));
     }
 }
