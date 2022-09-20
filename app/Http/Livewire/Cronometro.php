@@ -72,7 +72,7 @@ class Cronometro extends Component
         $tiempo->idDetalleOC = $this->detalleOC->id;
         $tiempo->NroOC = $this->ordenC->NroOC;
         $tiempo->Tiempo = $tiempoStart;
-        $tiempo->Estado = 'Inicio';
+        $tiempo->Estado = 'inicio';
         $tiempo->CodMaquina = $this->maquina->CodMaquina;
         $tiempo->Fecha = date("y-m-d H:i:s");
 
