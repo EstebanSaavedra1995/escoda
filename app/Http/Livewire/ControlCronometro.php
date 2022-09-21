@@ -5,7 +5,9 @@ namespace App\Http\Livewire;
 use App\Models\DetalleOC;
 use App\Models\Maquina;
 use App\Models\OrdenesConstruccion;
+use App\Models\Personal;
 use App\Models\TiemposOC;
+use App\Models\User;
 use Request;
 use Livewire\Component;
 
@@ -20,6 +22,7 @@ class ControlCronometro extends Component
     public $detalleOC;
     public $ordenC;
     public $evento;
+    public $buscar;
     protected $listeners = ["recibido"];
 
     public function mount()
@@ -27,6 +30,7 @@ class ControlCronometro extends Component
         $this->maquinas = [];
         $this->codMaquinas = [];
         $this->evento = '';
+        $this->buscar = '';
         /* 
         $this->cantidad = '0';
         $this->exitosas = 0;
@@ -61,6 +65,7 @@ class ControlCronometro extends Component
         $this->maquinas = [];
         //$codigos = Maquina::all();
         $detalles = DetalleOC::where('Estado', 'pendiente')
+            ->where('NroOC', 'LIKE', '%' . $this->buscar . '%')
             ->orderBy('Tarea', 'ASC')->get();
         $piezas = [];
         foreach ($detalles as $detalleOC) {
@@ -84,8 +89,25 @@ class ControlCronometro extends Component
                     $exitosas = count($exitos);
 
                     $totales = count($total);
+
                     $ultima = TiemposOC::where('idDetalleOC', $detalleOC->id)
                         ->orderBy('id', 'DESC')->first();
+
+
+                    /* if ($ultima->idUsuario == '0') {
+                        $operario = Personal::find(1);
+                    } else { */
+                    if ($ultima != null) {
+                        $usuario = User::find($ultima->idUsuario);
+                        $operario = Personal::find($usuario->NroLegajo);
+                    }
+                    else
+                    {
+                        $operario = Personal::find(1);
+
+                    }
+                    // }
+
                     $zona = [
                         'maquina' => $maquina,
                         'detalleOC' => $detalleOC,
@@ -94,6 +116,7 @@ class ControlCronometro extends Component
                         'exitosas' => $exitosas,
                         'total' => $totales,
                         'piezas' => $ultima,
+                        'operario' => $operario,
                     ];
 
                     $piezas[] = $ultima;
@@ -106,6 +129,6 @@ class ControlCronometro extends Component
                 //}
             }
         }
-        $this->emit("inicios",json_encode($piezas));
+        $this->emit("inicios", json_encode($piezas));
     }
 }

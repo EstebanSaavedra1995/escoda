@@ -3,6 +3,9 @@
     {{-- @foreach ($maquinas as $item)
         {{$item['maquina']}}
     @endforeach --}}
+    <div style="max-width: 50%;" class="container">
+        <input type="text" class="form-control" wire:model="buscar" placeholder="Buscar por Nro. de OR">
+    </div>
     
 
     @foreach ($maquinas as $item)
@@ -55,6 +58,7 @@
                             <th>Tiempo</th>
                             <th>Estado</th>
                             <th>Fecha/Hora</th>
+                            <th>Operario</th>
                         </head>
                     </tr>
                     {{-- @foreach ($item['piezas'] as $pieza) --}}
@@ -112,6 +116,7 @@
 
                         <td>{{ $pieza->Estado }}</td>
                         <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
+                        <td>{{$item['operario']->ApellidoNombre}}</td>
                         </tr>
                     @endif
                     {{-- @endforeach --}}

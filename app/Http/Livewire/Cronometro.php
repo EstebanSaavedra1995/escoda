@@ -75,6 +75,7 @@ class Cronometro extends Component
         $tiempo->Estado = 'inicio';
         $tiempo->CodMaquina = $this->maquina->CodMaquina;
         $tiempo->Fecha = date("y-m-d H:i:s");
+        $tiempo->idUsuario = auth()->user()->id;
 
         if ($numero != null) {
             $tiempo->Numero = $numero->Numero + 1;

@@ -32,6 +32,7 @@
                         <th>Tiempo</th>
                         <th>Estado</th>
                         <th>Fecha/Hora</th>
+                        <th>Operario</th>
                     </head>
                 </tr>
                 @foreach ($piezas as $pieza)
@@ -73,6 +74,11 @@
 
                     <td>{{ $pieza->Estado }}</td>
                     <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
+                    @if ($pieza->name == 'admin')
+                    <td>_________</td>
+                    @else
+                    <td>{{$pieza->name}} </td>
+                    @endif
                     </tr>
 
                     {{-- @endforeach --}}
