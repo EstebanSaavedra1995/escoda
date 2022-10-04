@@ -34,7 +34,7 @@ class ConstruccionListarCancelarController extends Controller
         $piezas = Pieza::select('CodPieza', 'NombrePieza', 'Medida')->orderBy('CodPieza', 'asc')->get();
         $tareas = Tarea::all();
         $maquinas = Maquina::all();
-        $supervisores = Personal::where('Cargo', 'Supervisor de ├ürea')
+        $supervisores = Personal::where('Cargo','like','%'. 'Supervisor de'. '%')
             ->where('Estado', 'A')->get();
 
         $operarios = Personal::Where('Estado', 'A')
@@ -106,7 +106,7 @@ class ConstruccionListarCancelarController extends Controller
         $detallesOC = DetalleOC::where('NroOC', $oc)->get();
         return json_encode($detallesOC); */
         $oc = request('oc');
-        $detallesOC = DetalleOC::select('detalleoc.id AS id_detalle', 'detalleoc.Tarea', 'detalleoc.Maquina', 'detalleoc.Operario', 'detalleoc.Supervisor', 'detalleoc.Horas', 'tareas.id AS id_tarea')
+        $detallesOC = DetalleOC::select('detalleoc.id AS id_detalle', 'detalleoc.Tarea', 'detalleoc.Maquina', 'detalleoc.Operario', 'detalleoc.Supervisor', 'detalleoc.Horas', 'detalleoc.Estado','tareas.id AS id_tarea')
             ->join('tareas', 'detalleoc.Tarea', '=', 'tareas.Tarea')
             ->where('NroOC', $oc)->get();
         return json_encode($detallesOC);
@@ -159,13 +159,15 @@ class ConstruccionListarCancelarController extends Controller
         $op = request('op');
         $sup = request('sup');
         $tiempo = request('tiempo');
+        $estado = request('estado');
+
         $detalleOC = DetalleOC::where('id', $id)->firstOrFail();
         $detalleOC->Tarea = $tarea;
         $detalleOC->Maquina = $maquina;
         $detalleOC->Operario = $op;
         $detalleOC->Supervisor = $sup;
         $detalleOC->Horas = $tiempo;
-        $detalleOC->Estado = "pendiente";
+        $detalleOC->Estado = $estado;
         $detalleOC->saveOrFail();
         return json_encode('ok');
     }

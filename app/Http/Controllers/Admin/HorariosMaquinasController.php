@@ -22,7 +22,8 @@ class HorariosMaquinasController extends Controller
     {
         $id = Request::cookie('maquina');
         $ordenesC = DetalleOC::where('Maquina', 'like', '%' . $id . '%')
-            ->where('Estado', 'pendiente')->get();
+            ->where('Estado', 'produccion')->get();
+            //echo json_encode($ordenesC);
         return view('admin.ControlTiempos.tiempos', compact('ordenesC'));
     }
 

@@ -120,6 +120,7 @@ const listarTareas = (oc) => {
             tabla += `<th scope="col">Operario</th>`;
             tabla += `<th scope="col">Supervisor</th>`;
             tabla += `<th scope="col">Horas</th>`;
+            tabla += `<th scope="col">Estado</th>`;
             tabla += `<th scope="col">Acciones</th>`;
             tabla += `</tr>`;
             tabla += `</thead>`;
@@ -132,17 +133,18 @@ const listarTareas = (oc) => {
                 tabla += `<td>${tarea.Operario}</td>`;
                 tabla += `<td>${tarea.Supervisor}</td>`;
                 tabla += `<td>${tarea.Horas}</td>`;
+                tabla += `<td>${tarea.Estado}</td>`;
                 let maquina = codMaquina(tarea.Maquina);
                 let op = codOpSup(tarea.Operario);
                 let sup = codOpSup(tarea.Supervisor);
                 //tabla += `<td><a type="button" value="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}');" ><i class="fas fa-music"></i> </a>`;
 
-                tabla += `<td><a type="button" value="Modificar" title="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}');"><i class="fas fa-edit"></i></a> `;
+                tabla += `<td><a type="button" value="Modificar" title="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}','${tarea.Estado}');"><i class="fas fa-edit"></i></a> `;
                 tabla += `<a type="button" value="Eliminar" title="Eliminar" class="btn btn-warning" onclick="eliminarTarea(${tarea.id_detalle}, '${tarea.Tarea}');"><i class="fas fa-trash-alt"></i></a>`;
                 tabla += `</tr>`;
             })
             tabla += `<tr><td><button type="button" class="btn btn-primary" onclick="modalAgregar();"> Agregar Tarea</button></td>`;
-            tabla += `<td colspan="5"></td></tr>`;
+            tabla += `<td colspan="6"></td></tr>`;
             tabla += `</tbody>`;
             tabla += `</table>`;
             divtablatareas.innerHTML = tabla;
@@ -352,13 +354,13 @@ const ocultarExcels = () => {
 
 
 function codMaquina(maquina) {
-    return maquina.substring(0, 2)
+    return parseInt(maquina.substring(0, 2), 10);
 }
 function codOpSup(operario) {
     return operario.substring(0, 3)
 }
 
-function  modalModificar(detalle, tarea, maq, op, sup, tiempo) {
+function  modalModificar(detalle, tarea, maq, op, sup, tiempo,estado) {
 
     console.log(detalle, tarea, maq, op, sup, tiempo)
     document.getElementById("hdDetalle").value = detalle 
@@ -366,6 +368,7 @@ function  modalModificar(detalle, tarea, maq, op, sup, tiempo) {
     $("#maquina-modificar").val(maq);
     $("#operario-modificar").val(op);
     $("#supervisor-modificar").val(sup);
+    $("#estado").val(estado);
     document.getElementById("modificarhoraminuto").value = tiempo
     $('#modalmodificartareas').modal('show');
 }
@@ -385,6 +388,9 @@ function enviarModificacion ()  {
 
     var comboSup = document.getElementById("supervisor-modificar");
     var sup = comboSup.options[comboSup.selectedIndex].text;
+    
+    var comboEstado = document.getElementById("estado");
+    var estado = comboEstado.options[comboEstado.selectedIndex].text;
 
     var tiempo = document.getElementById("modificarhoraminuto").value;
     var datos = new FormData(document.getElementById('formulario-modalmodificartareas'));
@@ -393,6 +399,7 @@ function enviarModificacion ()  {
     datos.append('op', op);
     datos.append('sup', sup);
     datos.append('tiempo', tiempo);
+    datos.append('estado', estado);
 
     fetch('/admin/listarcancelar/modificarOC', {
         method: 'POST',

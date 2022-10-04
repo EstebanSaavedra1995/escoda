@@ -64,7 +64,7 @@ class ControlCronometro extends Component
         unset($this->maquinas);
         $this->maquinas = [];
         //$codigos = Maquina::all();
-        $detalles = DetalleOC::where('Estado', 'pendiente')
+        $detalles = DetalleOC::where('Estado', 'produccion')
             ->where('NroOC', 'LIKE', '%' . $this->buscar . '%')
             ->orderBy('Tarea', 'ASC')->get();
         $piezas = [];

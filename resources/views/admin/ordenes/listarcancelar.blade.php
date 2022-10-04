@@ -171,6 +171,18 @@
                                         name="modificarhoraminuto" minlength="5" maxlength="5" size="5"></td>
                                 {{-- <td><input type="time" min="09:00" step="5" id="modificarhoraminuto" name="modificarhoraminuto"></td> --}}
                             </tr>
+
+                            <tr>
+                                <td><label for="estado">Estado: </label></td>
+                                <td>
+                                    <select style="width: 100%" class=" col" name="estado"
+                                        id="estado">
+                                        <option value="pendiente">pendiente</option>
+                                        <option value="produccion">produccion</option>
+                                        <option value="terminado">terminado</option>
+                                    </select>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <input id="idTareaModificar" name="idTareaModificar" type="hidden">
@@ -250,6 +262,8 @@
                                         minlength="5" maxlength="5" size="5"></td>
                                 {{-- <td><input type="time" min="09:00" step="5" id="modificarhoraminuto" name="modificarhoraminuto"></td> --}}
                             </tr>
+                            
+                            
                         </tbody>
                     </table>
                     <input id="idTareaAgregar" name="idTareaAgregar" type="hidden">
