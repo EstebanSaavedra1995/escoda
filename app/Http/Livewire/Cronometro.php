@@ -119,6 +119,7 @@ class Cronometro extends Component
         $pausa->Tipo = $tipo;
         $pausa->inicio = date("y-m-d H:i:s");
         $pausa->IdDetalleOC = $this->detalleOC->id;
+        $pausa->idUsuario = auth()->user()->id;
         $pausa->saveOrFail();
         $this->pausa = $pausa;
         $this->estado = 'pausa';

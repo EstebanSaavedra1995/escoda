@@ -139,7 +139,7 @@ const listarTareas = (oc) => {
                 let sup = codOpSup(tarea.Supervisor);
                 //tabla += `<td><a type="button" value="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}');" ><i class="fas fa-music"></i> </a>`;
 
-                tabla += `<td><a type="button" value="Modificar" title="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${op}', '${sup}','${tarea.Horas}','${tarea.Estado}');"><i class="fas fa-edit"></i></a> `;
+                tabla += `<td><a type="button" value="Modificar" title="Modificar" class="btn btn-danger" onclick="modalModificar(${tarea.id_detalle},${tarea.id_tarea}, '${maquina}', '${parseInt(op)}', '${sup}','${tarea.Horas}','${tarea.Estado}');"><i class="fas fa-edit"></i></a> `;
                 tabla += `<a type="button" value="Eliminar" title="Eliminar" class="btn btn-warning" onclick="eliminarTarea(${tarea.id_detalle}, '${tarea.Tarea}');"><i class="fas fa-trash-alt"></i></a>`;
                 tabla += `</tr>`;
             })

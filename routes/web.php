@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\Ordenes\EnsambleController;
 use App\Http\Controllers\Admin\Ordenes\EnsambleListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionListarOrden;
 use App\Http\Controllers\Admin\Ordenes\ReparacionController;
+use App\Http\Controllers\Admin\Pañol\PanolController;
 use App\Http\Controllers\Admin\Proveedores\IngresarFacturasController;
 use App\Http\Controllers\Admin\Proveedores\ListarArticulosController;
 use App\Http\Controllers\Admin\Proveedores\ListarFacturasController as ProveedoresListarFacturasController;
@@ -187,6 +188,7 @@ Route::resource('maquinas',MaquinasController::class)->names('maquinas');
 Route::get('/admin/controlstock', [ControlStockController::class, 'index'])->name('stock');
 Route::get('/admin/controlstockegreso/{id}/{tipo}', [ControlStockController::class, 'egreso'])->name('stockEgreso');
 Route::get('/admin/listatareas/{id}', [ListaTareasController::class, 'index'])->name('listaTareas');
+Route::get('/admin/listapausas/{id}', [ListaTareasController::class, 'pausas'])->name('listaPausas');
 
 Route::get('/admin/listarfacturas', [ProveedoresListarFacturasController::class, 'index'])->name('listar.facturas');
 Route::post('/admin/listarfacturaslistar', [ProveedoresListarFacturasController::class, 'listarFacturas']);
@@ -208,3 +210,5 @@ Route::post('/admin/ingresarfacturasllenarmodal', [IngresarFacturasController::c
 Route::post('/admin/ingresarfacturasgetart', [IngresarFacturasController::class, 'getArticulo']);
 Route::post('/admin/ingresarfacturassave', [IngresarFacturasController::class, 'saveFactura']);
 Route::post('/admin/ingresarfacturasgetcolada', [IngresarFacturasController::class, 'getColada']);
+
+Route::get('/admin/pañol', [PanolController::class, 'index'])->name('panol');

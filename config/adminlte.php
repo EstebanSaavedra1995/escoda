@@ -455,7 +455,14 @@ return [
         [
             'text' => 'Maquinas',
             'route'  => 'maquinas.index',
-            'icon' => 'fas fa-fw fa-users-cog',
+            'icon' => 'fas fa-fw fa-wrench',
+            //'can'   => 'construccion.confeccionar',
+            'can'   => 'maquinas',
+        ],
+        [
+            'text' => 'Pañol',
+            'route'  => 'panol',
+            'icon' => 'fas fa-fw fa-toolbox',
             //'can'   => 'construccion.confeccionar',
             'can'   => 'maquinas',
         ],

@@ -29,8 +29,10 @@
                         onclick="$('#{{ $item['detalleOC']->id }}').toggle();">Detalle</button> --}}
                     {{-- <button class="btn btn-light col-2"
                         onclick="">Detalle</button> --}}
-                    <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary"
+                    <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary mr-2"
                         target="blank">Detalle</a>
+                    <a href="{{ route('listaPausas', $item['detalleOC']->id) }}" class="btn btn-secondary"
+                        target="blank">Pausas</a>
                 </div>
             </div>
             <div class="card-body container" id="{{ $item['detalleOC']->id }}" {{-- style="display:none" --}}>
@@ -71,6 +73,7 @@
                                 <tr class="bg-danger text-light">
                                     <td>{{ $pieza->Numero }}</td>
                                     <td>{{ $pieza->Tiempo }}</td>
+                                    <td>{{ $pieza->Estado }}</td>
                                     <script>
                                         localStorage.removeItem("{{ $pieza->id }}");
                                     </script>
@@ -79,6 +82,7 @@
                                 <tr class="bg-primary text-light">
                                     <td>{{ $pieza->Numero }}</td>
                                     <td>{{ $pieza->Tiempo }}</td>
+                                    <td>{{ $pieza->Estado }}</td>
                                     <script>
                                         localStorage.removeItem("{{ $pieza->id }}");
                                     </script>
@@ -89,6 +93,7 @@
                                     <td>
                                         <p id="pantalla{{ $pieza->id }}"></p>
                                     </td>
+                                    <td>{{ $pieza->Estado }} - {{$item['pausa']->Tipo}}</td>
                             @break
                             @case('inicio')
                                 <tr class="bg-light">
@@ -98,6 +103,7 @@
                                     <td>
                                         <p id="pantalla{{ $pieza->id }}"></p>
                                     </td>
+                                    <td>{{ $pieza->Estado }}</td>
                                     <script>
                                         if (localStorage.getItem("{{ $pieza->id }}") == null) {
                                             localStorage.setItem("{{ $pieza->id }}", "{{ $pieza->Fecha }}");
@@ -114,7 +120,7 @@
 
                         @endswitch
 
-                        <td>{{ $pieza->Estado }}</td>
+                        
                         <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
                         <td>{{$item['operario']->ApellidoNombre}}</td>
                         </tr>

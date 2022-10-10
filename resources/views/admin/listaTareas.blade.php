@@ -21,7 +21,8 @@
         <div class="row">
             <h4 class="col">Total Piezas = {{ $item['total'] }}</h4>
         </div> --}}
-
+        {{-- <a href="" class="btn btn-success"
+            target="blank">Exel</a> --}}
             <table class="table table-striped border-dark">
 
                 <tr class="bg-dark text-light">

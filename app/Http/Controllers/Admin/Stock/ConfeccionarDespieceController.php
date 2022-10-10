@@ -29,7 +29,7 @@ class ConfeccionarDespieceController extends Controller
     $articulos = ArticulosGenerales::all();
     $materiales = Material::all();
 
-    return view('admin\stock\confeccionarDespiece', compact(['piezas', 'gomas', 'articulos', 'materiales']));
+    return view('admin.stock.confeccionarDespiece', compact(['piezas', 'gomas', 'articulos', 'materiales']));
   }
 
   public function piezas()

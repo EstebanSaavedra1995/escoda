@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\DetalleOC;
 use App\Models\Maquina;
 use App\Models\OrdenesConstruccion;
+use App\Models\PausasOC;
 use App\Models\Personal;
 use App\Models\TiemposOC;
 use App\Models\User;
@@ -94,20 +95,23 @@ class ControlCronometro extends Component
                         ->orderBy('id', 'DESC')->first();
 
 
+
                     /* if ($ultima->idUsuario == '0') {
-                        $operario = Personal::find(1);
-                    } else { */
+                            $operario = Personal::find(1);
+                        } else { */
                     if ($ultima != null) {
                         $usuario = User::find($ultima->idUsuario);
                         $operario = Personal::find($usuario->NroLegajo);
-                    }
-                    else
-                    {
+                    } else {
                         $operario = Personal::find(1);
-
                     }
                     // }
 
+                    //$pausa = null;
+                    if ($ultima != null) {
+                        $pausa = PausasOC::where('IdDetalleOC', $detalleOC->id)
+                            ->orderBy('id', 'DESC')->first();
+                    }
                     $zona = [
                         'maquina' => $maquina,
                         'detalleOC' => $detalleOC,
@@ -117,6 +121,7 @@ class ControlCronometro extends Component
                         'total' => $totales,
                         'piezas' => $ultima,
                         'operario' => $operario,
+                        'pausa' => $pausa,
                     ];
 
                     $piezas[] = $ultima;
