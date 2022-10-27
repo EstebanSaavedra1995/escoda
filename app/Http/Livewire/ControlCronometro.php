@@ -107,7 +107,7 @@ class ControlCronometro extends Component
                     }
                     // }
 
-                    //$pausa = null;
+                    $pausa = null;
                     if ($ultima != null) {
                         $pausa = PausasOC::where('IdDetalleOC', $detalleOC->id)
                             ->orderBy('id', 'DESC')->first();

@@ -11,19 +11,21 @@
     <head>
         <th>Nro. Orden</th>
         <th>Tarea</th>
-        <th>Operario</th>
+        <th>Descripción</th>
         <th>Renglon</th>
+        <th>Cantidad</th>
         <th>Accion</th>
     </head>
     @foreach ($ordenesC as $orden)
     <tr>
         <td>{{$orden->NroOC}}</td>
         <td>{{$orden->Tarea}}</td>
-        <td>{{$orden->Operario}}</td>
+        <td>{{$orden->NombrePieza}} </td>
         <td>{{$orden->Renglon}}</td>
+        <td>{{$orden->Cantidad}} </td>
         <td>
             <form action="{{ route('horarios.maquinas.tiempos') }}" method="POST">
-                <input type="text" name="id" value="{{$orden->id}}" hidden>
+                <input type="text" name="id" value="{{$orden->detalleID}}" hidden>
                 @csrf
                 <button type="submit" class="btn btn-primary">Elegir</button>
             </form>

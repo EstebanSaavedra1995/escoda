@@ -21,9 +21,12 @@ class HorariosMaquinasController extends Controller
     public function index()
     {
         $id = Request::cookie('maquina');
-        $ordenesC = DetalleOC::where('Maquina', 'like', '%' . $id . '%')
-            ->where('Estado', 'produccion')->get();
-            //echo json_encode($ordenesC);
+        $ordenesC = DetalleOC::where('detalleoc.Maquina', 'like', '%' . $id . '%')
+            ->join('ordenesconstruccion', 'detalleoc.NroOC', '=', 'ordenesconstruccion.NroOC')
+            ->join('piezas', 'ordenesconstruccion.CodigoPieza', '=', 'piezas.CodPieza')
+            ->select('ordenesconstruccion.*','piezas.*','detalleoc.*','detalleoc.id as detalleID')
+            ->where('detalleoc.Estado', 'produccion')->get();
+        //echo json_encode($ordenesC);
         return view('admin.ControlTiempos.tiempos', compact('ordenesC'));
     }
 
