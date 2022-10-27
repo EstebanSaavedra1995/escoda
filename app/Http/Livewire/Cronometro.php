@@ -26,6 +26,8 @@ class Cronometro extends Component
     public $idTiempo;
     public $pausa;
     public $estado;
+    public $msj;
+
 
 
     protected $listeners = [
@@ -38,6 +40,7 @@ class Cronometro extends Component
 
     public function mount($id)
     {
+        $this->msj= '.';
         $idMaq = Request::cookie('maquina');
 
         $this->maquina = Maquina::where('CodMaquina', $idMaq)->first();
@@ -58,6 +61,11 @@ class Cronometro extends Component
         $idMaq = Request::cookie('maquina');
         $this->maquina = Maquina::where('CodMaquina', $idMaq)->first();
         return view('livewire.cronometro');
+        /* if ($this->msj == 'ok') {
+        }else{
+            return route('horarios.maquinas');
+            $this->msj = 'okaa';
+        } */
     }
 
     public function inicio($tiempoStart)
@@ -108,9 +116,20 @@ class Cronometro extends Component
             $tiempo->Fecha = date("y-m-d H:i:s");
             $tiempo->save();
         }
-
+        
         $this->cantidadPiezas();
+        
         event(new Enviar($this->maquina->CodMaquina));
+        
+        if ($this->exitosas >= $this->ordenC->Cantidad) {
+            $this->msj='ok';
+            $detalle = DetalleOC::find($this->detalleOC->id);
+            $detalle->Estado = 'finalizado';
+            $detalle->save();
+            
+            return redirect()->route('horarios.maquinas');
+
+        }
     }
 
     public function pausa($tipo)

@@ -12,7 +12,7 @@
             @if ($estado == 'pausa')
                 <div class="alert alert-danger" id="avisoPausa">Pausa Iniciada</div>
             @endif
-            {{-- <small>{{$estado}}</small> --}}
+            {{-- <small>{{$msj}}</small> --}}
 
             <div class="card border-dark" style="max-width: 95%;" align="left">
                 <div class="card-header bg-primary">
