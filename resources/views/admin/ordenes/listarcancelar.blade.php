@@ -31,10 +31,10 @@
                     <div class="row mb-2" id="divOrden" style="display: none">
                         <select name="ordenes" id="ordenes" class="col-6">
                             @foreach ($ordenes as $orden)
-                                <option value="{{ $orden->id }}">
+                                <option value="{{ $orden->NroOC }}">
                                     {{ $orden->NroOC }}
                                 </option>
-                            @endforeach
+                            @endforeach  
                         </select>
                     </div>
 
