@@ -7,6 +7,7 @@ use App\Models\Maquina;
 use App\Models\OrdenesConstruccion;
 use App\Models\PausasOC;
 use App\Models\Personal;
+use App\Models\Pieza;
 use App\Models\TiemposOC;
 use App\Models\User;
 use Request;
@@ -92,21 +93,21 @@ class ControlCronometro extends Component
                     $totales = count($total);
 
                     $ultima = TiemposOC::where('idDetalleOC', $detalleOC->id)
-                        ->orderBy('id', 'DESC')->first();
+                    ->orderBy('id', 'DESC')->first();
+                    
+                    $pieza = Pieza::where('CodPieza', $ordenC->CodigoPieza)->first();
 
-
-
-                    /* if ($ultima->idUsuario == '0') {
+                        /* if ($ultima->idUsuario == '0') {
                             $operario = Personal::find(1);
                         } else { */
-                    if ($ultima != null) {
-                        $usuario = User::find($ultima->idUsuario);
-                        $operario = Personal::find($usuario->NroLegajo);
-                    } else {
-                        $operario = Personal::find(1);
-                    }
-                    // }
-
+                            if ($ultima != null) {
+                                $usuario = User::find($ultima->idUsuario);
+                                $operario = Personal::find($usuario->NroLegajo);
+                            } else {
+                                $operario = Personal::find(1);
+                            }
+                            // }
+                            
                     $pausa = null;
                     if ($ultima != null) {
                         $pausa = PausasOC::where('IdDetalleOC', $detalleOC->id)
@@ -122,6 +123,7 @@ class ControlCronometro extends Component
                         'piezas' => $ultima,
                         'operario' => $operario,
                         'pausa' => $pausa,
+                        'pieza' =>$pieza
                     ];
 
                     $piezas[] = $ultima;

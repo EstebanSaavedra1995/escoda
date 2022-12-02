@@ -16,7 +16,7 @@
                     <h4 class="col-4">Maquina: {{ $item['maquina']->CodMaquina }} -
                         {{ $item['maquina']->NombreMaquina }}</h4>
                     <h4 class="col-4">Operario: {{ $item['detalleOC']->Operario }} </h4>
-                    <h4 class="col"></h4>
+                    <h4 class="col"> Pieza: {{$item['pieza']->NombrePieza}} </h4>
                 </div>
                 <div class="row">
                     <h4 class="col-4">Tarea: {{ $item['detalleOC']->Tarea }} </h4>
