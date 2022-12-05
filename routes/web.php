@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ControlHorariosMaquinaController;
 use App\Http\Controllers\Admin\Datos\ArticulosController;
 use App\Http\Controllers\Admin\Datos\CargosController;
+use App\Http\Controllers\Admin\Datos\HerramientasController;
 use App\Http\Controllers\Admin\Datos\MaquinasController as DatosMaquinasController;
 use App\Http\Controllers\Admin\Datos\PersonalController;
 use App\Http\Controllers\Admin\Datos\TareaController;
@@ -203,6 +204,7 @@ Route::resource('datosmaquinas', DatosMaquinasController::class)->names('datos.m
 Route::resource('proveedores', ProveedoresController::class)->names('datos.proveedores');
 Route::resource('articulos', ArticulosController::class)->names('datos.articulos');
 Route::resource('tareas', TareasController::class)->names('datos.tareas');
+Route::resource('herramientas', HerramientasController::class)->names('datos.herramientas');
 
 Route::get('/admin/ingrasarfacturas', [IngresarFacturasController::class, 'index'])->name('ingresar.facturas');
 Route::post('/admin/facturaobtenerproveedor', [IngresarFacturasController::class, 'getProveedor']);
@@ -212,3 +214,5 @@ Route::post('/admin/ingresarfacturassave', [IngresarFacturasController::class, '
 Route::post('/admin/ingresarfacturasgetcolada', [IngresarFacturasController::class, 'getColada']);
 
 Route::get('/admin/pañol', [PanolController::class, 'index'])->name('panol');
+Route::get('/admin/pañol/prestar/{id}', [PanolController::class, 'prestar'])->name('panol.prestar');
+Route::post('/admin/pañol/save', [PanolController::class, 'save'])->name('panol.prestar.save');

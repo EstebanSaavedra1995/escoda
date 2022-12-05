@@ -6,74 +6,78 @@
                 <div class="conteiner-fluid">
                     <div class="row">
 
-                        <section class="col-lg-4 connectedSortable ui-sortable">
-                            <div class="content">
-                                <div class="row mb-2">
-                                    <label for="herramienta" class="col-4">Herramienta:</label>
-                                    <select class="form-control col" name="herramienta" id="">
-                                        <option value=""></option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                    </select>
-                                    {{-- <input type="text" class="form-control" name="material" readonly> --}}
-                                </div>
+                        <section class="col-6 connectedSortable ui-sortable">
+                            <div class="container-fluid">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <th class="table-primary">Código</th>
+                                        <th class="table-primary">Descripción</th>
+                                        <th class="table-primary">Tipo</th>
+                                        <th class="table-primary">Inserto</th>
+                                        <th class="table-primary">Sentido</th>
+                                        <th class="table-primary">Medida</th>
+                                        <th class="table-primary">Stock</th>
+                                        <th class="table-primary">Estado</th>
+                                        <th class="table-primary"></th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($herramientas as $herramienta)
+                                            <tr>
+                                                <td>{{ $herramienta->codigo }}</td>
+                                                <td>{{ $herramienta->descripcion }}</td>
+                                                <td>{{ $herramienta->tipo }}</td>
+                                                <td>{{ $herramienta->inserto }}</td>
+                                                <td>{{ $herramienta->sentido }}</td>
+                                                <td>{{ $herramienta->medida }}</td>
+                                                <td>{{ $herramienta->stock }}</td>
+                                                <td>{{ $herramienta->estado }}</td>
+                                                <td>
+                                                    @if ($herramienta->stock > 0)
+                                                        <form action="{{ route('panol.prestar', $herramienta->id) }}"
+                                                            method="get">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Prestar</button>
+                                                        </form>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
-                                <div class="row mb-2">
-                                    <label for="operario" class="col-4">Operario:</label>
-                                    <select class="form-control col" name="operario" id="">
-                                        <option value=""></option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                    </select>
-                                    {{-- <input type="text" class="form-control" name="material" readonly> --}}
-                                </div>
-
-                                <div class="row mb-2">
-                                    <button class="btn btn-primary">Guardar</button>
-                                    {{-- <input type="text" class="form-control" name="material" readonly> --}}
-                                </div>
                             </div>
 
 
                         </section>
 
-                        <section class="col-lg-8 connectedSortable ui-sortable">
-                            <div class="conteiner-fluid">
-                                <table class="table table-striped table-hover" id="tabla">
+                        <section class="col-6 connectedSortable ui-sortable">
+                            <div class="container-fluid">
+                                <table class="table table-bordered table-hover" id="tabla">
                                     {{-- table table-hover text-nowrap" --}}
                                     <thead>
                                         <tr class="">
-                                            <td scope="col" class="table-primary">Herramienta</td>
-                                            <td scope="col" class="table-primary">Operario</td>
-                                            <td scope="col" class="table-primary">Fecha/Hora</td>
-                                            <td scope="col" class="table-primary">Devuelto</td>
-                                            <td scope="col" class="table-primary">Accion</td>
+                                            <th scope="col" class="table-primary">Herramienta</td>
+                                            <th scope="col" class="table-primary">Operario</td>
+                                            <th scope="col" class="table-primary">Fecha/Hora</td>
+                                            
+                                            <th scope="col" class="table-primary">Accion</td>
                                         </tr>
                                     </thead>
+                                    @foreach ($tablaPanol as $item)
+                                        <tr>
+                                            <td>{{$item["herramienta"]->descripcion}}</td>
+                                            <td>{{$item["operario"]->name}}</td>
+                                            <td>{{$item["panol"]->fechaSalida}}</td>
+                                            
+                                            <td>
+                                                <button class="btn btn-primary" wire:click="devuelto({{$item["herramienta"]}},{{$item["panol"]->id}})">Devuelto</button>
+                                                <button class="btn btn-primary" wire:click="perdida({{$item["herramienta"]}},{{$item["panol"]->id}})">Perdida</button>
+                                                <button class="btn btn-primary" wire:click="rotura({{$item["herramienta"]}},{{$item["panol"]->id}})">Rotura</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
 
-                                    <tr>
-                                        <td>herramienta</td>
-                                        <td>--------</td>
-                                        <td>##/##/## ##:##</td>
-                                        <td>si</td>
-                                        <td>
-                                            <button class="btn btn-primary">Devuelto</button>
-                                            <button class="btn btn-primary">Perdida</button>
-                                            <button class="btn btn-primary">Rotura</button>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td>herramienta</td>
-                                        <td>--------</td>
-                                        <td>##/##/## ##:##</td>
-                                        <td>no</td>
-                                        <td>
-                                            <button class="btn btn-primary">Devuelto</button>
-                                            <button class="btn btn-primary">Perdida</button>
-                                            <button class="btn btn-primary">Rotura</button>
-                                        </td>
-                                    </tr>
                                 </table>
                             </div>
                         </section>

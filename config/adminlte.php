@@ -429,6 +429,10 @@ return [
                     'text' => 'Articulos, Gomas y Materiales',
                     'route'  => 'datos.articulos.index',
                 ],
+                [
+                    'text' => 'Herramientas',
+                    'route'  => 'datos.herramientas.index',
+                ],
 
             ]
         ],
