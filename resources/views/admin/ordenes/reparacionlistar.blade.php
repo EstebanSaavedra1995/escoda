@@ -30,7 +30,7 @@
                     <div class="row mb-2" id="divOrden" style="display: none">
                         <select name="ordenes" id="ordenes">
                             @foreach ($ordenes as $orden)
-                                <option value="{{ $orden->id }}">
+                                <option value="{{ $orden->NroOR }}">
                                     {{ $orden->NroOR }}
                                 </option>
                             @endforeach
@@ -110,7 +110,7 @@
                             <div class="container">
                                 <div class="row mb-2">
                                     <label class="col-3">Orden de reparación N°:</label>
-                                    <input type="text" id="ordenes" name="ordenes" class="col-2" readonly></input>
+                                    <input type="text" id="ordenModal" name="ordenModal" class="col-2" readonly></input>
                                     <label class="col-2">Fecha:</label>
                                     <input type="text" id="fecha" name="" class="col-2" readonly></input>
                                 </div>
@@ -118,8 +118,16 @@
                             <div class="container">
                                 <div class="row mb-2">
                                     <label class="col-3">Herramienta:</label>
-                                    <input type="text" name="herramienta" id="herramienta" class="col-2"
+                                    <input type="text" name="herramientaModal" id="herramientaModal" class="col-2"
                                         readonly></input>
+
+                                        <label class="col-3">Estado:</label>
+                                        <select class="col-2 mr-2" name="estadoModal" id="estadoModal">
+                                            <option value=""></option>
+                                            <option value="pendiente">Pendiente</option>
+                                            <option value="produccion">Producción</option>
+                                            <option value="finalizado">Finalizado</option>
+                                        </select>
                                 </div>
                             </div>
                             <div class="container">
@@ -127,23 +135,38 @@
                                     <label class="col-3">Número:</label>
                                     <input type="number" min="1" max="500" class="col-2" id="numero"
                                         name="numero"></input>
+                                    <label class="col-3">Maquina:</label>
+                                    <select class="col-2 mr-2" name="maquinaModal" id="maquinaModal">
+                                        <option value=""></option>
+                                        @foreach ($maquinas as $maq)
+                                            <option value="{{$maq->CodMaquina}}">{{$maq->NombreMaquina}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="container">
                                 <div class="row mb-2">
                                     <label class="col-3">Supervisor de trabajo:</label>
-                                    <select class="col-2 mr-2" name="" id="">
+                                    <select class="col-2 mr-2" name="supModal" id="supModal">
+                                        <option value=""></option>
+                                        @foreach ($supervisores as $op)
+                                            <option value="{{$op->NroLegajo}}">{{$op->ApellidoNombre}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="container">
                                 <div class="row mb-2">
                                     <label class="col-3">Operario:</label>
-                                    <select class="col-2 mr-2" name="" id="">
+                                    <select class="col-2 mr-2" name="opModal" id="opModal">
+                                        <option value=""></option>
+                                        @foreach ($operarios as $op)
+                                            <option value="{{$op->NroLegajo}}">{{$op->ApellidoNombre}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <section class="content">
+                            {{-- <section class="content">
                                 <div class="container-fluid">
                                     <div class="row">
                                         <section class="col-lg-8 connectedSortable ui-sortable">
@@ -160,7 +183,7 @@
                                         </section>
                                     </div>
                                 </div>
-                            </section>
+                            </section> --}}
                         </div>
                     </form>
                     <div style="visibility: hidden" id="divNumero" name="divNumero">
@@ -173,6 +196,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" 
+                        onclick="GuardarOR()">Modificar</button>
+                    <button type="button" class="btn btn-danger"  data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>

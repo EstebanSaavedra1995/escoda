@@ -8,7 +8,19 @@
 
 @section('content')
 
+@switch($tipo)
+    @case("oc")
     @livewire('cronometro', ['id' => $idTarea])
+        @break
+    @case("oe")
+    @livewire('cronometro-ensamble', ['id' => $idTarea])
+        @break
+    @case("or")
+    @livewire('cronometro-reparacion', ['id' => $idTarea])
+        @break
+    @default
+        
+@endswitch
 
 @stop
 

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\DetalleOC;
 use App\Models\Maquina;
 use App\Models\Material;
+use App\Models\OrdenEnsamble;
 use App\Models\OrdenesConstruccion;
+use App\Models\OrdenReparacion;
 use App\Models\TiemposOC;
 use Request;
 
@@ -26,35 +28,36 @@ class HorariosMaquinasController extends Controller
             ->join('piezas', 'ordenesconstruccion.CodigoPieza', '=', 'piezas.CodPieza')
             ->select('ordenesconstruccion.*','piezas.*','detalleoc.*','detalleoc.id as detalleID')
             ->where('detalleoc.Estado', 'produccion')->get();
-        //echo json_encode($ordenesC);
-        return view('admin.ControlTiempos.tiempos', compact('ordenesC'));
+
+        $ordenesR = OrdenReparacion::where('ordenesreparacion.CodMaquina', $id)
+        ->join('conjuntos', 'conjuntos.CodPieza', '=', 'ordenesreparacion.CodConjunto')
+        ->where('ordenesreparacion.Estado', 'produccion')->get();
+        
+        $ordenesE = OrdenEnsamble::where('ordenesensamble.CodMaquina', $id)
+        ->join('conjuntos', 'conjuntos.CodPieza', '=', 'ordenesensamble.codigoCjto')
+        ->where('ordenesensamble.Estado', 'produccion')->get();
+        //echo json_encode($ordenesR);
+        return view('admin.ControlTiempos.tiempos', compact(['ordenesC','ordenesE','ordenesR']));
     }
 
     public function marcarTiempos()
     {
         $idTarea = request('id');
-        /* $idMaq = Request::cookie('maquina');
-
-        $maquina = Maquina::where('CodMaquina', $idMaq)->first();
-        $tarea = DetalleOC::find($idTarea);
-
-        if ($tarea != null) {
-
-            $ordenC = OrdenesConstruccion::where('NroOC', $tarea->NroOC)->first();
-
-            $material = Material::where('CodigoMaterial', $ordenC->CodigoMaterial)->first();
-
-            $fallas = TiemposOC::where('idDetalleOC', $tarea->id)
-                ->where('Estado', 'fallida')->get();
-            $exitos = TiemposOC::where('idDetalleOC', $tarea->id)
-                ->where('Estado', 'exitosa')->get();
-
-            $fallidas = count($fallas);
-            $exitosas = count($exitos);
-
-            $cantidad = $fallidas + $exitosas;
-        } */
-
-        return view('admin.ControlTiempos.tiemposMarcar', compact(['idTarea']));
+        $tipo = "oc";
+        return view('admin.ControlTiempos.tiemposMarcar', compact(['idTarea','tipo']));
+    }
+    
+    public function marcarTiemposEnsamble()
+    {
+        $idTarea = request('id');
+        $tipo = "oe";
+        return view('admin.ControlTiempos.tiemposMarcar', compact(['idTarea','tipo']));
+    }
+    
+    public function marcarTiemposReparacion()
+    {
+        $idTarea = request('id');
+        $tipo = "or";
+        return view('admin.ControlTiempos.tiemposMarcar', compact(['idTarea','tipo']));
     }
 }

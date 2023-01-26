@@ -7,6 +7,7 @@ use App\Models\ArticulosGenerales;
 use App\Models\Conjunto;
 use App\Models\DetalleOE;
 use App\Models\Goma;
+use App\Models\Maquina;
 use App\Models\Material;
 use App\Models\OrdenEnsamble;
 use App\Models\Pieza;
@@ -22,7 +23,8 @@ class EnsambleListarOrden extends Controller
 
     public function index()
     {
-        return view('admin.ordenes.ensamblelistar');
+        $maquinas = Maquina::all();
+        return view('admin.ordenes.ensamblelistar',compact('maquinas'));
     }
     public function listarordenes()
     {
@@ -155,5 +157,42 @@ class EnsambleListarOrden extends Controller
         }
 
         return $resultado;
+    }
+
+    public function modificar(){
+        $nroOE = request('nroOE');
+        
+        $orden = OrdenEnsamble::where('NroOE', $nroOE)->first();
+        $detalle = DetalleOE::where('NroOE', $nroOE)->first();
+        $conjunto = Conjunto::where('CodPieza',$orden->codigoCjto)->first();
+        
+        $resultado= [
+            'orden' => $orden,
+            'detalle' => $detalle,
+            'conjunto' => $conjunto,
+        ];
+        
+        return json_encode($resultado);
+    }
+
+    public function guardar(){
+        $nroOE = request('nroOE');
+        $orden = OrdenEnsamble::where('NroOE', $nroOE)->first();
+        if (request('estado')) {
+            $orden->Estado = request('estado');
+        }else{
+
+            $orden->Estado = "";
+        }
+        
+        if (request('maquina')) {
+            $orden->CodMaquina = request('maquina');
+        }else{
+
+            $orden->CodMaquina = "";
+        }
+        $orden->save();
+        
+        return json_encode("ok");
     }
 }

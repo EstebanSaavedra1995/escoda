@@ -55,6 +55,8 @@ Route::post('/admin/construccion/agregarconstruccion', [ConstruccionController::
 
 Route::get('/admin/horariosmaquinas',[HorariosMaquinasController::class,'index'])->name('horarios.maquinas');
 Route::post('/admin/horariosmaquinas',[HorariosMaquinasController::class,'marcarTiempos'])->name('horarios.maquinas.tiempos');
+Route::post('/admin/horariosmaquinasensamble',[HorariosMaquinasController::class,'marcarTiemposEnsamble'])->name('horarios.maquinas.tiempos.ensamble');
+Route::post('/admin/horariosmaquinasreparacion',[HorariosMaquinasController::class,'marcarTiemposReparacion'])->name('horarios.maquinas.tiempos.reparacion');
 //Route::get('/admin/confeccionardespiece',[ConfeccionarDespieceController::class,'index'])->name('confeccionar.despiece');
 
 
@@ -143,6 +145,7 @@ Route::post('/admin/reparacion/listardetalles', [ReparacionListarOrden::class, '
 Route::post('/admin/reparacion/exportExcelFechas', [ReparacionListarOrden::class, 'exportExcelFechas'])->name('reparacionFechaExcel');
 Route::post('/admin/reparacion/exportExcelNumero', [ReparacionListarOrden::class, 'exportExcelNumero'])->name('reparacionNumeroExcel'); */
 Route::post('/admin/reparacion/modificarorden', [ReparacionListarOrden::class, 'modificarorden']);
+Route::post('/admin/reparacion/guardarorden', [ReparacionListarOrden::class, 'guardarorden']);
 
 
 Route::get('/admin/ensamble/confeccionar', [EnsambleController::class, 'index'])->name('ensamble.confeccionar');
@@ -157,6 +160,8 @@ Route::post('/admin/ensamble/agregarorden', [EnsambleCompletarCancelarController
 
 Route::get('/admin/ensamble/listar', [EnsambleListarOrden::class, 'index'])->name('ensamble.listar');
 Route::post('/admin/ensamble/listarordenes', [EnsambleListarOrden::class, 'listarordenes']);
+Route::post('/admin/ensamble/listarmodificar', [EnsambleListarOrden::class, 'modificar']);
+Route::post('/admin/ensamble/listarguardar', [EnsambleListarOrden::class, 'guardar']);
 
 Route::post('/admin/confeccionardespiecepiezas', [ConfeccionarDespieceController::class, 'piezas']);
 Route::post('/admin/confeccionardespiecetabla', [ConfeccionarDespieceController::class, 'tabla']);

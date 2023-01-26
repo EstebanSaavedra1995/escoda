@@ -15,7 +15,9 @@ use App\Models\DetalleReparacionArticulo;
 use App\Models\DetalleReparacionGoma;
 use App\Models\DetalleReparacionPieza;
 use App\Models\Goma;
+use App\Models\Maquina;
 use App\Models\OrdenReparacion;
+use App\Models\Personal;
 use App\Models\Pieza;
 use App\Models\PiezaDeConjunto;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,11 +32,21 @@ class ReparacionListarOrden extends Controller
     }
     public function index()
     {
+        $maquinas = Maquina::all();
+        $supervisores = Personal::where('Cargo','like','%'. 'Supervisor de'. '%')
+            ->where('Estado', 'A')->get();
+
+        $operarios = Personal::Where('Estado', 'A')
+            ->orwhere([
+                ['Cargo', 'Operario Ayudante'],
+                ['Cargo', 'Operario c/ Especializacion'],
+                ['Cargo', 'Supervisor de ├ürea']
+            ])->get();
       /*   $ordenes = Construccion::select('id', 'NroOC')->orderBy('NroOC', 'DESC')->get();
         $piezas = Pieza::select('CodPieza', 'NombrePieza', 'Medida')->orderBy('CodPieza', 'asc')->get(); */
         $conjuntos = Conjunto::all();
         $ordenes = OrdenReparacion::select('id', 'NroOR')->orderBy('NroOR', 'DESC')->get();
-        return view('admin.ordenes.reparacionlistar', compact(['ordenes','conjuntos']));
+        return view('admin.ordenes.reparacionlistar', compact(['ordenes','conjuntos','maquinas','supervisores','operarios']));
     }
     /* public function index()
     {
@@ -51,11 +63,12 @@ class ReparacionListarOrden extends Controller
         $tipo = request('lista');
 
         if ($tipo == 0) {
-            $nroOrden = request('nroorden');
+            $nroOrden = request('ordenes');
+            //return json_encode($nroOrden);
             $ordenes = OrdenReparacion::select('*')
                 ->join('conjuntos', 'ordenesreparacion.CodConjunto', '=', 'conjuntos.CodPieza')
                 ->join('personal', 'ordenesreparacion.NroLegajoOperario', '=', 'personal.NroLegajo')
-                ->where('NroOR', 'LIKE', '%' . $nroOrden . '%')->get();
+                ->where('NroOR',  $nroOrden )->get();
             $rta = [];
             $rta[] = 'ordenes';
             $rta[] = $ordenes;
@@ -141,6 +154,28 @@ class ReparacionListarOrden extends Controller
         ];
 
         return json_encode($resultado);
+    }
+    
+    public function guardarorden()
+    {
+        
+        $nroOrden = request('ordenModal');
+        $estado = request('estadoModal');
+        $numero = request('numero');
+        $maquina = request('maquinaModal');
+        $sup = request('supModal');
+        $op = request('opModal');
+
+        $orden = OrdenReparacion::where('NroOR',$nroOrden)->first();
+        $orden->NroCjto =$numero;
+        $orden->NroLegajoOperario =$op;
+        $orden->NroLegajoSupArea =$sup;
+        $orden->Estado =$estado;
+        $orden->CodMaquina =$maquina;
+        $orden->save();
+        
+
+        return json_encode("ok");
     }
 
     public function ordenRepPDF() 
