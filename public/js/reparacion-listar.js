@@ -131,6 +131,7 @@ const listarOrdenes = () => {
     })
         .then(res => res.json())
         .then(data => {
+            //console.log(data);
             if (data[0] === 'ordenes') {
                 realizarTablaOrden(data[1]);
             } else if (data[0] === 'fechas') {
@@ -262,9 +263,9 @@ const realizarTablaOrden = (array) => {
         tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        /*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
-        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imp</button> `;
+        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Informacion</button> `;
+                tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Modificar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imprimir</button> `;
         tabla += `</tr>`;
 
     });
@@ -297,9 +298,9 @@ const realizarTablaFecha = (array) => {
         tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        /*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
-        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imp</button> `;
+        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Informacion</button> `;
+                tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Modificar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imprimir</button> `;
         tabla += `</tr>`;
 
     });
@@ -333,9 +334,9 @@ const realizarTablaHerramienta = (array) => {
         tabla += `<td style="width: 15px">${orden.NroCjto}</td>`;
         tabla += `<td>${orden.NroLegajo} - ${orden.ApellidoNombre}</td>`;
         tabla += `<td style="width: 20px">Supervisor </td>`;
-        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Info</button> `;
-        /*         tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Mod</button> `; */
-        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imp</button> `;
+        tabla += `<td><button type="button" class="btn btn-info" onclick= "infoOR('${orden.NroOR}');">Informacion</button> `;
+        tabla += `<button type="button" class="btn btn-warning" id="modificarId" onclick= "modificarOR('${orden.NroOR}');">Modificar</button> `;
+        tabla += `<button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOR}');">Imprimir</button> `;
         tabla += `</tr>`;
 
     });
@@ -422,21 +423,50 @@ function modificarOR(or) {
     })
         .then(res => res.json())
         .then(data => {
-            let herramienta = document.getElementById('herramienta');
+            //console.log(data.orden.NroOR);
+            let herramienta = document.getElementById('herramientaModal');
             let fecha = document.getElementById('fecha');
-            let ordenes = document.getElementById('ordenes');
+            let ordenes = document.getElementById('ordenModal');
             let numero = document.getElementById('numero');
+            let estado = document.getElementById('estadoModal');
+            let maquina = document.getElementById('maquinaModal');
+            let supervisor = document.getElementById('supModal');
+            let operario = document.getElementById('opModal');
             fecha.value = formatoFecha(data.orden.Fecha);
             herramienta.value = `${data.conjunto.CodPieza} - ${data.conjunto.NombrePieza}`
             ordenes.value = data.orden.NroOR;
             numero.value = data.orden.NroCjto;
-            armarTabla2(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas);
+            estado.value = data.orden.Estado;
+            maquina.value = data.orden.CodMaquina;
+            supervisor.value = data.orden.NroLegajoSupArea;
+            operario.value = data.orden.NroLegajoOperario;
+            //armarTabla2(data.conjuntoArticulos, data.piezasConjunto, data.conjuntoGomas);
         })
 
 
 
     $('#modalModificar').modal('show');
 }
+
+function GuardarOR() {
+    const datos2 = new FormData(document.getElementById('formulario2'));
+    fetch('/admin/reparacion/guardarorden', {
+        method: 'POST',
+        body: datos2,
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data == "ok"){
+                swal({
+                    title: "Orden de Reparacion Guardada",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+            }
+        })
+} 
+
 $modal.on('click', modificarOR);
 const armarTabla2 = (articulos, piezas, gomas) => {
     let divtablatareas = document.getElementById('divtablatareas2');

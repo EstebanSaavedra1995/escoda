@@ -325,3 +325,7 @@ function finPausa() {
   }
 }
 
+function clickArticulo(cod){
+  window.livewire.emit('clickArticulo',cod);
+}
+

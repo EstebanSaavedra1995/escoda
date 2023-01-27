@@ -81,13 +81,23 @@ function cronometro(fecha,pantalla) {
   //localStorage.removeItem("inicio");
   // if(localStorage.getItem("inicio")!=null)
   //inicio=localStorage.getItem("inicio");
-  var pantalla = document.getElementById('pantalla'+pantalla);
+  var pantalla1 = document.getElementById('pantalla'+pantalla);
+  var pantalla2 = document.getElementById('pantallaoe'+pantalla);
+  var pantalla3 = document.getElementById('pantallaor'+pantalla);
   //console.log(pantalla);
-  if (pantalla != null) {
+  if (pantalla1 != null) {
     
-    pantalla.innerHTML = tiempoPieza;
+    pantalla1.innerHTML = tiempoPieza;
   } else {
-    document.location.reload();
+    if (pantalla2 != null) {
+      pantalla2.innerHTML = tiempoPieza;
+    }else{
+      if (pantalla3 != null) {
+        pantalla3.innerHTML = tiempoPieza;
+      }else{
+        //document.location.reload();
+      }
+    }
   }
   //console.log('crono '+ tiempoPieza);
 }

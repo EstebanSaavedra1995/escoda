@@ -75,7 +75,7 @@ const listarOrdenes = () => {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            //console.log(data);
             if (data[0] === 'ordenes') {
                 realizarTablaOrden(data[1]);
             } else if (data[0] === 'fechas') {
@@ -205,7 +205,8 @@ const realizarTablaOrden = (array) => {
         tabla += `<td style="width: 15px">${formatoFecha(orden.fecha)}</td>`;
         tabla += `<td>${orden.CodPieza} - ${orden.NombrePieza} - ${orden.Medida}</td>`;
         tabla += `<td>${orden.NroCjto}</td>`;
-        tabla += `<td><button type="button" class="btn btn-secondary" title="Imprimir" onclick="imprimir('${orden.NroOE}');">Imp</button> </td>`;
+        tabla += `<td><button type="button" class="btn btn-primary m-1" title="" onclick="modificar('${orden.NroOE}');">Modificar</button>`;
+        tabla += `<button type="button" class="btn btn-secondary m-1" title="Imprimir" onclick="imprimir('${orden.NroOE}');">Imp</button> </td>`;
         tabla += `</tr>`;
     });
     tabla += `</tbody>`;
@@ -214,6 +215,49 @@ const realizarTablaOrden = (array) => {
     divtabla.innerHTML = tabla;
 }
 
+const modificar = (nroOE) => {
+    $('#modalModificar').modal('show');
+    const datos = new FormData(document.getElementById('formulario'));
+    datos.append('nroOE', nroOE);
+    fetch('/admin/ensamble/listarmodificar', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data.conjunto);
+            document.getElementById('nroOE').value = data.orden.NroOE;
+            document.getElementById('fecha').value = data.orden.fecha;
+            document.getElementById('conjunto').value = data.conjunto.NombrePieza;
+            document.getElementById('numero').value = data.orden.NroCjto;
+            document.getElementById('estado').value = data.orden.Estado;
+        })
+}
+const guardar = () => {
+    const datos = new FormData(document.getElementById('formulario2'));
+    fetch('/admin/ensamble/listarguardar', {
+        method: 'POST',
+        body: datos,
+    })
+        .then(res => res.json())
+        .then(data => {
+            //console.log(data);
+            if (data == "ok") {
+                swal({
+                    title: `Orden de Ensamble Modificada con Exito!`,
+                    icon: "success",
+                    buttons: ["Aceptar"],
+                    dangerMode: true,
+                })
+            }
+        })
+}
+
+$("#guardar").on("click",function(event){
+    event.preventDefault();
+    guardar();
+    $('#modalModificar').modal('hide');
+ });
 
 const infoOR = (nro) => {
 
@@ -225,7 +269,7 @@ const infoOR = (nro) => {
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data[0], data[1], data[2]);
+            //console.log(data[0], data[1], data[2]);
             armarTabla(data[0], data[1], data[2]);
         })
 }
@@ -549,12 +593,12 @@ const guardarOC = (pieza) => {
         ordenesConstruccion.push(obj);
     } else {
         ordenesConstruccion[index].ordenes = ordenesCantidad;
-        console.log('Reemplazando ordenes y cantidades');
+        //console.log('Reemplazando ordenes y cantidades');
     }
 
 
 
-    console.log(ordenesConstruccion, index);
+    //console.log(ordenesConstruccion, index);
 }
 const cancelarOrden = () => {
     let combo = document.getElementById('ordenes');
