@@ -7,8 +7,10 @@
         <input type="text" class="form-control" wire:model="buscar" placeholder="Buscar por Nro. de OR">
     </div>
     
-
-    @foreach ($maquinas as $item)
+    @if (count($maquinas) > 0)
+    <h1>Construcción</h1>
+    @endif
+    @foreach ($maquinas as $item) 
 
         <div class="card border-primary mb-3 mt-2 ml-2" style="max-width: 100%;" align="left">
             <div class="card-header text-black bg-primary">
@@ -131,6 +133,206 @@
             </div>
         </div>
     @endforeach
+
+    @if (count($ensambles) > 0)
+        
+    <h1>Ensamble</h1>
+    @endif
+    @foreach ($ensambles as $item) 
+
+        <div class="card border-primary mb-3 mt-2 ml-2" style="max-width: 100%;" align="left">
+            <div class="card-header text-black bg-primary">
+                <div class="row">
+                    <h4 class="col-4">Maquina: {{ $item['maquina']->CodMaquina }} -
+                        {{ $item['maquina']->NombreMaquina }}</h4>
+                    @if($item['user'] != null)
+                    <h4 class="col-4">Operario: {{ $item['user']->name }} </h4>
+                    @else
+                    <h4 class="col-4">Operario:  </h4>
+                    @endif
+                    <h4 class="col"> Conjunto: {{$item['conjunto']->NombrePieza}} </h4>
+                </div>
+                <div class="row">
+                    <h4 class="col-4">Orden E.: {{ $item['orden']->NroOE }} </h4>
+                    {{-- <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary mr-2"
+                        target="blank">Detalle</a>
+                    <a href="{{ route('listaPausas', $item['detalleOC']->id) }}" class="btn btn-secondary"
+                        target="blank">Pausas</a> --}}
+                </div>
+            </div>
+            <div class="card-body container" id="{{ $item['orden']->id }}" {{-- style="display:none" --}}>
+                
+
+                <table class="table table-striped border-dark">
+
+                    <tr class="bg-dark text-light">
+
+                        <head>
+                            <th>Tiempo</th>
+                            <th>Estado</th>
+                            <th>Fecha/Hora</th>
+                        </head>
+                    </tr>
+                    <p hidden>{{ $pieza = $item['tiempo'] }}</p>
+                    @if ($pieza != null)
+
+
+                        @switch($pieza->Estado)
+                            @case('fallida')
+                                <tr class="bg-danger text-light">
+                                    <td>{{ $pieza->Tiempo }}</td>
+                                    <td>{{ $pieza->Estado }}</td>
+                                    <script>
+                                        localStorage.removeItem("oe{{ $pieza->id }}");
+                                    </script>
+                            @break
+                            @case('exitosa')
+                                <tr class="bg-primary text-light">
+                                    <td>{{ $pieza->Tiempo }}</td>
+                                    <td>{{ $pieza->Estado }}</td>
+                                    <script>
+                                        localStorage.removeItem("oe{{ $pieza->id }}");
+                                    </script>
+                            @break
+                            @case('pausa')
+                                <tr class="bg-success text-light">
+                                    <td>
+                                        <p id="pantallaoe{{ $pieza->id }}"></p>
+                                    </td>
+                                    <td>{{ $pieza->Estado }} - {{$item['pausa']->Tipo}}</td>
+                            @break
+                            @case('inicio')
+                                <tr class="bg-light">
+                                    <input type="text" id="{{ $pieza->id }}" value="{{ $pieza->id }}"
+                                        class="inicio" hidden>
+                                    <td>
+                                        <p id="pantallaoe{{ $pieza->id }}"></p>
+                                    </td>
+                                    <td>{{ $pieza->Estado }}</td>
+                                    <script>
+                                        if (localStorage.getItem("oe{{ $pieza->id }}") == null) {
+                                            localStorage.setItem("oe{{ $pieza->id }}", "{{ $pieza->Fecha }}");
+                                            console.log(localStorage.getItem("oe{{ $pieza->id }}"));
+                                        } else {
+                                            console.log('esta seteado');
+                                        }
+                                        start();
+                                    </script>
+                            @break
+                            @default
+
+                        @endswitch
+
+                        
+                        <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
+                        </tr>
+                    @endif
+
+                </table>
+            </div>
+        </div>
+    @endforeach
+
+    @if (count($reparaciones) > 0)
+        
+    <h1>Reparación</h1>
+    @endif
+    @foreach ($reparaciones as $item) 
+
+        <div class="card border-primary mb-3 mt-2 ml-2" style="max-width: 100%;" align="left">
+            <div class="card-header text-black bg-primary">
+                <div class="row">
+                    <h4 class="col-4">Maquina: {{ $item['maquina']->CodMaquina }} -
+                        {{ $item['maquina']->NombreMaquina }}</h4>
+                    @if($item['user'] != null)
+                    <h4 class="col-4">Operario: {{ $item['user']->name }} </h4>
+                    @else
+                    <h4 class="col-4">Operario:  </h4>
+                    @endif
+                    <h4 class="col"> Conjunto: {{$item['conjunto']->NombrePieza}} </h4>
+                </div>
+                <div class="row">
+                    <h4 class="col-4">Orden E.: {{ $item['orden']->NroOR }} </h4>
+                    {{-- <a href="{{ route('listaTareas', $item['detalleOC']->id) }}" class="btn btn-secondary mr-2"
+                        target="blank">Detalle</a>
+                    <a href="{{ route('listaPausas', $item['detalleOC']->id) }}" class="btn btn-secondary"
+                        target="blank">Pausas</a> --}}
+                </div>
+            </div>
+            <div class="card-body container" id="{{ $item['orden']->id }}" {{-- style="display:none" --}}>
+                
+
+                <table class="table table-striped border-dark">
+
+                    <tr class="bg-dark text-light">
+
+                        <head>
+                            <th>Tiempo</th>
+                            <th>Estado</th>
+                            <th>Fecha/Hora</th>
+                        </head>
+                    </tr>
+                    <p hidden>{{ $pieza = $item['tiempo'] }}</p>
+                    @if ($pieza != null)
+
+
+                        @switch($pieza->Estado)
+                            @case('fallida')
+                                <tr class="bg-danger text-light">
+                                    <td>{{ $pieza->Tiempo }}</td>
+                                    <td>{{ $pieza->Estado }}</td>
+                                    <script>
+                                        localStorage.removeItem("or{{ $pieza->id }}");
+                                    </script>
+                            @break
+                            @case('exitosa')
+                                <tr class="bg-primary text-light">
+                                    <td>{{ $pieza->Tiempo }}</td>
+                                    <td>{{ $pieza->Estado }}</td>
+                                    <script>
+                                        localStorage.removeItem("or{{ $pieza->id }}");
+                                    </script>
+                            @break
+                            @case('pausa')
+                                <tr class="bg-success text-light">
+                                    <td>
+                                        <p id="pantallaoe{{ $pieza->id }}"></p>
+                                    </td>
+                                    <td>{{ $pieza->Estado }} - {{$item['pausa']->Tipo}}</td>
+                            @break
+                            @case('inicio')
+                                <tr class="bg-light">
+                                    <input type="text" id="{{ $pieza->id }}" value="{{ $pieza->id }}"
+                                        class="inicio" hidden>
+                                    <td>
+                                        <p id="pantallaor{{ $pieza->id }}"></p>
+                                    </td>
+                                    <td>{{ $pieza->Estado }}</td>
+                                    <script>
+                                        if (localStorage.getItem("or{{ $pieza->id }}") == null) {
+                                            localStorage.setItem("or{{ $pieza->id }}", "{{ $pieza->Fecha }}");
+                                            console.log(localStorage.getItem("or{{ $pieza->id }}"));
+                                        } else {
+                                            console.log('esta seteado');
+                                        }
+                                        start();
+                                    </script>
+                            @break
+                            @default
+
+                        @endswitch
+
+                        
+                        <td>{{ $fechaDesde = date_format(date_create($pieza->Fecha), 'd/m/y H:i') }}</td>
+                        </tr>
+                    @endif
+
+                </table>
+            </div>
+        </div>
+    @endforeach
+
+
 
     {{-- script de pusher --}}
     <script>

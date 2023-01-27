@@ -2,13 +2,20 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Conjunto;
 use App\Models\DetalleOC;
 use App\Models\Maquina;
+use App\Models\OrdenEnsamble;
 use App\Models\OrdenesConstruccion;
+use App\Models\OrdenReparacion;
 use App\Models\PausasOC;
+use App\Models\PausasOE;
+use App\Models\PausasOR;
 use App\Models\Personal;
 use App\Models\Pieza;
 use App\Models\TiemposOC;
+use App\Models\TiemposOE;
+use App\Models\TiemposOR;
 use App\Models\User;
 use Request;
 use Livewire\Component;
@@ -18,6 +25,8 @@ class ControlCronometro extends Component
     public $codMaquinas;
     public $cantidad;
     public $maquinas;
+    public $ensambles;
+    public $reparaciones;
     public $exitosas;
     public $fallidas;
     public $maquina;
@@ -30,6 +39,8 @@ class ControlCronometro extends Component
     public function mount()
     {
         $this->maquinas = [];
+        $this->ensambles = [];
+        $this->reparaciones = [];
         $this->codMaquinas = [];
         $this->evento = '';
         $this->buscar = '';
@@ -136,6 +147,88 @@ class ControlCronometro extends Component
                 //}
             }
         }
+        $this->cargarEnsambles();
+        $this->cargarReparaciones();
         $this->emit("inicios", json_encode($piezas));
+    }
+
+    function cargarEnsambles(){
+        unset($this->reparaciones);
+        $this->reparaciones = [];
+        //$codigos = Maquina::all();
+        $ordenes = OrdenReparacion::where('Estado', 'produccion')->get();
+        $piezas = [];
+        foreach ($ordenes as $orden) {
+            if ($orden != null) {
+                $maquina = Maquina::where('CodMaquina', $orden->CodMaquina)->first();
+                if ($maquina != null) {
+                    
+                    $conjunto = Conjunto::where('CodPieza',$orden->CodConjunto)->first();
+                    $tiempo = TiemposOR::where('NroOR',$orden->NroOR)->first();
+                    $user = null;
+                    if($tiempo != null){
+                        $user = User::find($tiempo->idUsuario);
+                    }
+
+                    $pausa = PausasOR::where('IdOR', $orden->id)
+                            ->orderBy('id', 'DESC')->first();
+                    
+                    $zona = [
+                        'maquina' => $maquina,
+                        'orden' => $orden,
+                        'conjunto' => $conjunto,
+                        'tiempo' => $tiempo,
+                        'user' => $user,
+                        'pausa' => $pausa
+                    ];
+                    $this->reparaciones[] = $zona;
+                }
+
+                /* $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                ->where('Estado','inicio')->get(); */
+                //if ($inicios != null) {
+                //}
+            }
+        }
+    }
+    
+    function cargarReparaciones(){
+        unset($this->ensambles);
+        $this->ensambles = [];
+        //$codigos = Maquina::all();
+        $ordenes = OrdenEnsamble::where('Estado', 'produccion')->get();
+        $piezas = [];
+        foreach ($ordenes as $orden) {
+            if ($orden != null) {
+                $maquina = Maquina::where('CodMaquina', $orden->CodMaquina)->first();
+                if ($maquina != null) {
+                    
+                    $conjunto = Conjunto::where('CodPieza',$orden->codigoCjto)->first();
+                    $tiempo = TiemposOE::where('NroOE',$orden->NroOE)->first();
+                    $user = null;
+                    if($tiempo != null){
+                        $user = User::find($tiempo->idUsuario);
+                    }
+
+                    $pausa = PausasOE::where('IdOE', $orden->id)
+                            ->orderBy('id', 'DESC')->first();
+                    
+                    $zona = [
+                        'maquina' => $maquina,
+                        'orden' => $orden,
+                        'conjunto' => $conjunto,
+                        'tiempo' => $tiempo,
+                        'user' => $user,
+                        'pausa' => $pausa
+                    ];
+                    $this->ensambles[] = $zona;
+                }
+
+                /* $inicios = TiemposOC::where('idDetalleOC', $detalleOC->id)
+                ->where('Estado','inicio')->get(); */
+                //if ($inicios != null) {
+                //}
+            }
+        }
     }
 }
